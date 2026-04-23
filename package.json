@@ -1,0 +1,27 @@
+{
+  "name": "mangoselect",
+  "version": "0.3.0",
+  "description": "Vanilla JS select component with local, multiple, tags, and Ajax data support.",
+  "main": "dist/mangoselect.js",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node ./scripts/build.mjs"
+  },
+  "keywords": [
+    "select",
+    "multiselect",
+    "ajax",
+    "tags",
+    "thai",
+    "vanilla-js"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.25.11"
+  }
+}

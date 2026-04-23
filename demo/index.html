@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>mangoSelect Demo</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../dist/mangoselect.css">
+	<script src="../dist/mangoselect.js" defer></script>
+	<script src="../dist/i18n/th.js" defer></script>
+	<style>
+		:root {
+			--page-bg: #f6f1e8;
+			--page-bg-soft: #fffaf2;
+			--card-bg: rgba(255, 255, 255, 0.88);
+			--card-border: rgba(148, 163, 184, 0.22);
+			--text-main: #1f2937;
+			--text-soft: #526071;
+			--heading: #10203a;
+			--accent: #0f766e;
+			--accent-soft: #d7f3ef;
+			--accent-strong: #0c5f59;
+			--code-bg: #0f172a;
+			--code-text: #e2e8f0;
+			--shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.12);
+			--shadow-md: 0 14px 34px rgba(15, 23, 42, 0.08);
+			--radius-xl: 28px;
+			--radius-lg: 22px;
+			--radius-md: 16px;
+			--radius-sm: 12px;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Sarabun", sans-serif;
+			background:
+				radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 28%),
+				radial-gradient(circle at top right, rgba(234, 179, 8, 0.12), transparent 24%),
+				linear-gradient(180deg, var(--page-bg-soft) 0%, var(--page-bg) 100%);
+			color: var(--text-main);
+		}
+
+		a {
+			color: var(--accent-strong);
+		}
+
+		code {
+			color: #0f4c81;
+		}
+
+		.docs-shell {
+			max-width: 1260px;
+			margin: 0 auto;
+			padding: 28px 16px 60px;
+		}
+
+		.hero-panel {
+			position: relative;
+			overflow: hidden;
+			margin-bottom: 28px;
+			padding: 32px;
+			border: 1px solid rgba(255, 255, 255, 0.65);
+			border-radius: var(--radius-xl);
+			background:
+				linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(236, 253, 250, 0.92) 52%, rgba(255, 250, 240, 0.92) 100%);
+			box-shadow: var(--shadow-lg);
+		}
+
+		.hero-panel::after {
+			content: "";
+			position: absolute;
+			top: -96px;
+			right: -56px;
+			width: 260px;
+			height: 260px;
+			border-radius: 999px;
+			background: radial-gradient(circle, rgba(15, 118, 110, 0.16) 0%, transparent 68%);
+			pointer-events: none;
+		}
+
+		.badge-title {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px 14px;
+			border-radius: 999px;
+			background: rgba(15, 118, 110, 0.09);
+			color: var(--accent-strong);
+			font-size: 13px;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.hero-title {
+			margin: 16px 0 12px;
+			font-size: clamp(2rem, 3vw, 3rem);
+			line-height: 1.1;
+			font-weight: 700;
+			color: var(--heading);
+		}
+
+		.hero-text {
+			max-width: 760px;
+			margin: 0;
+			font-size: 1.05rem;
+			line-height: 1.72;
+			color: var(--text-soft);
+		}
+
+		.quick-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 24px;
+		}
+
+		.quick-link {
+			display: inline-flex;
+			align-items: center;
+			padding: 10px 14px;
+			border: 1px solid rgba(15, 118, 110, 0.18);
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.75);
+			color: var(--heading);
+			font-size: 0.95rem;
+			font-weight: 600;
+			text-decoration: none;
+		}
+
+		.quick-link:hover {
+			background: rgba(215, 243, 239, 0.88);
+		}
+
+		.hero-notes {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 14px;
+			margin-top: 28px;
+		}
+
+		.hero-note {
+			padding: 16px 18px;
+			border: 1px solid var(--card-border);
+			border-radius: var(--radius-md);
+			background: rgba(255, 255, 255, 0.72);
+		}
+
+		.hero-note strong {
+			display: block;
+			margin-bottom: 6px;
+			color: var(--heading);
+			font-size: 0.98rem;
+		}
+
+		.section-block {
+			margin-bottom: 26px;
+			padding: 28px;
+			border: 1px solid var(--card-border);
+			border-radius: var(--radius-lg);
+			background: var(--card-bg);
+			backdrop-filter: blur(12px);
+			box-shadow: var(--shadow-md);
+		}
+
+		.section-kicker {
+			display: inline-block;
+			margin-bottom: 10px;
+			font-size: 0.8rem;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--accent-strong);
+		}
+
+		.section-title {
+			margin: 0 0 10px;
+			font-size: 1.85rem;
+			font-weight: 700;
+			color: var(--heading);
+		}
+
+		.section-text {
+			margin: 0;
+			line-height: 1.76;
+			color: var(--text-soft);
+		}
+
+		.subsection-title {
+			margin: 28px 0 10px;
+			font-size: 1.3rem;
+			font-weight: 700;
+			color: var(--heading);
+		}
+
+		.subsection-text {
+			margin: 0;
+			line-height: 1.76;
+			color: var(--text-soft);
+		}
+
+		.docs-card {
+			height: 100%;
+			padding: 22px;
+			border: 1px solid rgba(148, 163, 184, 0.2);
+			border-radius: var(--radius-md);
+			background: rgba(255, 255, 255, 0.85);
+		}
+
+		.docs-card h3,
+		.docs-card h4 {
+			margin-top: 0;
+			margin-bottom: 10px;
+			font-size: 1.16rem;
+			font-weight: 700;
+			color: var(--heading);
+		}
+
+		.docs-card p:last-child,
+		.docs-card ul:last-child {
+			margin-bottom: 0;
+		}
+
+		.docs-list {
+			margin: 0;
+			padding-left: 18px;
+			color: var(--text-soft);
+		}
+
+		.docs-list li + li {
+			margin-top: 6px;
+		}
+
+		.code-block {
+			display: none;
+			margin: 0;
+			padding: 18px;
+			border-radius: var(--radius-sm);
+			background: var(--code-bg);
+			color: var(--code-text);
+			font-size: 0.9rem;
+			line-height: 1.65;
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+
+		.code-block.is-code-visible {
+			display: block;
+		}
+
+		.code-toggle-button {
+			margin: 12px 0 10px;
+			border-color: rgba(15, 118, 110, 0.28);
+			color: var(--accent-strong);
+			font-weight: 700;
+		}
+
+		.code-toggle-button:hover {
+			background: rgba(15, 118, 110, 0.08);
+			border-color: rgba(15, 118, 110, 0.42);
+			color: var(--accent-strong);
+		}
+
+		.example-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			gap: 18px;
+			margin-top: 20px;
+		}
+
+		.example-box {
+			padding: 20px;
+			border: 1px solid rgba(148, 163, 184, 0.18);
+			border-radius: var(--radius-md);
+			background: rgba(247, 250, 252, 0.9);
+		}
+
+		.example-box h3 {
+			margin: 0 0 10px;
+			font-size: 1.12rem;
+			font-weight: 700;
+			color: var(--heading);
+		}
+
+		.example-box p {
+			margin: 0 0 14px;
+			color: var(--text-soft);
+			line-height: 1.7;
+		}
+
+		.result-box {
+			margin-top: 14px;
+			padding: 14px 16px;
+			border-radius: var(--radius-sm);
+			background: rgba(15, 118, 110, 0.08);
+			color: #0f3d39;
+			font-size: 0.95rem;
+			line-height: 1.6;
+		}
+
+		.example-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 14px;
+		}
+
+		.example-actions .btn {
+			border-radius: 999px;
+		}
+
+		.table-wrap {
+			margin-top: 18px;
+			border: 1px solid rgba(148, 163, 184, 0.18);
+			border-radius: var(--radius-md);
+			overflow: hidden;
+			background: rgba(255, 255, 255, 0.88);
+		}
+
+		.table-wrap .table {
+			margin-bottom: 0;
+		}
+
+		.table-wrap thead th {
+			background: rgba(15, 118, 110, 0.08);
+			color: var(--heading);
+			font-weight: 700;
+			border-bottom-width: 1px;
+		}
+
+		.table-wrap td,
+		.table-wrap th {
+			padding: 14px 16px;
+			vertical-align: top;
+		}
+
+		.callout {
+			margin-top: 16px;
+			padding: 14px 16px;
+			border-left: 4px solid var(--accent);
+			border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+			background: rgba(15, 118, 110, 0.08);
+			color: #114944;
+		}
+
+		.file-tree {
+			margin: 0;
+			padding: 18px;
+			border-radius: var(--radius-sm);
+			background: #fffdf8;
+			color: #3b4757;
+			font-size: 0.96rem;
+			line-height: 1.75;
+			border: 1px dashed rgba(148, 163, 184, 0.35);
+			white-space: pre-wrap;
+		}
+
+		.inline-note {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			margin-top: 10px;
+			padding: 8px 12px;
+			border-radius: 999px;
+			background: rgba(15, 118, 110, 0.08);
+			color: var(--accent-strong);
+			font-size: 0.92rem;
+			font-weight: 600;
+		}
+
+		.demo-api-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			width: 100%;
+		}
+
+		.demo-api-row-label {
+			display: block;
+			min-width: 0;
+			flex: 1 1 auto;
+		}
+
+		.demo-api-group-label {
+			display: block;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: #6b7280;
+		}
+
+		.demo-api-chip {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 28px;
+			height: 28px;
+			padding: 0 10px;
+			border-radius: 999px;
+			font-size: 12px;
+			font-weight: 700;
+			line-height: 1;
+			color: #ffffff;
+			flex: 0 0 auto;
+		}
+
+		.demo-api-chip--blue {
+			background: #0f766e;
+		}
+
+		.demo-api-chip--red {
+			background: #c2410c;
+		}
+
+		.demo-group_title {
+			display: block;
+			margin-bottom: 6px;
+			padding: 4px 10px;
+			border-radius: 999px;
+			background: rgba(15, 118, 110, 0.08);
+			color: #0f5f59;
+			font-size: 0.76rem;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+		}
+
+		.demo-group_item {
+			display: block;
+			width: 100%;
+			padding: 10px 12px;
+			border: 1px solid rgba(148, 163, 184, 0.22);
+			border-radius: 12px;
+			background: rgba(255, 255, 255, 0.96);
+			color: var(--heading);
+			font-size: 0.95rem;
+			font-weight: 600;
+			line-height: 1.5;
+		}
+
+		.demo-group_item.is-selected {
+			border-color: rgba(15, 118, 110, 0.42);
+			background: rgba(240, 253, 250, 0.96);
+			color: #0f5f59;
+		}
+
+		.demo-group_item.is-disabled {
+			opacity: 0.55;
+		}
+
+		.demo-check {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 22px;
+			height: 22px;
+			border: 2px solid rgba(15, 118, 110, 0.42);
+			border-radius: 8px;
+			background: #ffffff;
+			color: #ffffff;
+			font-size: 13px;
+			font-weight: 700;
+			line-height: 1;
+		}
+
+		.demo-check.is-on {
+			border-color: #0f766e;
+			background: #0f766e;
+		}
+
+		@media (max-width: 767.98px) {
+			.hero-panel,
+			.section-block {
+				padding: 22px;
+			}
+
+			.section-title {
+				font-size: 1.55rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="docs-shell">
+		<header class="hero-panel">
+			<div class="badge-title">mangoSelect Demo</div>
+			<h1 class="hero-title">คู่มือการใช้งาน mangoSelect พร้อมตัวอย่าง</h1>
+			<p class="hero-text">
+				เอกสารนี้สรุปวิธีติดตั้ง, รูปแบบ Ajax response, ตัวอย่างการใช้งานแบบเลือกค่าเดียว, หลายค่า,
+				Ajax แบบค่าเดียว, Ajax แบบหลายค่า รวมถึงตารางอธิบาย <code>data-mangoselect-*</code>, <code>data-mangoselect-param-*</code> และ callback
+				ที่รองรับในไลบรารี
+			</p>
+
+			<div class="quick-links">
+				<a class="quick-link" href="#installation">การติดตั้ง</a>
+				<a class="quick-link" href="https://github.com/mynameispond/mangoSelect" target="_blank" rel="noopener">GitHub</a>
+				<a class="quick-link" href="#local-single">Single Select</a>
+				<a class="quick-link" href="#local-multiple">Multiple Select Checkbox</a>
+				<a class="quick-link" href="#ajax-single">Ajax Single</a>
+				<a class="quick-link" href="#ajax-multiple">Ajax Multiple Checkbox</a>
+				<a class="quick-link" href="#custom-renderers">Renderers</a>
+				<a class="quick-link" href="#tags">Tags</a>
+				<a class="quick-link" href="#data-attributes">data attrs</a>
+				<a class="quick-link" href="#js-options">JS Options</a>
+				<a class="quick-link" href="#callbacks">Callbacks</a>
+			</div>
+
+			<div class="hero-notes">
+				<div class="hero-note">
+					<strong>แยกโค้ดเป็นชุด</strong>
+					แต่ละตัวอย่างแยก HTML และ JavaScript ออกจากกัน เพื่อให้นำไปใช้งานต่อได้โดยไม่ต้องพึ่งโค้ดส่วนกลาง
+				</div>
+				<div class="hero-note">
+					<strong>รองรับ local และ remote</strong>
+					ใช้ได้ทั้งกับ <code>&lt;option&gt;</code> ที่มีอยู่ในหน้า และข้อมูลที่โหลดจาก API
+				</div>
+				<div class="hero-note">
+					<strong>รองรับภาษาไทย</strong>
+					โหลด <code>../dist/i18n/th.js</code> เพื่อให้ข้อความใน component แสดงเป็นภาษาไทย
+				</div>
+			</div>
+		</header>
+
+		<section id="installation" class="section-block">
+			<div class="section-kicker">Step 1</div>
+			<h2 class="section-title">การติดตั้ง</h2>
+			<p class="section-text">
+				mangoSelect ใช้งานได้ด้วยไฟล์ CSS, JavaScript และไฟล์ภาษาเท่านั้น ไม่ต้อง build
+				เพิ่ม เริ่มจากโหลดไฟล์ตามด้านล่างก่อน แล้วเลือกใช้ snippet ของแต่ละส่วนตามรูปแบบงาน
+			</p>
+
+			<div class="row g-4 mt-1">
+				<div class="col-12 col-lg-6">
+					<div class="docs-card">
+						<h3>ไฟล์ที่ต้องใช้</h3>
+						<ul class="docs-list">
+							<li><code>mangoselect.css</code> สำหรับหน้าตา dropdown</li>
+							<li><code>mangoselect.min.css</code> สำหรับ production เมื่อต้องการไฟล์ CSS ขนาดเล็กกว่า</li>
+							<li><code>mangoselect.js</code> สำหรับ logic ของ component</li>
+							<li><code>mangoselect.min.js</code> สำหรับ production เมื่อต้องการไฟล์ขนาดเล็กกว่า</li>
+							<li><code>i18n/th.js</code> ถ้าต้องการข้อความภาษาไทย</li>
+							<li><code>demo-api.php</code> ใช้เป็นตัวอย่าง endpoint สำหรับ Ajax</li>
+						</ul>
+						<div class="inline-note">ใช้โค้ดชุดนี้เป็นจุดเริ่มต้น แล้วเลือกตัวอย่างของแต่ละส่วนไปปรับใช้ต่อ</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6">
+					<div class="docs-card">
+						<h3>โค้ดเริ่มต้นขั้นต่ำ</h3>
+						<pre class="code-block">&lt;link rel="stylesheet" href="../dist/mangoselect.css"&gt;
+&lt;script src="../dist/mangoselect.js"&gt;&lt;/script&gt;
+&lt;script src="../dist/i18n/th.js"&gt;&lt;/script&gt;
+
+&lt;!-- production สามารถเปลี่ยนเป็น ../dist/mangoselect.min.css และ ../dist/mangoselect.min.js ได้ --&gt;
+
+&lt;select id="myselect" name="province" data-mangoselect-language="th"&gt;
+	&lt;option value="bkk"&gt;กรุงเทพมหานคร&lt;/option&gt;
+	&lt;option value="cnx"&gt;เชียงใหม่&lt;/option&gt;
+	&lt;option value="kkc"&gt;ขอนแก่น&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+var provinceSelect = window.mangoSelect.init({
+	selector: "#myselect",
+	language: "th"
+});
+&lt;/script&gt;</pre>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="local-single" class="section-block">
+			<div class="section-kicker">Example 1</div>
+			<h2 class="section-title">ตัวอย่างการใช้งานแบบเลือกค่าเดียว พร้อมโค้ด</h2>
+			<p class="section-text">
+				เหมาะกับกรณีที่มีตัวเลือกอยู่ในหน้าอยู่แล้ว และต้องการให้ผู้ใช้เลือกได้เพียง 1 ค่า
+				มีปุ่มสำหรับเรียก API พื้นฐาน เช่น เลือกค่าแบบ programmatically และล้างค่า
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน (HTML string)</h3>
+					<p>เลือกจังหวัดจาก dropdown เพื่อดูค่าที่เปลี่ยนในกล่องผลลัพธ์ด้านล่าง</p>
+					<select id="guide-local-single" class="form-select" name="province_demo" data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกจังหวัด">
+						<option value="bkk">กรุงเทพมหานคร</option>
+						<option value="cnx">เชียงใหม่</option>
+						<option value="kkc">ขอนแก่น</option>
+						<option value="hdy">หาดใหญ่</option>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-local-single-read">อ่านค่าปัจจุบัน</button>
+						<button type="button" class="btn btn-primary btn-sm" id="guide-local-single-select">เลือกเชียงใหม่</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-local-single-clear">ล้างค่า</button>
+					</div>
+
+					<div class="result-box" id="guide-local-single-result">
+						ยังไม่ได้เลือกค่า
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด (HTML string)</h3>
+					<pre class="code-block">&lt;select id="guide-local-single" name="province_demo" data-mangoselect-language="th" data-mangoselect-placeholder="เลือกจังหวัด"&gt;
+	&lt;option value="bkk"&gt;กรุงเทพมหานคร&lt;/option&gt;
+	&lt;option value="cnx"&gt;เชียงใหม่&lt;/option&gt;
+	&lt;option value="kkc"&gt;ขอนแก่น&lt;/option&gt;
+	&lt;option value="hdy"&gt;หาดใหญ่&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;button type="button" id="guide-local-single-read"&gt;อ่านค่าปัจจุบัน&lt;/button&gt;
+&lt;button type="button" id="guide-local-single-select"&gt;เลือกเชียงใหม่&lt;/button&gt;
+&lt;button type="button" id="guide-local-single-clear"&gt;ล้างค่า&lt;/button&gt;
+&lt;div id="guide-local-single-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-local-single-result");
+	var provinceSelect = window.mangoSelect.init({
+		selector: "#guide-local-single",
+		language: "th",
+		on_change: function (detail) {
+			resultBox.textContent =
+				"ค่าที่เลือก: " + (detail.selected_values[0] || "-") +
+				" | ข้อความ: " + (detail.selected_texts[0] || "-");
+		}
+	});
+
+	document.getElementById("guide-local-single-read").addEventListener("click", function () {
+		resultBox.textContent = "ค่าปัจจุบัน: " + (provinceSelect.get_selected_values()[0] || "-");
+	});
+
+	document.getElementById("guide-local-single-select").addEventListener("click", function () {
+		provinceSelect.select_value("cnx");
+	});
+
+	document.getElementById("guide-local-single-clear").addEventListener("click", function () {
+		provinceSelect.clear_all();
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
+		<section id="local-multiple" class="section-block">
+			<div class="section-kicker">Example 2</div>
+			<h2 class="section-title">ตัวอย่างการใช้งานแบบหลายตัวเลือก (Multiple Select Checkbox) พร้อมโค้ด</h2>
+			<p class="section-text">
+				กรณีนี้ใช้ <code>multiple</code> และ mangoSelect จะแสดงตัวเลือกภายใน dropdown เป็น checkbox
+				พร้อมกำหนดขั้นต่ำหรือขั้นสูงสุดได้ด้วย
+				<code>data-mangoselect-min_selected</code> และ <code>data-mangoselect-max_selected</code>
+				พร้อมแสดงตัวอย่าง <code>on_change_all</code> ที่ทำงานตอนปิด dropdown
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>กำหนดให้เลือกได้อย่างน้อย 1 ค่า และไม่เกิน 3 ค่า โดยค่าจะถูกเขียนลง select เมื่อกดปุ่ม OK</p>
+					<select id="guide-local-multiple" class="form-select" name="department_demo[]" multiple
+						data-mangoselect-language="th" data-mangoselect-placeholder="เลือกฝ่าย" data-mangoselect-min_selected="1" data-mangoselect-max_selected="3">
+						<option value="sales" selected>ฝ่ายขาย</option>
+						<option value="marketing">การตลาด</option>
+						<option value="support">ซัพพอร์ต</option>
+						<option value="hr">บุคคล</option>
+						<option value="warehouse">คลังสินค้า</option>
+						<option value="finance" disabled>การเงิน (ปิดใช้งาน)</option>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-local-multiple-read">อ่านค่าปัจจุบัน</button>
+						<button type="button" class="btn btn-primary btn-sm" id="guide-local-multiple-select">เพิ่ม Marketing + HR</button>
+						<button type="button" class="btn btn-outline-primary btn-sm"
+							id="guide-local-multiple-set">กำหนดใหม่เป็น Sales + Warehouse</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-local-multiple-clear">ล้างค่า</button>
+					</div>
+
+					<div class="result-box" id="guide-local-multiple-result">
+						ค่าที่เลือกเริ่มต้น: sales
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;select id="guide-local-multiple" name="department_demo[]" multiple
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือกฝ่าย"
+	data-mangoselect-min_selected="1"
+	data-mangoselect-max_selected="3"&gt;
+	&lt;option value="sales" selected&gt;ฝ่ายขาย&lt;/option&gt;
+	&lt;option value="marketing"&gt;การตลาด&lt;/option&gt;
+	&lt;option value="support"&gt;ซัพพอร์ต&lt;/option&gt;
+	&lt;option value="hr"&gt;บุคคล&lt;/option&gt;
+	&lt;option value="warehouse"&gt;คลังสินค้า&lt;/option&gt;
+	&lt;option value="finance" disabled&gt;การเงิน (ปิดใช้งาน)&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;button type="button" id="guide-local-multiple-read"&gt;อ่านค่าปัจจุบัน&lt;/button&gt;
+&lt;button type="button" id="guide-local-multiple-select"&gt;เพิ่ม Marketing + HR&lt;/button&gt;
+&lt;button type="button" id="guide-local-multiple-set"&gt;กำหนดใหม่เป็น Sales + Warehouse&lt;/button&gt;
+&lt;button type="button" id="guide-local-multiple-clear"&gt;ล้างค่า&lt;/button&gt;
+&lt;div id="guide-local-multiple-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-local-multiple-result");
+	var departmentSelect = window.mangoSelect.init({
+		selector: "#guide-local-multiple",
+		language: "th",
+		search: true,
+		ok_cancel_in_multi: true,
+		select_all: true,
+		clear_all: true,
+		on_change: function (detail) {
+			resultBox.textContent =
+				"action: " + detail.action +
+				" | selected_values: " + detail.selected_values.join(", ");
+		},
+		on_change_all: function (detail) {
+			resultBox.textContent =
+				"on_change_all | close_reason: " + (detail.close_reason || "-") +
+				" | has_changed: " + detail.has_changed +
+				" | selected_values: " + detail.selected_values.join(", ");
+		}
+	});
+
+	document.getElementById("guide-local-multiple-read").addEventListener("click", function () {
+		resultBox.textContent = "ค่าปัจจุบัน: " + departmentSelect.get_selected_values().join(", ");
+	});
+
+	document.getElementById("guide-local-multiple-select").addEventListener("click", function () {
+		departmentSelect.select_value(["marketing", "hr"]);
+	});
+
+	document.getElementById("guide-local-multiple-set").addEventListener("click", function () {
+		departmentSelect.set_selected_values(["sales", "warehouse"]);
+	});
+
+	document.getElementById("guide-local-multiple-clear").addEventListener("click", function () {
+		departmentSelect.clear_all();
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
+		<section id="ajax-single" class="section-block">
+			<div class="section-kicker">Example 3</div>
+			<h2 class="section-title">การใช้งานตัวเลือกเดียวแบบ Ajax พร้อมโค้ด</h2>
+			<p class="section-text">
+				ดึงข้อมูลจาก <code>demo-api.php</code> เมื่อเปิด dropdown หรือค้นหา พร้อมตัวอย่าง callback สำหรับติดตามสถานะการโหลดข้อมูล
+			</p>
+
+			<div class="docs-card mt-4">
+				<h3>รูปแบบ JSON response ที่รองรับสำหรับ Ajax</h3>
+				<pre class="code-block">{
+	"results": [
+		{
+			"id": "emp-001",
+			"text": "EMP-001 / Ava Smith / Sales",
+			"html": "&lt;span class='demo-api-row'&gt;&lt;span class='demo-api-row-label'&gt;EMP-001 / Ava Smith / Sales&lt;/span&gt;&lt;span class='demo-api-chip demo-api-chip--red'&gt;2&lt;/span&gt;&lt;/span&gt;",
+			"disabled": false
+		},
+		{
+			"text": "Marketing",
+			"html": "&lt;div class='demo-api-group-label'&gt;Marketing&lt;/div&gt;",
+			"children": [
+				{
+					"id": "emp-002",
+					"text": "EMP-002 / Noah Johnson / Marketing"
+				},
+				{
+					"id": "emp-003",
+					"html": "&lt;span class='demo-api-row'&gt;&lt;span class='demo-api-row-label'&gt;EMP-003 / Emma Wilson / Marketing&lt;/span&gt;&lt;span class='demo-api-chip demo-api-chip--blue'&gt;4&lt;/span&gt;&lt;/span&gt;"
+				}
+			]
+		}
+	],
+	"totals": 120
+}</pre>
+				<ul class="docs-list mt-3">
+					<li><code>results</code> คือรายการตัวเลือกที่จะแสดง</li>
+					<li><code>id</code> คือค่า value</li>
+					<li><code>text</code> ควรเป็น plain text สำหรับใช้กับ summary, search และ <code>get_selected_texts()</code></li>
+					<li><code>html</code> เป็น optional field สำหรับ fallback render และจะถูกใช้ก็ต่อเมื่อ <code>allow_html: true</code> และ renderer ไม่คืนค่า</li>
+					<li>ถ้าส่ง <code>html</code> มาอย่างเดียวและไม่ส่ง <code>text</code> ไลบรารีจะพยายามดึง plain text จาก HTML ให้เอง</li>
+					<li><code>children</code> ใช้สำหรับสร้าง optgroup ในผลลัพธ์ Ajax</li>
+					<li><code>disabled</code> เป็น optional field ถ้าไม่ส่งมาจะถือเป็น <code>false</code></li>
+					<li><code>totals</code> ใช้ช่วยคำนวณว่ามีหน้าถัดไปสำหรับ infinite scroll หรือไม่</li>
+					<li>ถ้าต้องการ custom UI แบบปลอดภัยกว่า string HTML ให้ใช้ <code>render_option()</code> และ <code>render_group()</code></li>
+				</ul>
+				<div class="callout mt-3">
+					ค่าเริ่มต้นของ <code>allow_html</code> คือ <code>false</code> ดังนั้น field <code>html</code> และ string HTML ที่คืนจาก renderer จะไม่ถูก inject เข้า DOM จนกว่าจะเปิดเอง
+				</div>
+			</div>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown ด้านล่าง แล้วพิมพ์คำค้นหา เช่น <code>av</code> หรือ <code>ow</code></p>
+					<select id="guide-ajax-single" class="form-select" name="remote_owner_demo"
+						data-mangoselect-language="th" data-mangoselect-placeholder="เลือก owner 1 คน"
+						data-mangoselect-delay="300"
+						data-mangoselect-url="./demo-api.php?fixvar=2"
+						data-mangoselect-param-option="owner"
+						data-mangoselect-param-customer="9"></select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-ajax-single-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-primary btn-sm" id="guide-ajax-single-reload">reload ข้อมูล</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm"
+							id="guide-ajax-single-clear">ล้างค่า</button>
+					</div>
+
+					<div class="result-box" id="guide-ajax-single-result">
+						ยังไม่ได้เลือกค่า เปิด dropdown แล้วพิมพ์เพื่อค้นหาจาก API
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;select id="guide-ajax-single" name="remote_owner_demo"
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือก owner 1 คน"
+	data-mangoselect-delay="300"
+	data-mangoselect-url="./demo-api.php?fixvar=2"
+	data-mangoselect-param-option="owner"
+	data-mangoselect-param-customer="9"&gt;&lt;/select&gt;
+
+&lt;button type="button" id="guide-ajax-single-open"&gt;เปิด dropdown&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-single-reload"&gt;reload ข้อมูล&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-single-clear"&gt;ล้างค่า&lt;/button&gt;
+&lt;div id="guide-ajax-single-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-ajax-single-result");
+	var ownerSelect = window.mangoSelect.init({
+		selector: "#guide-ajax-single",
+		language: "th",
+		ajax: true,
+		on_open: function (detail) {
+			resultBox.textContent =
+				"on_open | open_reason: " + (detail.open_reason || "-") +
+				" | selected_value: " + (detail.selected_values[0] || "-");
+		},
+		on_close: function (detail) {
+			resultBox.textContent =
+				"on_close | close_reason: " + (detail.close_reason || "-") +
+				" | selected_value: " + (detail.selected_values[0] || "-");
+		},
+		on_loading_start: function (detail) {
+			resultBox.textContent =
+				"on_loading_start | page_num: " + (detail.page_num || 1) +
+				" | search: " + (detail.request_params.search || "-");
+		},
+		on_loading_end: function (detail) {
+			resultBox.textContent =
+				"on_loading_end | success: " + detail.success +
+				" | status: " + (detail.status === null ? "-" : detail.status) +
+				" | results: " + detail.results.length;
+		},
+		on_error: function (detail) {
+			resultBox.textContent =
+				"on_error | type: " + (detail.error_type || "-") +
+				" | status: " + (detail.status === null ? "-" : detail.status) +
+				" | message: " + (detail.error_message || "-");
+		},
+		on_change: function (detail) {
+			resultBox.textContent =
+				"on_change | selected_value: " + (detail.selected_values[0] || "-") +
+				" | selected_text: " + (detail.selected_texts[0] || "-") +
+				" | action: " + detail.action;
+		}
+	});
+
+	document.getElementById("guide-ajax-single-open").addEventListener("click", function () {
+		ownerSelect.open();
+	});
+
+	document.getElementById("guide-ajax-single-reload").addEventListener("click", function () {
+		ownerSelect.reload();
+		ownerSelect.open();
+	});
+
+	document.getElementById("guide-ajax-single-clear").addEventListener("click", function () {
+		ownerSelect.clear_all();
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
+		<section id="ajax-multiple" class="section-block">
+			<div class="section-kicker">Example 4</div>
+			<h2 class="section-title">การใช้งานหลายตัวเลือกแบบ Ajax (Multiple Select Checkbox) พร้อมโค้ด</h2>
+			<p class="section-text">
+				ใช้งาน remote API พร้อมส่งพารามิเตอร์เพิ่มเติมผ่าน <code>data-mangoselect-param-*</code>
+				โดย mangoSelect จะส่ง <code>search</code>, <code>page_num</code>, <code>per_page</code>
+				และ data attributes ที่เกี่ยวข้องให้อัตโนมัติ โดยผลลัพธ์ที่เลือกหลายค่าจะแสดงเป็น checkbox
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown แล้วพิมพ์เพื่อค้นหา จากนั้นเลื่อนลงด้านล่างเพื่อโหลดหน้าถัดไปแบบอัตโนมัติ</p>
+					<select id="guide-ajax-multiple" class="form-select" name="remote_team_demo[]" multiple
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="ค้นหาพนักงาน"
+						data-mangoselect-delay="250"
+						data-mangoselect-url="./demo-api.php?fixvar=2"
+						data-mangoselect-per_page="10"
+						data-mangoselect-max_selected="3"
+						data-mangoselect-param-option="employee"
+						data-mangoselect-param-customer="1"
+						data-mangoselect-param-branch="bkk"></select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-ajax-multiple-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-primary btn-sm" id="guide-ajax-multiple-reload">reload ข้อมูล</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm"
+							id="guide-ajax-multiple-read">อ่านค่าปัจจุบัน</button>
+						<button type="button" class="btn btn-outline-danger btn-sm"
+							id="guide-ajax-multiple-clear">ล้างค่าที่เลือก</button>
+					</div>
+
+					<div class="result-box" id="guide-ajax-multiple-result">
+						ยังไม่ได้เลือกค่า พิมพ์เพื่อค้นหาพนักงาน เช่น <code>av</code> หรือ <code>em</code>
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;select id="guide-ajax-multiple" name="remote_team_demo[]" multiple
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="ค้นหาพนักงาน"
+	data-mangoselect-delay="250"
+	data-mangoselect-url="./demo-api.php?fixvar=2"
+	data-mangoselect-per_page="10"
+	data-mangoselect-max_selected="3"
+	data-mangoselect-param-option="employee"
+	data-mangoselect-param-customer="1"
+	data-mangoselect-param-branch="bkk"&gt;&lt;/select&gt;
+
+&lt;button type="button" id="guide-ajax-multiple-open"&gt;เปิด dropdown&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-multiple-reload"&gt;reload ข้อมูล&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-multiple-read"&gt;อ่านค่าปัจจุบัน&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-multiple-clear"&gt;ล้างค่าที่เลือก&lt;/button&gt;
+&lt;div id="guide-ajax-multiple-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-ajax-multiple-result");
+	var employeeSelect = window.mangoSelect.init({
+		selector: "#guide-ajax-multiple",
+		language: "th",
+		ajax: true,
+		select_all: true,
+		close_after_select_all: true,
+		clear_all: true,
+		close_after_clear_all: true,
+		on_change: function (detail) {
+			resultBox.textContent =
+				"action: " + detail.action +
+				" | selected_values: " + detail.selected_values.join(", ");
+		},
+		on_change_all: function (detail) {
+			resultBox.textContent =
+				"on_change_all | close_reason: " + (detail.close_reason || "-") +
+				" | selected_values: " + detail.selected_values.join(", ");
+		}
+	});
+
+	document.getElementById("guide-ajax-multiple-open").addEventListener("click", function () {
+		employeeSelect.open();
+	});
+
+	document.getElementById("guide-ajax-multiple-reload").addEventListener("click", function () {
+		employeeSelect.reload();
+		employeeSelect.open();
+	});
+
+	document.getElementById("guide-ajax-multiple-read").addEventListener("click", function () {
+		resultBox.textContent = "ค่าปัจจุบัน: " + employeeSelect.get_selected_values().join(", ");
+	});
+
+	document.getElementById("guide-ajax-multiple-clear").addEventListener("click", function () {
+		employeeSelect.clear_all();
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+
+			<div class="callout">
+				รูปแบบ request โดยประมาณมีดังนี้
+				<code>GET /demo-api.php?fixvar=2&amp;search=ava&amp;page_num=2&amp;per_page=10&amp;option=employee&amp;customer=1&amp;branch=bkk</code>
+			</div>
+		</section>
+
+		<section id="ajax-grouped" class="section-block">
+			<div class="section-kicker">Example 5</div>
+			<h2 class="section-title">การใช้งาน Ajax แบบ Group พร้อมโค้ด (Multiple Select Checkbox)</h2>
+			<p class="section-text">
+				ตัวอย่างนี้ให้ API ส่งผลลัพธ์กลับมาแบบ <code>children</code> เพื่อสร้าง optgroup
+				โดยใช้ <code>data-mangoselect-param-grouped="1"</code> เป็น query param เพิ่มเติมผ่าน
+				ระบบ <code>data-mangoselect-param-*</code> และแต่ละรายการใน group จะถูกแสดงเป็น checkbox
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown แล้วพิมพ์เพื่อค้นหาพนักงาน ระบบจะแสดงผลแบบแยกกลุ่มตามแผนก</p>
+					<select id="guide-ajax-grouped" class="form-select" name="remote_grouped_demo[]" multiple
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="ค้นหาพนักงานแบบแยกกลุ่ม"
+						data-mangoselect-delay="250"
+						data-mangoselect-url="./demo-api.php?fixvar=2"
+						data-mangoselect-per_page="12"
+						data-mangoselect-param-option="employee"
+						data-mangoselect-param-customer="7"
+						data-mangoselect-param-branch="bkk"
+						data-mangoselect-param-grouped="1"></select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-ajax-grouped-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-primary btn-sm" id="guide-ajax-grouped-reload">reload ข้อมูล</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm"
+							id="guide-ajax-grouped-read">อ่านค่าปัจจุบัน</button>
+						<button type="button" class="btn btn-outline-danger btn-sm"
+							id="guide-ajax-grouped-clear">ล้างค่าที่เลือก</button>
+					</div>
+
+					<div class="result-box" id="guide-ajax-grouped-result">
+						ยังไม่ได้เลือกค่า เปิด dropdown แล้วพิมพ์เพื่อดูผลลัพธ์แบบ group จาก API
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;select id="guide-ajax-grouped" name="remote_grouped_demo[]" multiple
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="ค้นหาพนักงานแบบแยกกลุ่ม"
+	data-mangoselect-delay="250"
+	data-mangoselect-url="./demo-api.php?fixvar=2"
+	data-mangoselect-per_page="12"
+	data-mangoselect-param-option="employee"
+	data-mangoselect-param-customer="7"
+	data-mangoselect-param-branch="bkk"
+	data-mangoselect-param-grouped="1"&gt;&lt;/select&gt;
+
+&lt;button type="button" id="guide-ajax-grouped-open"&gt;เปิด dropdown&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-grouped-reload"&gt;reload ข้อมูล&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-grouped-read"&gt;อ่านค่าปัจจุบัน&lt;/button&gt;
+&lt;button type="button" id="guide-ajax-grouped-clear"&gt;ล้างค่าที่เลือก&lt;/button&gt;
+&lt;div id="guide-ajax-grouped-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-ajax-grouped-result");
+	var groupedSelect = window.mangoSelect.init({
+		selector: "#guide-ajax-grouped",
+		language: "th",
+		ajax: true,
+		select_all: true,
+		clear_all: true,
+		on_loading_end: function (detail) {
+			resultBox.textContent =
+				"on_loading_end | success: " + detail.success +
+				" | groups/results: " + detail.results.length;
+		},
+		on_change: function (detail) {
+			resultBox.textContent =
+				"action: " + detail.action +
+				" | selected_values: " + detail.selected_values.join(", ");
+		}
+	});
+
+	document.getElementById("guide-ajax-grouped-open").addEventListener("click", function () {
+		groupedSelect.open();
+	});
+
+	document.getElementById("guide-ajax-grouped-reload").addEventListener("click", function () {
+		groupedSelect.reload();
+		groupedSelect.open();
+	});
+
+	document.getElementById("guide-ajax-grouped-read").addEventListener("click", function () {
+		resultBox.textContent =
+			"ค่าปัจจุบัน: " + groupedSelect.get_selected_values().join(", ");
+	});
+
+	document.getElementById("guide-ajax-grouped-clear").addEventListener("click", function () {
+		groupedSelect.clear_all();
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+
+			<div class="callout">
+				ตัวอย่าง request จะมีพารามิเตอร์ <code>grouped=1</code> ถูกส่งไปพร้อมกับ
+				<code>search</code>, <code>page_num</code> และ <code>per_page</code> อัตโนมัติ
+			</div>
+		</section>
+
+		<section id="custom-renderers" class="section-block">
+			<div class="section-kicker">Example 6</div>
+			<h2 class="section-title">Custom renderer แยก 2 แบบชัดเจน</h2>
+			<p class="section-text">
+				ตัวอย่างนี้แยกการใช้ <code>render_option()</code> และ <code>render_group()</code> ออกเป็น 2 แนวทางชัด ๆ คือ
+				แบบ HTML string สำหรับเคสที่อยากประกอบ markup เอง และแบบปกติที่คืน <code>DOM node</code> ตรง ๆ
+			</p>
+
+			<h3 class="subsection-title">แบบที่ 1: HTML string แบบง่าย</h3>
+			<p class="subsection-text">
+				เหมาะกับกรณีที่อยากเขียนสั้น ๆ เช่น
+				<code>return '&lt;div class="demo-group_item"&gt;' + option.text + '&lt;/div&gt;';</code>
+				แต่ต้องเปิด <code>allow_html: true</code>
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown แล้วสังเกตว่า group และ option ถูก render จาก string HTML ที่คืนจาก renderer โดยตรง</p>
+					<select id="guide-renderers-html" class="form-select" name="assignee_demo_html"
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกผู้รับผิดชอบ"
+						data-mangoselect-close="true"
+						data-mangoselect-allow_html="true"
+						data-mangoselect-render_option="demoRenderOptionHtml"
+						data-mangoselect-render_group="demoRenderGroupHtml">
+						<optgroup label="Core Team">
+							<option value="ava" selected>Ava Smith</option>
+							<option value="noah">Noah Johnson</option>
+						</optgroup>
+						<optgroup label="Field Team">
+							<option value="emma">Emma Wilson</option>
+							<option value="liam">Liam Brown</option>
+						</optgroup>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-renderers-html-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-renderers-html-read">อ่านค่าปัจจุบัน</button>
+					</div>
+
+					<div class="result-box" id="guide-renderers-html-result">
+						ตัวอย่างนี้ใช้ string HTML ตรง ๆ ลองเปิด dropdown แล้วเลือกค่าเพื่อดูผลลัพธ์
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;style&gt;
+.demo-group_title {
+	display: block;
+	margin-bottom: 6px;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: rgba(15, 118, 110, 0.08);
+	color: #0f5f59;
+	font-size: 0.76rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.demo-group_item {
+	display: block;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid rgba(148, 163, 184, 0.22);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.96);
+	font-weight: 600;
+}
+&lt;/style&gt;
+
+&lt;select id="guide-renderers-html" name="assignee_demo_html"
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือกผู้รับผิดชอบ"
+	data-mangoselect-close="true"
+	data-mangoselect-allow_html="true"
+	data-mangoselect-render_option="demoRenderOptionHtml"
+	data-mangoselect-render_group="demoRenderGroupHtml"&gt;
+	&lt;optgroup label="Core Team"&gt;
+		&lt;option value="ava" selected&gt;Ava Smith&lt;/option&gt;
+		&lt;option value="noah"&gt;Noah Johnson&lt;/option&gt;
+	&lt;/optgroup&gt;
+	&lt;optgroup label="Field Team"&gt;
+		&lt;option value="emma"&gt;Emma Wilson&lt;/option&gt;
+		&lt;option value="liam"&gt;Liam Brown&lt;/option&gt;
+	&lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+window.demoRenderGroupHtml = function (group) {
+	return '&lt;div class="demo-group_title"&gt;' + group.text + '&lt;/div&gt;';
+};
+
+window.demoRenderOptionHtml = function (option) {
+	return '&lt;div class="demo-group_item"&gt;' + option.text + '&lt;/div&gt;';
+};
+
+var rendererHtmlSelect = window.mangoSelect.init({
+	selector: "#guide-renderers-html",
+	language: "th"
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+
+			<div class="callout">
+				รูปแบบนี้จะ render เป็น HTML เฉพาะเมื่อเปิด <code>allow_html: true</code> เท่านั้น ถ้า <code>allow_html: false</code> string ที่ return จาก renderer จะถูกแสดงเป็น plain text
+			</div>
+
+			<h3 class="subsection-title">แบบที่ 2: แบบปกติ โดยคืน DOM node</h3>
+			<p class="subsection-text">
+				เหมาะกับกรณีที่อยากเขียน renderer แบบปลอดภัยกว่า ไม่ต้องต่อ string HTML เอง และใช้
+				<code>textContent</code> ได้ตรง ๆ
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown แล้วสังเกตว่า group และ option ถูกสร้างจาก <code>document.createElement()</code> และคืนเป็น DOM node</p>
+					<select id="guide-renderers-node" class="form-select" name="assignee_demo_node"
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกผู้รับผิดชอบ"
+						data-mangoselect-close="true"
+						data-mangoselect-render_option="demoRenderOptionNode"
+						data-mangoselect-render_group="demoRenderGroupNode">
+						<optgroup label="Core Team">
+							<option value="ava" selected>Ava Smith</option>
+							<option value="noah">Noah Johnson</option>
+						</optgroup>
+						<optgroup label="Field Team">
+							<option value="emma">Emma Wilson</option>
+							<option value="liam">Liam Brown</option>
+						</optgroup>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-renderers-node-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-renderers-node-read">อ่านค่าปัจจุบัน</button>
+					</div>
+
+					<div class="result-box" id="guide-renderers-node-result">
+						ตัวอย่างนี้คืน DOM node ปกติ ลองเปิด dropdown แล้วเลือกค่าเพื่อดูผลลัพธ์
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;style&gt;
+.demo-group_title {
+	display: block;
+	margin-bottom: 6px;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: rgba(15, 118, 110, 0.08);
+	color: #0f5f59;
+	font-size: 0.76rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.demo-group_item {
+	display: block;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid rgba(148, 163, 184, 0.22);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.96);
+	font-weight: 600;
+}
+&lt;/style&gt;
+
+&lt;select id="guide-renderers-node" name="assignee_demo_node"
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือกผู้รับผิดชอบ"
+	data-mangoselect-close="true"
+	data-mangoselect-render_option="demoRenderOptionNode"
+	data-mangoselect-render_group="demoRenderGroupNode"&gt;
+	&lt;optgroup label="Core Team"&gt;
+		&lt;option value="ava" selected&gt;Ava Smith&lt;/option&gt;
+		&lt;option value="noah"&gt;Noah Johnson&lt;/option&gt;
+	&lt;/optgroup&gt;
+	&lt;optgroup label="Field Team"&gt;
+		&lt;option value="emma"&gt;Emma Wilson&lt;/option&gt;
+		&lt;option value="liam"&gt;Liam Brown&lt;/option&gt;
+	&lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+window.demoRenderGroupNode = function (group) {
+	var element = document.createElement("div");
+	element.className = "demo-group_title";
+	element.textContent = group.text;
+	return element;
+};
+
+window.demoRenderOptionNode = function (option) {
+	var element = document.createElement("div");
+	element.className = "demo-group_item";
+	element.textContent = option.text;
+	return element;
+};
+
+var rendererNodeSelect = window.mangoSelect.init({
+	selector: "#guide-renderers-node",
+	language: "th"
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+
+			<div class="callout">
+				แบบ DOM node ไม่ต้องพึ่ง <code>innerHTML</code> สำหรับ renderer จึงเหมาะกับข้อความที่มาจากข้อมูลที่ไม่ trusted มากกว่าแบบ HTML string
+			</div>
+			<div class="callout">
+				ถ้าต้องการเพิ่ม class ตอน selected หรือ disabled ให้เช็ค <code>option.is_selected</code> และ <code>option.disabled</code> เพิ่มได้ทั้ง 2 แบบ
+			</div>
+
+			<h3 class="subsection-title">แบบที่ 3: custom checkbox สำหรับ multiple</h3>
+			<p class="subsection-text">
+				ถ้าเป็น <code>&lt;select multiple&gt;</code> สามารถใช้ <code>render_checkbox()</code> เพื่อเปลี่ยนหน้าตา checkbox ได้
+				โดย mangoSelect ยังเก็บ native checkbox ไว้สำหรับ sync state และ fallback ถ้าไม่ตั้งค่า
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown แล้วเลือก/ยกเลิกเลือก จะเห็นกล่อง custom เปลี่ยนตาม <code>option.is_selected</code></p>
+					<select id="guide-renderers-checkbox" class="form-select" name="status_demo[]" multiple
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกสถานะ"
+						data-mangoselect-allow_html="true"
+						data-mangoselect-render_checkbox="demoRenderCheckboxHtml">
+						<option value="new" selected>New</option>
+						<option value="in-progress">In progress</option>
+						<option value="done">Done</option>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-renderers-checkbox-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-renderers-checkbox-read">อ่านค่าปัจจุบัน</button>
+					</div>
+
+					<div class="result-box" id="guide-renderers-checkbox-result">
+						ตัวอย่างนี้ใช้ render_checkbox() เฉพาะหน้าตา checkbox ส่วนค่าจริงยัง sync กับ select ตามปกติ
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;select id="guide-renderers-checkbox" name="status_demo[]" multiple
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือกสถานะ"
+	data-mangoselect-allow_html="true"
+	data-mangoselect-render_checkbox="demoRenderCheckboxHtml"&gt;
+	&lt;option value="new" selected&gt;New&lt;/option&gt;
+	&lt;option value="in-progress"&gt;In progress&lt;/option&gt;
+	&lt;option value="done"&gt;Done&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+window.demoRenderCheckboxHtml = function (option) {
+	if (option.is_selected) {
+		return '&lt;span class="demo-check is-on"&gt;&amp;#10003;&lt;/span&gt;';
+	}
+
+	return '&lt;span class="demo-check"&gt;&lt;/span&gt;';
+};
+
+var rendererCheckboxSelect = window.mangoSelect.init({
+	selector: "#guide-renderers-checkbox",
+	language: "th"
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน (DOM node)</h3>
+					<p>ตัวอย่างนี้คืน DOM node โดยตรง จึงไม่ต้องเปิด <code>allow_html</code></p>
+					<select id="guide-renderers-checkbox-node" class="form-select" name="priority_demo[]" multiple
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกระดับความสำคัญ"
+						data-mangoselect-render_checkbox="demoRenderCheckboxNode">
+						<option value="low">Low</option>
+						<option value="medium" selected>Medium</option>
+						<option value="high">High</option>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-renderers-checkbox-node-open">เปิด dropdown</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-renderers-checkbox-node-read">อ่านค่าปัจจุบัน</button>
+					</div>
+
+					<div class="result-box" id="guide-renderers-checkbox-node-result">
+						ตัวอย่างนี้ใช้ render_checkbox() แบบคืน DOM node และยัง sync ค่าเข้ากับ select ตามปกติ
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด (DOM node)</h3>
+					<pre class="code-block">&lt;select id="guide-renderers-checkbox-node" name="priority_demo[]" multiple
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือกระดับความสำคัญ"
+	data-mangoselect-render_checkbox="demoRenderCheckboxNode"&gt;
+	&lt;option value="low"&gt;Low&lt;/option&gt;
+	&lt;option value="medium" selected&gt;Medium&lt;/option&gt;
+	&lt;option value="high"&gt;High&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+window.demoRenderCheckboxNode = function (option) {
+	var element = document.createElement("span");
+	element.className = option.is_selected ? "demo-check is-on" : "demo-check";
+	element.textContent = option.is_selected ? "✓" : "";
+	return element;
+};
+
+var rendererCheckboxNodeSelect = window.mangoSelect.init({
+	selector: "#guide-renderers-checkbox-node",
+	language: "th"
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+
+			<div class="callout">
+				ลำดับการ resolve config คือ options ใน <code>init()</code> -&gt;
+				<code>data-mangoselect-*</code> -&gt; default และถ้าตั้ง renderer ผ่าน attr ค่าต้องเป็นชื่อ function ที่อ้างถึงได้จาก
+				<code>window</code>
+			</div>
+			<div class="callout">
+				mangoSelect จะใส่ <code>role="listbox"</code>, <code>role="option"</code>, <code>role="group"</code>,
+				<code>aria-selected</code>, <code>aria-disabled</code>, <code>aria-controls</code> และ
+				<code>aria-activedescendant</code> ให้อัตโนมัติ
+			</div>
+		</section>
+
+		<section id="tags" class="section-block">
+			<div class="section-kicker">Example 7</div>
+			<h2 class="section-title">การใช้งาน tags พร้อมเพิ่ม option ใหม่</h2>
+			<p class="section-text">
+				เมื่อกำหนด <code>tags: true</code> จะมีปุ่ม <code>+</code> ในช่องค้นหา ใช้เพิ่ม option ใหม่จากข้อความที่พิมพ์ได้ทันที รองรับทั้ง local, ajax, single select และ multiple select
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>พิมพ์ข้อความใหม่ เช่น <code>follow-up</code> แล้วกดปุ่ม <code>+</code> จากนั้นกด <code>OK</code> เพื่อยืนยันค่า</p>
+					<select id="guide-tags" class="form-select" name="tag_demo[]" multiple
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกหรือพิมพ์ tag"
+						data-mangoselect-max_selected="5">
+						<option value="urgent">urgent</option>
+						<option value="review">review</option>
+						<option value="draft">draft</option>
+					</select>
+
+					<div class="example-actions">
+						<button type="button" class="btn btn-dark btn-sm" id="guide-tags-read">อ่านค่าปัจจุบัน</button>
+						<button type="button" class="btn btn-outline-secondary btn-sm" id="guide-tags-clear">ล้างค่าทั้งหมด</button>
+					</div>
+
+					<div class="result-box" id="guide-tags-result">
+						ยังไม่มีการเลือกค่าใหม่
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด</h3>
+					<pre class="code-block">&lt;select id="guide-tags" name="tag_demo[]" multiple
+	data-mangoselect-language="th"
+	data-mangoselect-placeholder="เลือกหรือพิมพ์ tag"
+	data-mangoselect-max_selected="5"&gt;
+	&lt;option value="urgent"&gt;urgent&lt;/option&gt;
+	&lt;option value="review"&gt;review&lt;/option&gt;
+	&lt;option value="draft"&gt;draft&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;button type="button" id="guide-tags-read"&gt;อ่านค่าปัจจุบัน&lt;/button&gt;
+&lt;button type="button" id="guide-tags-clear"&gt;ล้างค่าทั้งหมด&lt;/button&gt;
+&lt;div id="guide-tags-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-tags-result");
+	var tagSelect = window.mangoSelect.init({
+		selector: "#guide-tags",
+		language: "th",
+		search: true,
+		tags: true,
+		ok_cancel_in_multi: true,
+		clear_all: true,
+		on_change: function (detail) {
+			resultBox.textContent =
+				"action: " + detail.action +
+				" | selected_values: " + detail.selected_values.join(", ");
+		},
+		on_change_all: function (detail) {
+			resultBox.textContent =
+				"on_change_all | close_reason: " + (detail.close_reason || "-") +
+				" | selected_values: " + detail.selected_values.join(", ");
+		}
+	});
+
+	document.getElementById("guide-tags-read").addEventListener("click", function () {
+		resultBox.textContent = "ค่าปัจจุบัน: " + tagSelect.get_selected_values().join(", ");
+	});
+
+	document.getElementById("guide-tags-clear").addEventListener("click", function () {
+		tagSelect.clear_all();
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
+		<section id="data-attributes" class="section-block">
+			<div class="section-kicker">Reference</div>
+			<h2 class="section-title">attr data-mangoselect-* ที่ใช้ได้จริง</h2>
+			<p class="section-text">
+				ตารางนี้สรุป attributes ที่ใช้บ่อยและควรใช้ในงานจริง ส่วน option อื่นในตาราง JavaScript options สามารถตั้งผ่าน
+				<code>data-mangoselect-&lt;option_name&gt;</code> ได้ถ้าใช้ชื่อตรงกับ option
+			</p>
+
+			<div class="table-wrap table-responsive">
+				<table class="table align-middle">
+					<thead>
+						<tr>
+							<th>Attribute</th>
+							<th>ใช้กับ</th>
+							<th>คืออะไร</th>
+							<th>ตัวอย่าง</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>data-mangoselect-language</code></td>
+							<td>Local / Ajax</td>
+							<td>กำหนดภาษาของข้อความใน component เช่น placeholder, search, clear</td>
+							<td><code>data-mangoselect-language="th"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-placeholder</code></td>
+							<td>Local / Ajax</td>
+							<td>ข้อความ placeholder ที่แสดงก่อนผู้ใช้เลือกค่า</td>
+							<td><code>data-mangoselect-placeholder="เลือกจังหวัด"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-close</code></td>
+							<td>Local / Ajax</td>
+							<td>แสดงปุ่ม Close ภายใน dropdown</td>
+							<td><code>data-mangoselect-close="true"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-allow_html</code></td>
+							<td>Local / Ajax</td>
+							<td>อนุญาตให้ render field <code>html</code> และ string HTML ที่คืนจาก renderer ด้วย <code>innerHTML</code></td>
+							<td><code>data-mangoselect-allow_html="true"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-min_selected</code></td>
+							<td>Multiple</td>
+							<td>จำนวนขั้นต่ำที่ต้องคงไว้ ถ้าเลือกถึงขั้นต่ำแล้วจะลบออกต่อไม่ได้</td>
+							<td><code>data-mangoselect-min_selected="1"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-max_selected</code></td>
+							<td>Multiple</td>
+							<td>จำนวนสูงสุดที่เลือกได้ ถ้าครบแล้ว option อื่นจะถูกปิดไม่ให้เลือกเพิ่ม</td>
+							<td><code>data-mangoselect-max_selected="3"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-url</code></td>
+							<td>Ajax</td>
+							<td>URL สำหรับโหลดข้อมูลแบบ remote</td>
+							<td><code>data-mangoselect-url="./demo-api.php?fixvar=2"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-per_page</code></td>
+							<td>Ajax</td>
+							<td>กำหนดจำนวนรายการต่อ request</td>
+							<td><code>data-mangoselect-per_page="20"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-delay</code></td>
+							<td>Ajax</td>
+							<td>กำหนดเวลาหน่วงก่อนยิง request ตอนค้นหา หน่วยเป็นมิลลิวินาที</td>
+							<td><code>data-mangoselect-delay="300"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-search_length</code></td>
+							<td>Ajax</td>
+							<td>จำนวนตัวอักษรขั้นต่ำที่ต้องพิมพ์ก่อนเริ่มยิง Ajax request</td>
+							<td><code>data-mangoselect-search_length="2"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-render_option</code></td>
+							<td>Local / Ajax</td>
+							<td>ชื่อ global function สำหรับ custom render ต่อหนึ่ง option</td>
+							<td><code>data-mangoselect-render_option="demoRenderOptionHtml"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-render_group</code></td>
+							<td>Local / Ajax Group</td>
+							<td>ชื่อ global function สำหรับ custom render หัวข้อ group</td>
+							<td><code>data-mangoselect-render_group="demoRenderGroupHtml"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-render_checkbox</code></td>
+							<td>Multiple</td>
+							<td>ชื่อ global function สำหรับ custom render checkbox ต่อหนึ่ง option ถ้าไม่ตั้งค่าจะใช้ checkbox ธรรมดา</td>
+							<td><code>data-mangoselect-render_checkbox="demoRenderCheckboxHtml"</code></td>
+						</tr>
+						<tr>
+							<td><code>data-mangoselect-param-*</code></td>
+							<td>Ajax</td>
+							<td>ทุก attribute ที่ขึ้นต้นด้วย <code>data-mangoselect-param-</code> จะถูกแปลงเป็น query param อัตโนมัติ ส่วน config หลักต้องใช้ชื่อ option ตรงตัว เช่น <code>min_selected</code>, <code>max_selected</code>, <code>search_length</code>, <code>close</code></td>
+							<td><code>data-mangoselect-param-branch="bkk"</code><br><code>data-mangoselect-param-customer="1"</code></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="callout">
+				ไลบรารีมีการสร้าง <code>data-mangoselect-ready</code> และ <code>data-mangoselect-internal-placeholder</code>
+				ขึ้นเองภายในเพื่อใช้จัดการสถานะของ component จึงไม่ควรตั้ง 2 ตัวนี้ด้วยตัวเอง
+			</div>
+			<div class="callout mt-3">
+				ทุก option ใน <code>init()</code> ตั้งผ่าน <code>data-mangoselect-&lt;option_name&gt;</code> ได้ถ้าใช้ชื่อให้ตรงกับ option
+				และลำดับการใช้ค่าคือ <code>attr -&gt; option -&gt; default</code> ส่วน function options ที่ตั้งผ่าน attr ต้องชี้ไปที่ global function บน <code>window</code>
+			</div>
+		</section>
+
+		<section id="js-options" class="section-block">
+			<div class="section-kicker">Reference</div>
+			<h2 class="section-title">JavaScript options ที่รองรับทั้งหมด</h2>
+			<p class="section-text">
+				ตารางนี้สรุป option หลักที่ใช้กับ <code>window.mangoSelect.init()</code> โดยตรง พร้อมรูปแบบค่าที่ควรกำหนดและผลของแต่ละตัวเลือก ส่วน callback และ function options
+				อยู่ในหัวข้อถัดไป
+			</p>
+
+			<div class="table-wrap table-responsive">
+				<table class="table align-middle">
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>ค่าเริ่มต้น</th>
+							<th>กำหนดแบบไหน</th>
+							<th>มีผลยังไง</th>
+							<th>ตัวอย่าง</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>selector</code></td>
+							<td><code>""</code></td>
+							<td>string selector ของ <code>&lt;select&gt;</code></td>
+							<td>ต้องระบุเองทุกครั้ง โดยในเอกสารนี้ใช้แบบ id เป็นหลัก และถ้าต้องการ init หลายตัวจาก class ให้ใช้ <code>selector: ".user-picker"</code> โดยตรง ถ้าไม่ส่งค่า ไลบรารีจะไม่ init</td>
+							<td><code>selector: "#guide-tags"</code></td>
+						</tr>
+						<tr>
+							<td><code>placeholder</code></td>
+							<td><code>""</code></td>
+							<td>string</td>
+							<td>ข้อความที่แสดงบน trigger ก่อนมีการเลือกค่า ถ้ากำหนดทั้ง JS และ attr ค่าใน JavaScript จะถูกใช้ก่อน</td>
+							<td><code>placeholder: "เลือกพนักงาน"</code></td>
+						</tr>
+						<tr>
+							<td><code>summary_limit</code></td>
+							<td><code>2</code></td>
+							<td>number</td>
+							<td>ใน multiple select ถ้าเลือกเกินจำนวนนี้ trigger จะสรุปเป็นจำนวนรายการแทนการแสดงชื่อทั้งหมด</td>
+							<td><code>summary_limit: 3</code></td>
+						</tr>
+						<tr>
+							<td><code>language</code></td>
+							<td><code>"en"</code></td>
+							<td>string หรือ object ภาษา</td>
+							<td>ใช้เปลี่ยนข้อความใน component ทั้งระบบ เช่น placeholder, search, clear, loading และข้อความสรุป</td>
+							<td><code>language: "th"</code></td>
+						</tr>
+						<tr>
+							<td><code>search</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>เปิดหรือปิดช่องค้นหาใน dropdown ถ้าเปิด <code>tags</code> ไลบรารีจะบังคับให้มี search ให้อัตโนมัติ</td>
+							<td><code>search: true</code></td>
+						</tr>
+						<tr>
+							<td><code>search_length</code></td>
+							<td><code>null</code></td>
+							<td>number</td>
+							<td>ใช้กับ Ajax เท่านั้น ถ้ากำหนด <code>2</code> จะเริ่มยิง request เมื่อพิมพ์ครบ 2 ตัวอักษร ส่วน local search จะไม่สนใจ option นี้</td>
+							<td><code>search_length: 2</code></td>
+						</tr>
+						<tr>
+							<td><code>select_all</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>แสดงปุ่มเลือกทั้งหมดด้านล่าง dropdown ใน multiple select ถ้าปิดไว้ปุ่มจะไม่ถูก render</td>
+							<td><code>select_all: true</code></td>
+						</tr>
+						<tr>
+							<td><code>clear_all</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>แสดงปุ่มล้างค่าทั้งหมด หรือปุ่มล้างค่าใน single select</td>
+							<td><code>clear_all: true</code></td>
+						</tr>
+						<tr>
+							<td><code>close</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>แสดงปุ่ม Close เพิ่มใน action bar ของ dropdown</td>
+							<td><code>close: true</code></td>
+						</tr>
+						<tr>
+							<td><code>close_after_select_all</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>หลังจากกด Select all และเขียนค่าลง select สำเร็จ จะสั่งปิด dropdown ให้อัตโนมัติ ถ้าเปิด <code>ok_cancel_in_multi</code> จะรอให้กด OK ก่อน</td>
+							<td><code>close_after_select_all: true</code></td>
+						</tr>
+						<tr>
+							<td><code>close_after_clear_all</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>หลังจากกด Clear all แล้วค่าถูกล้างสำเร็จ จะสั่งปิด dropdown ให้อัตโนมัติ ถ้าอยู่ใน draft mode จะรอการยืนยันก่อน</td>
+							<td><code>close_after_clear_all: true</code></td>
+						</tr>
+						<tr>
+							<td><code>ok_cancel_in_multi</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>ใช้กับ multiple select เพื่อเปลี่ยนเป็นโหมด draft ค่าใน <code>&lt;select&gt;</code> จริงจะยังไม่ถูกเปลี่ยนจนกว่าจะกด <code>OK</code></td>
+							<td><code>ok_cancel_in_multi: true</code></td>
+						</tr>
+						<tr>
+							<td><code>tags</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>เพิ่มปุ่ม <code>+</code> ใน search box เพื่อสร้าง option ใหม่จากข้อความที่พิมพ์ ถ้าค่านั้นมีอยู่แล้วจะเลือก option เดิมแทน รองรับทั้ง local, ajax, single select และ multiple select</td>
+							<td><code>tags: true</code></td>
+						</tr>
+						<tr>
+							<td><code>allow_html</code></td>
+							<td><code>false</code></td>
+							<td>boolean</td>
+							<td>อนุญาตให้ render field <code>html</code> และ string HTML ที่คืนจาก renderer ด้วย <code>innerHTML</code> ถ้า <code>false</code> จะ render string จาก renderer เป็น plain text</td>
+							<td><code>allow_html: true</code></td>
+						</tr>
+						<tr>
+							<td><code>min_selected</code></td>
+							<td><code>0</code></td>
+							<td>number</td>
+							<td>กำหนดจำนวนขั้นต่ำที่ต้องคงไว้ใน multiple select ถ้าถึงขั้นต่ำแล้วจะยกเลิกเลือกต่อไม่ได้</td>
+							<td><code>min_selected: 1</code></td>
+						</tr>
+						<tr>
+							<td><code>max_selected</code></td>
+							<td><code>null</code></td>
+							<td>number หรือ <code>null</code></td>
+							<td>กำหนดจำนวนสูงสุดที่เลือกได้ ถ้าเลือกครบแล้ว option อื่นจะถูกปิดไม่ให้เลือกเพิ่ม</td>
+							<td><code>max_selected: 3</code></td>
+						</tr>
+						<tr>
+							<td><code>ajax</code></td>
+							<td><code>null</code></td>
+							<td><code>true</code>, string URL หรือ object</td>
+							<td>เปิด remote mode โดยใช้ URL จาก attr หรือส่ง config เพิ่ม เช่น <code>method</code>, <code>headers</code>, <code>data</code>, <code>process_results</code>, <code>search_length</code> รายละเอียดดูตัวอย่างด้านล่าง</td>
+							<td><code>ajax: true</code></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="docs-card mt-4">
+				<h3>ตัวอย่างการกำหนด ajax แบบ object</h3>
+				<p class="section-text mb-3">
+					กำหนด <code>ajax</code> ได้ 3 แบบ คือ <code>true</code> เพื่อใช้ URL จาก
+					<code>data-mangoselect-url</code>, กำหนดเป็น string URL โดยตรง หรือกำหนดเป็น object
+					เพื่อควบคุม request และการแปลง response เพิ่มเติม
+				</p>
+				<pre class="code-block">window.mangoSelect.init({
+	selector: "#employee-select",
+	language: "th",
+	ajax: {
+		url: "/api/employee/search",
+		method: "POST",
+		headers: {
+			"X-CSRF-TOKEN": window.csrfToken,
+			"Authorization": "Bearer YOUR_TOKEN"
+		},
+		data: function (baseParams) {
+			return {
+				customer_id: 7,
+				branch_code: "bkk",
+				keyword: baseParams.search
+			};
+		},
+		process_results: function (payload, params) {
+			return {
+				results: payload.items || [],
+				totals: payload.total_rows || 0
+			};
+		}
+	}
+});</pre>
+				<ul class="docs-list mt-3">
+					<li><code>url</code> ใช้ได้ทั้ง string และ function เช่น <code>url: function (params) { return "/api/employee/search"; }</code></li>
+					<li><code>method</code> ถ้าเป็น <code>GET</code> จะส่งค่าเป็น query string แต่ถ้าไม่ใช่ <code>GET</code> ไลบรารีจะส่งเป็น <code>application/x-www-form-urlencoded</code></li>
+					<li><code>headers</code> กำหนดเป็น object ของ header ที่ต้องส่งเพิ่ม เช่น token หรือ authorization</li>
+					<li><code>data</code> ใช้ได้ทั้ง object และ function โดยค่าที่ return จะถูกรวมกับพารามิเตอร์หลักของไลบรารี</li>
+					<li>พารามิเตอร์หลัก <code>search</code>, <code>page_num</code> และ <code>per_page</code> จะถูกส่งเสมอ แม้จะกำหนด <code>data</code> เพิ่มเอง</li>
+					<li><code>process_results</code> ใช้แปลงรูปแบบ response ของ backend ให้กลายเป็น <code>{ results, totals }</code> ก่อน render</li>
+					<li>ไลบรารีจะใส่ header <code>X-Requested-With: XMLHttpRequest</code> ให้อัตโนมัติทุก request</li>
+				</ul>
+				<div class="callout mt-3">
+					ถ้า backend รับชื่อ field ไม่ตรงกับ canonical params ของไลบรารี เช่นต้องการ
+					<code>keyword</code> แทน <code>search</code> ให้เพิ่ม field ใหม่ผ่าน
+					<code>data</code> ได้ แต่ <code>search</code>, <code>page_num</code> และ
+					<code>per_page</code> จะยังถูกส่งไปด้วยเสมอ
+				</div>
+			</div>
+		</section>
+
+		<section id="callbacks" class="section-block">
+			<div class="section-kicker">Reference</div>
+			<h2 class="section-title">callback และ function options</h2>
+			<p class="section-text">
+				รองรับ callback สำหรับ lifecycle ของ dropdown, การเปลี่ยนค่า และสถานะของ Ajax request
+				รวมถึง function options ใน <code>ajax</code> และ language config ที่ใช้ปรับพฤติกรรมเพิ่มเติม
+			</p>
+
+			<div class="table-wrap table-responsive">
+				<table class="table align-middle">
+					<thead>
+						<tr>
+							<th>ชื่อ</th>
+							<th>กำหนดตรงไหน</th>
+							<th>ทำงานเมื่อไร</th>
+							<th>รับค่า / คืนค่า</th>
+							<th>ตัวอย่าง</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>on_open(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>เมื่อ dropdown ถูกเปิดผ่าน trigger หรือผ่าน API</td>
+							<td>รับ <code>detail</code> ที่มี <code>open_reason</code>, <code>selected_values</code>, <code>is_open</code> และข้อมูลของ instance</td>
+							<td><code>on_open: function (detail) { console.log(detail.open_reason); }</code></td>
+						</tr>
+						<tr>
+							<td><code>on_close(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>เมื่อ dropdown ถูกปิดทุกกรณี รวมถึงปิดผ่าน API, ปิดเพราะ disabled หรือถูก <code>destroy()</code></td>
+							<td>รับ <code>detail</code> ที่มี <code>close_reason</code>, <code>has_changed</code>, <code>selected_values</code> และ <code>last_change_detail</code></td>
+							<td><code>on_close: function (detail) { console.log(detail.close_reason); }</code></td>
+						</tr>
+						<tr>
+							<td><code>on_change(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>ทุกครั้งที่ค่าถูกเลือก, ยกเลิกเลือก, clear, set ผ่าน API หรือเปลี่ยนจาก remote result</td>
+							<td>รับ <code>detail</code> ที่มี <code>action</code>, <code>changed_value</code>, <code>selected_values</code>, <code>selected_texts</code>, <code>instance</code> และอื่น ๆ</td>
+							<td><code>on_change: function (detail) { console.log(detail.selected_values); }</code></td>
+						</tr>
+						<tr>
+							<td><code>on_change_all(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>ทำงานตอน dropdown ถูกปิดเช่นเดียวกับ <code>on_close</code> เหมาะกับกรณีที่ต้องการอ่านค่ารวมหลังปิด dropdown</td>
+							<td>รับ <code>detail</code> ที่มีค่าปัจจุบันทั้งหมด พร้อม <code>opened_selected_values</code>, <code>has_changed</code>, <code>close_reason</code> และ <code>last_change_detail</code></td>
+							<td><code>on_change_all: function (detail) { console.log(detail.close_reason, detail.selected_values); }</code></td>
+						</tr>
+						<tr>
+							<td><code>on_loading_start(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>ก่อนยิง request Ajax ของ instance นั้น</td>
+							<td>รับ <code>detail</code> ที่มี <code>request_params</code>, <code>request_url</code>, <code>request_method</code>, <code>page_num</code> และ <code>should_reset</code></td>
+							<td><code>on_loading_start: function (detail) { console.log(detail.request_params.search); }</code></td>
+						</tr>
+						<tr>
+							<td><code>on_loading_end(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>เมื่อ request Ajax จบ ทั้งกรณี success และ error</td>
+							<td>รับ <code>detail</code> ที่มี <code>success</code>, <code>status</code>, <code>results</code>, <code>totals</code>, <code>has_more</code> และข้อมูล request เดิม</td>
+							<td><code>on_loading_end: function (detail) { console.log(detail.success, detail.status); }</code></td>
+						</tr>
+						<tr>
+							<td><code>on_error(detail)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code></td>
+							<td>เมื่อ request Ajax ล้มเหลว, network error, HTTP status ไม่ผ่าน หรือ parse JSON ไม่ได้</td>
+							<td>รับ <code>detail</code> ที่มี <code>error_type</code>, <code>error_message</code>, <code>status</code> และ <code>response_text</code></td>
+							<td><code>on_error: function (detail) { console.log(detail.error_type, detail.error_message); }</code></td>
+						</tr>
+						<tr>
+							<td><code>render_option(option)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code> หรือ <code>data-mangoselect-render_option</code></td>
+							<td>custom render ต่อหนึ่ง option โดยคืน <code>Node</code>, string หรือปล่อยให้ fallback ไปใช้ <code>html</code> / <code>text</code> ถ้า <code>allow_html: true</code> และคืน string จะ render เป็น HTML</td>
+							<td>รับ <code>option</code> ที่มี <code>id</code>, <code>value</code>, <code>text</code>, <code>html</code>, <code>disabled</code>, <code>selected</code> และ <code>is_selected</code></td>
+							<td><code>render_option: function (option) { return '&lt;div class="item"&gt;' + option.text + '&lt;/div&gt;'; }</code></td>
+						</tr>
+						<tr>
+							<td><code>render_group(group)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code> หรือ <code>data-mangoselect-render_group</code></td>
+							<td>custom render หัวข้อ group / optgroup title ถ้า <code>allow_html: true</code> และคืน string จะ render เป็น HTML</td>
+							<td>รับ <code>group</code> ที่มี <code>text</code>, <code>label</code>, <code>html</code>, <code>disabled</code>, <code>group_key</code> และ <code>children</code></td>
+							<td><code>render_group: function (group) { return '&lt;div class="group"&gt;' + group.text + '&lt;/div&gt;'; }</code></td>
+						</tr>
+						<tr>
+							<td><code>render_checkbox(option)</code></td>
+							<td>options หลักของ <code>mangoSelect.init()</code> หรือ <code>data-mangoselect-render_checkbox</code></td>
+							<td>custom render checkbox ใน multiple select โดยคืน <code>Node</code> หรือ string ถ้าเปิด <code>allow_html: true</code> string จะ render เป็น HTML ถ้าไม่ตั้งค่าจะใช้ checkbox ธรรมดา</td>
+							<td>รับ <code>option</code> ชุดเดียวกับ <code>render_option()</code> และใช้ <code>option.is_selected</code> เพื่อแยกหน้าตาเลือก/ไม่เลือก</td>
+							<td><code>render_checkbox: function (option) { return option.is_selected ? "&lt;span&gt;on&lt;/span&gt;" : "&lt;span&gt;off&lt;/span&gt;"; }</code></td>
+						</tr>
+						<tr>
+							<td><code>ajax.url(params)</code></td>
+							<td><code>ajax.url</code></td>
+							<td>ก่อนยิง request ใช้ในกรณีที่ URL ต้องคำนวณแบบ dynamic</td>
+							<td>รับพารามิเตอร์ request ปัจจุบัน และต้องคืนค่า URL เป็น string</td>
+							<td><code>url: function (params) { return "/api/users?customer=" + params.customer; }</code></td>
+						</tr>
+						<tr>
+							<td><code>ajax.data(params)</code></td>
+							<td><code>ajax.data</code></td>
+							<td>ก่อนส่ง request เพื่อเพิ่มหรือตกแต่ง query params</td>
+							<td>รับ <code>params</code> และควรคืน object ที่ต้องการ merge เพิ่มเข้าไป</td>
+							<td><code>data: function (params) { params.status = "active"; return params; }</code></td>
+						</tr>
+						<tr>
+							<td><code>ajax.process_results(payload, params)</code></td>
+							<td><code>ajax.process_results</code></td>
+							<td>หลังจากได้ response จาก server และก่อนแปลงเป็นรายการตัวเลือก</td>
+							<td>รับข้อมูลดิบจาก server แล้วคืน payload ใหม่ที่มี <code>results</code> หรือ <code>data</code></td>
+							<td><code>process_results: function (payload) { return { results: payload.items, totals: payload.total }; }</code></td>
+						</tr>
+						<tr>
+							<td><code>language.selected_count(args)</code></td>
+							<td>ภาษา custom หรือ <code>register_language()</code></td>
+							<td>ตอนเลือกหลายค่าเกิน <code>summary_limit</code> และต้องแสดงข้อความสรุปจำนวน</td>
+							<td>รับ <code>{ count: number }</code> แล้วคืนข้อความที่ต้องการแสดง</td>
+							<td><code>selected_count: function (args) { return "เลือกแล้ว " + args.count + " รายการ"; }</code></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="docs-card mt-4">
+				<h3>โครงสร้างของ <code>detail</code> ใน <code>on_change</code></h3>
+				<pre class="code-block">{
+	action: "select" | "unselect" | "clear_all" | "ok" | "add_tag" | "api_select_value" | "api_set_selected_values",
+	changed_value: "cnx",
+	changed_values: ["cnx"],
+	changed_text: "เชียงใหม่",
+	changed_texts: ["เชียงใหม่"],
+	is_selected: true,
+	last_changed_value: "cnx",
+	last_changed_values: ["cnx"],
+	selected_values: ["cnx"],
+	selected_texts: ["เชียงใหม่"],
+	is_open: false,
+	is_remote: false,
+	select_element: HTMLSelectElement,
+	instance: mangoSelectInstance,
+	raw_instance: internalInstance
+}</pre>
+			</div>
+
+			<div class="docs-card mt-4">
+				<h3>ฟิลด์เพิ่มเติมของ <code>detail</code> ใน <code>on_change_all</code></h3>
+				<pre class="code-block">{
+	action: "close",
+	close_reason: "trigger" | "outside_click" | "escape" | "select" | "select_all" | "clear_all" | "ok" | "cancel" | "api" | "switch" | "disabled" | "destroy",
+	opened_selected_values: ["sales"],
+	opened_selected_texts: ["ฝ่ายขาย"],
+	has_changed: true,
+	is_open: false,
+	is_remote: false,
+	last_change_detail: {
+		action: "select",
+		selected_values: ["sales", "marketing"]
+	}
+}</pre>
+			</div>
+
+			<div class="docs-card mt-4">
+				<h3>ฟิลด์ของ <code>detail</code> ใน <code>on_open</code>, <code>on_loading_end</code> และ <code>on_error</code></h3>
+				<pre class="code-block">{
+	action: "open" | "loading_start" | "loading_end" | "error",
+	open_reason: "trigger" | "api",
+	request_params: {
+		search: "ava",
+		page_num: 1,
+		per_page: 10,
+		option: "owner"
+	},
+	request_url: "./demo-api.php?fixvar=2&search=ava&page_num=1&per_page=10",
+	request_method: "GET",
+	page_num: 1,
+	should_reset: true,
+	status: 200,
+	success: true,
+	error_type: "",
+	error_message: "",
+	results: [{ id: "owner-001", text: "Owner 001" }],
+	totals: 120,
+	has_more: true,
+	selected_values: [],
+	selected_texts: [],
+	is_open: true,
+	is_remote: true
+}</pre>
+			</div>
+
+			<div class="docs-card mt-4">
+				<h3>การใช้ <code>destroy()</code></h3>
+				<p>
+					ใช้เมื่อไม่ต้องการ instance เดิมแล้ว เช่น ปิด modal, เปลี่ยนเนื้อหาเดิมออก หรือเตรียม init ใหม่
+					โดย <code>destroy()</code> จะยกเลิก timer/request ของ instance และถ้าไม่มี instance เหลือแล้วจะถอด global document listeners ให้อัตโนมัติ
+				</p>
+				<pre class="code-block">var instance = window.mangoSelect.get_instance("#guide-ajax-single");
+
+if (instance) {
+	instance.destroy();
+}
+
+var newInstance = window.mangoSelect.init({
+	selector: "#guide-ajax-single",
+	language: "th"
+});</pre>
+			</div>
+		</section>
+	</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var codeBlocks = document.querySelectorAll(".code-block");
+
+			codeBlocks.forEach(function (codeBlock, index) {
+				var toggleButton = document.createElement("button");
+				var codeId = codeBlock.id || "demo-code-block-" + String(index + 1);
+
+				codeBlock.id = codeId;
+				toggleButton.type = "button";
+				toggleButton.className = "btn btn-outline-dark btn-sm code-toggle-button";
+				toggleButton.setAttribute("aria-controls", codeId);
+				toggleButton.setAttribute("aria-expanded", "false");
+				toggleButton.textContent = "แสดงโค้ด";
+
+				toggleButton.addEventListener("click", function () {
+					var isVisible = codeBlock.classList.toggle("is-code-visible");
+
+					toggleButton.setAttribute("aria-expanded", isVisible ? "true" : "false");
+					toggleButton.textContent = isVisible ? "ซ่อนโค้ด" : "แสดงโค้ด";
+				});
+
+				codeBlock.parentNode.insertBefore(toggleButton, codeBlock);
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var resultBox = document.getElementById("guide-local-single-result");
+			var provinceSelect = window.mangoSelect.init({
+				selector: "#guide-local-single",
+				language: "th",
+				on_change: function (detail) {
+					resultBox.textContent =
+						"ค่าที่เลือก: " + (detail.selected_values[0] || "-") +
+						" | ข้อความ: " + (detail.selected_texts[0] || "-") +
+						" | action: " + detail.action;
+				}
+			});
+
+			document.getElementById("guide-local-single-read").addEventListener("click", function () {
+				resultBox.textContent =
+					"ค่าปัจจุบัน: " + (provinceSelect.get_selected_values()[0] || "-");
+			});
+
+			document.getElementById("guide-local-single-select").addEventListener("click", function () {
+				provinceSelect.select_value("cnx");
+			});
+
+			document.getElementById("guide-local-single-clear").addEventListener("click", function () {
+				provinceSelect.clear_all();
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var resultBox = document.getElementById("guide-local-multiple-result");
+			var departmentSelect = window.mangoSelect.init({
+				selector: "#guide-local-multiple",
+				language: "th",
+				search: true,
+				ok_cancel_in_multi: true,
+				select_all: true,
+				clear_all: true,
+				on_change: function (detail) {
+					resultBox.textContent =
+						"action: " + detail.action +
+						" | selected_values: " + detail.selected_values.join(", ");
+				},
+				on_change_all: function (detail) {
+					resultBox.textContent =
+						"on_change_all | close_reason: " + (detail.close_reason || "-") +
+						" | has_changed: " + detail.has_changed +
+						" | selected_values: " + detail.selected_values.join(", ");
+				}
+			});
+
+			document.getElementById("guide-local-multiple-read").addEventListener("click", function () {
+				resultBox.textContent =
+					"ค่าปัจจุบัน: " + departmentSelect.get_selected_values().join(", ");
+			});
+
+			document.getElementById("guide-local-multiple-select").addEventListener("click", function () {
+				departmentSelect.select_value(["marketing", "hr"]);
+			});
+
+			document.getElementById("guide-local-multiple-set").addEventListener("click", function () {
+				departmentSelect.set_selected_values(["sales", "warehouse"]);
+			});
+
+			document.getElementById("guide-local-multiple-clear").addEventListener("click", function () {
+				departmentSelect.clear_all();
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var resultBox = document.getElementById("guide-ajax-single-result");
+			var ownerSelect = window.mangoSelect.init({
+				selector: "#guide-ajax-single",
+				language: "th",
+				ajax: true,
+				on_open: function (detail) {
+					resultBox.textContent =
+						"on_open | open_reason: " + (detail.open_reason || "-") +
+						" | selected_value: " + (detail.selected_values[0] || "-");
+				},
+				on_close: function (detail) {
+					resultBox.textContent =
+						"on_close | close_reason: " + (detail.close_reason || "-") +
+						" | selected_value: " + (detail.selected_values[0] || "-");
+				},
+				on_loading_start: function (detail) {
+					resultBox.textContent =
+						"on_loading_start | page_num: " + (detail.page_num || 1) +
+						" | search: " + (detail.request_params.search || "-");
+				},
+				on_loading_end: function (detail) {
+					resultBox.textContent =
+						"on_loading_end | success: " + detail.success +
+						" | status: " + (detail.status === null ? "-" : detail.status) +
+						" | results: " + detail.results.length;
+				},
+				on_error: function (detail) {
+					resultBox.textContent =
+						"on_error | type: " + (detail.error_type || "-") +
+						" | status: " + (detail.status === null ? "-" : detail.status) +
+						" | message: " + (detail.error_message || "-");
+				},
+				on_change: function (detail) {
+					resultBox.textContent =
+						"on_change | selected_value: " + (detail.selected_values[0] || "-") +
+						" | selected_text: " + (detail.selected_texts[0] || "-") +
+						" | action: " + detail.action;
+				}
+			});
+
+			document.getElementById("guide-ajax-single-open").addEventListener("click", function () {
+				ownerSelect.open();
+			});
+
+			document.getElementById("guide-ajax-single-reload").addEventListener("click", function () {
+				ownerSelect.reload();
+				ownerSelect.open();
+			});
+
+			document.getElementById("guide-ajax-single-clear").addEventListener("click", function () {
+				ownerSelect.clear_all();
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var resultBox = document.getElementById("guide-ajax-multiple-result");
+			var employeeSelect = window.mangoSelect.init({
+				selector: "#guide-ajax-multiple",
+				language: "th",
+				ajax: true,
+				select_all: true,
+				close_after_select_all: true,
+				clear_all: true,
+				close_after_clear_all: true,
+				on_change: function (detail) {
+					resultBox.textContent =
+						"action: " + detail.action +
+						" | selected_values: " + detail.selected_values.join(", ");
+				},
+				on_change_all: function (detail) {
+					resultBox.textContent =
+						"on_change_all | close_reason: " + (detail.close_reason || "-") +
+						" | selected_values: " + detail.selected_values.join(", ");
+				}
+			});
+
+			document.getElementById("guide-ajax-multiple-open").addEventListener("click", function () {
+				employeeSelect.open();
+			});
+
+			document.getElementById("guide-ajax-multiple-reload").addEventListener("click", function () {
+				employeeSelect.reload();
+				employeeSelect.open();
+			});
+
+			document.getElementById("guide-ajax-multiple-read").addEventListener("click", function () {
+				resultBox.textContent =
+					"ค่าปัจจุบัน: " + employeeSelect.get_selected_values().join(", ");
+			});
+
+			document.getElementById("guide-ajax-multiple-clear").addEventListener("click", function () {
+				employeeSelect.clear_all();
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var resultBox = document.getElementById("guide-ajax-grouped-result");
+			var groupedSelect = window.mangoSelect.init({
+				selector: "#guide-ajax-grouped",
+				language: "th",
+				ajax: true,
+				select_all: true,
+				clear_all: true,
+				on_loading_end: function (detail) {
+					resultBox.textContent =
+						"on_loading_end | success: " + detail.success +
+						" | groups/results: " + detail.results.length;
+				},
+				on_change: function (detail) {
+					resultBox.textContent =
+						"action: " + detail.action +
+						" | selected_values: " + detail.selected_values.join(", ");
+				}
+			});
+
+			document.getElementById("guide-ajax-grouped-open").addEventListener("click", function () {
+				groupedSelect.open();
+			});
+
+			document.getElementById("guide-ajax-grouped-reload").addEventListener("click", function () {
+				groupedSelect.reload();
+				groupedSelect.open();
+			});
+
+			document.getElementById("guide-ajax-grouped-read").addEventListener("click", function () {
+				resultBox.textContent =
+					"ค่าปัจจุบัน: " + groupedSelect.get_selected_values().join(", ");
+			});
+
+			document.getElementById("guide-ajax-grouped-clear").addEventListener("click", function () {
+				groupedSelect.clear_all();
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var htmlResultBox = document.getElementById("guide-renderers-html-result");
+			var nodeResultBox = document.getElementById("guide-renderers-node-result");
+			var checkboxResultBox = document.getElementById("guide-renderers-checkbox-result");
+			var checkboxNodeResultBox = document.getElementById("guide-renderers-checkbox-node-result");
+
+			window.demoRenderGroupHtml = function (group) {
+				return '<div class="demo-group_title">' + group.text + "</div>";
+			};
+
+			window.demoRenderOptionHtml = function (option) {
+				return '<div class="demo-group_item">' + option.text + "</div>";
+			};
+
+			window.demoRenderGroupNode = function (group) {
+				var element = document.createElement("div");
+				element.className = "demo-group_title";
+				element.textContent = group.text;
+				return element;
+			};
+
+			window.demoRenderOptionNode = function (option) {
+				var element = document.createElement("div");
+				element.className = "demo-group_item";
+				element.textContent = option.text;
+				return element;
+			};
+
+			window.demoRenderCheckboxHtml = function (option) {
+				if (option.is_selected) {
+					return '<span class="demo-check is-on">&#10003;</span>';
+				}
+
+				return '<span class="demo-check"></span>';
+			};
+
+			window.demoRenderCheckboxNode = function (option) {
+				var element = document.createElement("span");
+				element.className = option.is_selected ? "demo-check is-on" : "demo-check";
+				element.textContent = option.is_selected ? "✓" : "";
+				return element;
+			};
+
+			var rendererHtmlSelect = window.mangoSelect.init({
+				selector: "#guide-renderers-html",
+				language: "th",
+				on_close: function (detail) {
+					htmlResultBox.textContent =
+						"on_close | close_reason: " + (detail.close_reason || "-") +
+						" | selected_value: " + (detail.selected_values[0] || "-");
+				},
+				on_change: function (detail) {
+					htmlResultBox.textContent =
+						"on_change | selected_value: " + (detail.selected_values[0] || "-") +
+						" | selected_text: " + (detail.selected_texts[0] || "-");
+				}
+			});
+
+			var rendererNodeSelect = window.mangoSelect.init({
+				selector: "#guide-renderers-node",
+				language: "th",
+				on_close: function (detail) {
+					nodeResultBox.textContent =
+						"on_close | close_reason: " + (detail.close_reason || "-") +
+						" | selected_value: " + (detail.selected_values[0] || "-");
+				},
+				on_change: function (detail) {
+					nodeResultBox.textContent =
+						"on_change | selected_value: " + (detail.selected_values[0] || "-") +
+						" | selected_text: " + (detail.selected_texts[0] || "-");
+				}
+			});
+
+			var rendererCheckboxSelect = window.mangoSelect.init({
+				selector: "#guide-renderers-checkbox",
+				language: "th",
+				on_change: function (detail) {
+					checkboxResultBox.textContent =
+						"on_change | selected_values: " + detail.selected_values.join(", ");
+				}
+			});
+
+			var rendererCheckboxNodeSelect = window.mangoSelect.init({
+				selector: "#guide-renderers-checkbox-node",
+				language: "th",
+				on_change: function (detail) {
+					checkboxNodeResultBox.textContent =
+						"on_change | selected_values: " + detail.selected_values.join(", ");
+				}
+			});
+
+			document.getElementById("guide-renderers-html-open").addEventListener("click", function () {
+				rendererHtmlSelect.open();
+			});
+
+			document.getElementById("guide-renderers-html-read").addEventListener("click", function () {
+				htmlResultBox.textContent =
+					"ค่าปัจจุบัน: " + (rendererHtmlSelect.get_selected_values()[0] || "-");
+			});
+
+			document.getElementById("guide-renderers-node-open").addEventListener("click", function () {
+				rendererNodeSelect.open();
+			});
+
+			document.getElementById("guide-renderers-node-read").addEventListener("click", function () {
+				nodeResultBox.textContent =
+					"ค่าปัจจุบัน: " + (rendererNodeSelect.get_selected_values()[0] || "-");
+			});
+
+			document.getElementById("guide-renderers-checkbox-open").addEventListener("click", function () {
+				rendererCheckboxSelect.open();
+			});
+
+			document.getElementById("guide-renderers-checkbox-read").addEventListener("click", function () {
+				checkboxResultBox.textContent =
+					"ค่าปัจจุบัน: " + rendererCheckboxSelect.get_selected_values().join(", ");
+			});
+
+			document.getElementById("guide-renderers-checkbox-node-open").addEventListener("click", function () {
+				rendererCheckboxNodeSelect.open();
+			});
+
+			document.getElementById("guide-renderers-checkbox-node-read").addEventListener("click", function () {
+				checkboxNodeResultBox.textContent =
+					"ค่าปัจจุบัน: " + rendererCheckboxNodeSelect.get_selected_values().join(", ");
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var resultBox = document.getElementById("guide-tags-result");
+			var tagSelect = window.mangoSelect.init({
+				selector: "#guide-tags",
+				language: "th",
+				search: true,
+				tags: true,
+				ok_cancel_in_multi: true,
+				clear_all: true,
+				on_change: function (detail) {
+					resultBox.textContent =
+						"action: " + detail.action +
+						" | selected_values: " + detail.selected_values.join(", ");
+				},
+				on_change_all: function (detail) {
+					resultBox.textContent =
+						"on_change_all | close_reason: " + (detail.close_reason || "-") +
+						" | selected_values: " + detail.selected_values.join(", ");
+				}
+			});
+
+			document.getElementById("guide-tags-read").addEventListener("click", function () {
+				resultBox.textContent =
+					"ค่าปัจจุบัน: " + tagSelect.get_selected_values().join(", ");
+			});
+
+			document.getElementById("guide-tags-clear").addEventListener("click", function () {
+				tagSelect.clear_all();
+			});
+		});
+	</script>
+</body>
+
+</html>
