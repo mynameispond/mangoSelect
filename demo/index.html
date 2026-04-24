@@ -243,11 +243,14 @@
 			display: none;
 			margin: 0;
 			padding: 18px;
-			border-radius: var(--radius-sm);
+			border: 1px solid rgba(15, 23, 42, 0.2);
+			border-radius: var(--radius-md);
 			background: var(--code-bg);
 			color: var(--code-text);
+			box-shadow: var(--shadow-md);
 			font-size: 0.9rem;
 			line-height: 1.65;
+			overflow: auto;
 			white-space: pre-wrap;
 			word-break: break-word;
 		}
@@ -256,17 +259,30 @@
 			display: block;
 		}
 
-		.code-toggle-button {
+		.code-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
 			margin: 12px 0 10px;
+		}
+
+		.code-toggle-button,
+		.code-copy-button {
 			border-color: rgba(15, 118, 110, 0.28);
 			color: var(--accent-strong);
 			font-weight: 700;
 		}
 
-		.code-toggle-button:hover {
+		.code-toggle-button:hover,
+		.code-copy-button:hover {
 			background: rgba(15, 118, 110, 0.08);
 			border-color: rgba(15, 118, 110, 0.42);
 			color: var(--accent-strong);
+		}
+
+		.code-copy-button:disabled {
+			opacity: 0.65;
+			cursor: not-allowed;
 		}
 
 		.example-grid {
@@ -2061,27 +2077,126 @@ var newInstance = window.mangoSelect.init({
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
-			var codeBlocks = document.querySelectorAll(".code-block");
+			var SHOW_CODE_LABEL = "\u0e41\u0e2a\u0e14\u0e07\u0e42\u0e04\u0e49\u0e14";
+			var HIDE_CODE_LABEL = "\u0e0b\u0e48\u0e2d\u0e19\u0e42\u0e04\u0e49\u0e14";
+			var COPY_CODE_LABEL = "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01\u0e42\u0e04\u0e49\u0e14";
+			var COPIED_CODE_LABEL = "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01\u0e41\u0e25\u0e49\u0e27";
 
-			codeBlocks.forEach(function (codeBlock, index) {
+			function normalizeCodeBlock(rawCode) {
+				var lineList = String(rawCode || "").replace(/\r/g, "").split("\n");
+
+				while (lineList.length && !lineList[0].trim()) {
+					lineList.shift();
+				}
+
+				while (lineList.length && !lineList[lineList.length - 1].trim()) {
+					lineList.pop();
+				}
+
+				var minimumIndent = null;
+
+				lineList.forEach(function (line) {
+					if (!line.trim()) {
+						return;
+					}
+
+					var indentLength = line.match(/^\s*/)[0].length;
+
+					if (minimumIndent === null || indentLength < minimumIndent) {
+						minimumIndent = indentLength;
+					}
+				});
+
+				if (minimumIndent) {
+					lineList = lineList.map(function (line) {
+						return line.slice(minimumIndent);
+					});
+				}
+
+				return lineList.join("\n");
+			}
+
+			function getCodeText(codeBlock) {
+				return normalizeCodeBlock(codeBlock ? codeBlock.textContent : "");
+			}
+
+			function copyTextToClipboard(textValue) {
+				if (navigator.clipboard && window.isSecureContext) {
+					return navigator.clipboard.writeText(textValue);
+				}
+
+				return new Promise(function (resolve, reject) {
+					var helperTextarea = document.createElement("textarea");
+
+					helperTextarea.value = textValue;
+					helperTextarea.setAttribute("readonly", "");
+					helperTextarea.style.position = "fixed";
+					helperTextarea.style.top = "-9999px";
+					helperTextarea.style.left = "-9999px";
+					document.body.appendChild(helperTextarea);
+					helperTextarea.focus();
+					helperTextarea.select();
+
+					try {
+						document.execCommand("copy");
+						resolve();
+					} catch (error) {
+						reject(error);
+					} finally {
+						document.body.removeChild(helperTextarea);
+					}
+				});
+			}
+
+			document.querySelectorAll(".code-block").forEach(function (codeBlock, index) {
+				var actions = document.createElement("div");
 				var toggleButton = document.createElement("button");
+				var copyButton = document.createElement("button");
 				var codeId = codeBlock.id || "demo-code-block-" + String(index + 1);
 
 				codeBlock.id = codeId;
+				actions.className = "code-actions";
+
 				toggleButton.type = "button";
-				toggleButton.className = "btn btn-outline-dark btn-sm code-toggle-button";
+				toggleButton.className = "btn btn-outline-secondary btn-sm code-toggle-button";
 				toggleButton.setAttribute("aria-controls", codeId);
 				toggleButton.setAttribute("aria-expanded", "false");
-				toggleButton.textContent = "แสดงโค้ด";
+				toggleButton.textContent = SHOW_CODE_LABEL;
+
+				copyButton.type = "button";
+				copyButton.className = "btn btn-outline-secondary btn-sm code-copy-button";
+				copyButton.setAttribute("data-code-id", codeId);
+				copyButton.disabled = true;
+				copyButton.textContent = COPY_CODE_LABEL;
 
 				toggleButton.addEventListener("click", function () {
 					var isVisible = codeBlock.classList.toggle("is-code-visible");
 
 					toggleButton.setAttribute("aria-expanded", isVisible ? "true" : "false");
-					toggleButton.textContent = isVisible ? "ซ่อนโค้ด" : "แสดงโค้ด";
+					toggleButton.textContent = isVisible ? HIDE_CODE_LABEL : SHOW_CODE_LABEL;
+					copyButton.disabled = !isVisible;
+
+					if (!isVisible) {
+						copyButton.textContent = COPY_CODE_LABEL;
+					}
 				});
 
-				codeBlock.parentNode.insertBefore(toggleButton, codeBlock);
+				copyButton.addEventListener("click", function () {
+					var codeText = getCodeText(codeBlock);
+
+					copyTextToClipboard(codeText).then(function () {
+						copyButton.textContent = COPIED_CODE_LABEL;
+						window.setTimeout(function () {
+							copyButton.textContent = COPY_CODE_LABEL;
+						}, 1400);
+					}).catch(function () {
+						copyButton.textContent = COPY_CODE_LABEL;
+					});
+				});
+
+				actions.appendChild(toggleButton);
+				actions.appendChild(copyButton);
+				codeBlock.parentNode.insertBefore(actions, codeBlock);
 			});
 		});
 	</script>

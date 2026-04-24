@@ -16,6 +16,11 @@
 			instance.form_reset_timer = null;
 		}
 
+		if (instance.dropdown_position_timer) {
+			window.clearTimeout(instance.dropdown_position_timer);
+			instance.dropdown_position_timer = null;
+		}
+
 		clear_remote_loading_timer(instance);
 		abort_remote_request(instance);
 		instance.remote.enabled = false;
@@ -52,6 +57,14 @@
 			}
 		}
 
+		if (instance.dropdown_element) {
+			delete instance.dropdown_element[instance_key];
+
+			if (instance.dropdown_element.parentNode) {
+				instance.dropdown_element.parentNode.removeChild(instance.dropdown_element);
+			}
+		}
+
 		if (instance.select_element) {
 			delete instance.select_element[instance_key];
 			instance.select_element.classList.remove("mangoselect-native");
@@ -84,6 +97,7 @@
 		instance.search_empty_element = null;
 		instance.form_element = null;
 		instance.form_reset_timer = null;
+		instance.dropdown_position_timer = null;
 		instance.instance_id = null;
 		instance.listbox_id = null;
 		instance.active_option_value = null;
@@ -406,11 +420,11 @@
 		dropdown_element.appendChild(search_empty_element);
 		dropdown_element.appendChild(actions_element);
 		wrapper_element.appendChild(trigger_element);
-		wrapper_element.appendChild(dropdown_element);
 
 		select_element.classList.add("mangoselect-native");
 		select_element.setAttribute(ready_attribute, "1");
 		select_element.parentNode.insertBefore(wrapper_element, select_element.nextSibling);
+		(document.body || document.documentElement).appendChild(dropdown_element);
 
 		instance = {
 			select_element: select_element,
@@ -456,6 +470,7 @@
 			select_change_handler: null,
 			form_reset_handler: null,
 			form_reset_timer: null,
+			dropdown_position_timer: null,
 			destroyed: false,
 			destroying: false,
 			active_option_value: null,
@@ -483,6 +498,7 @@
 
 		select_element[instance_key] = instance;
 		wrapper_element[instance_key] = instance;
+		dropdown_element[instance_key] = instance;
 		active_instance_count += 1;
 		create_instance_api(instance);
 

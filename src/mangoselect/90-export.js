@@ -4,7 +4,7 @@
 		}
 
 		global_click_handler = function (event) {
-			if (find_parent_by_class(event.target, "mangoselect")) {
+			if (find_parent_instance(event.target)) {
 				return;
 			}
 
@@ -17,8 +17,22 @@
 			}
 		};
 
+		global_scroll_handler = function (event) {
+			if (find_parent_by_class(event.target, "mangoselect-dropdown")) {
+				return;
+			}
+
+			update_open_dropdown_positions();
+		};
+
+		global_resize_handler = function () {
+			update_open_dropdown_positions();
+		};
+
 		document.addEventListener("click", global_click_handler);
 		document.addEventListener("keydown", global_keydown_handler);
+		document.addEventListener("scroll", global_scroll_handler, true);
+		window.addEventListener("resize", global_resize_handler);
 		listeners_bound = true;
 	}
 
@@ -39,6 +53,16 @@
 		if (global_keydown_handler) {
 			document.removeEventListener("keydown", global_keydown_handler);
 			global_keydown_handler = null;
+		}
+
+		if (global_scroll_handler) {
+			document.removeEventListener("scroll", global_scroll_handler, true);
+			global_scroll_handler = null;
+		}
+
+		if (global_resize_handler) {
+			window.removeEventListener("resize", global_resize_handler);
+			global_resize_handler = null;
 		}
 
 		listeners_bound = false;

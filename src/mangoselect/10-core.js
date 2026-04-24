@@ -97,6 +97,20 @@
 		return null;
 	}
 
+	function find_parent_instance(element) {
+		var current_element = element;
+
+		while (current_element && current_element !== document) {
+			if (current_element[instance_key]) {
+				return current_element[instance_key];
+			}
+
+			current_element = current_element.parentNode;
+		}
+
+		return null;
+	}
+
 	function get_language_name(select_element, options) {
 		var language_name = "";
 

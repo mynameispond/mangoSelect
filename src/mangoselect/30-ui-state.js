@@ -82,6 +82,7 @@
 			instance.search_empty_element.textContent = "";
 			instance.search_empty_element.style.display = "none";
 			instance.search_empty_element.classList.remove("is-error");
+			schedule_dropdown_position_update(instance);
 			return;
 		}
 
@@ -90,10 +91,12 @@
 
 		if (is_error) {
 			instance.search_empty_element.classList.add("is-error");
+			schedule_dropdown_position_update(instance);
 			return;
 		}
 
 		instance.search_empty_element.classList.remove("is-error");
+		schedule_dropdown_position_update(instance);
 	}
 
 	function clear_remote_loading_timer(instance) {
@@ -184,6 +187,136 @@
 		instance.tag_button.style.display = tag_value === "" ? "none" : "";
 	}
 
+	function is_dropdown_open(instance) {
+		return !!(
+			instance &&
+			instance.wrapper_element &&
+			instance.wrapper_element.classList &&
+			instance.wrapper_element.classList.contains("is-open")
+		);
+	}
+
+	function update_dropdown_position(instance) {
+		var trigger_rect = null;
+		var viewport_width = 0;
+		var viewport_height = 0;
+		var viewport_padding = 8;
+		var dropdown_gap = 4;
+		var next_left = 0;
+		var next_top = 0;
+		var dropdown_height = 0;
+		var available_below = 0;
+		var available_above = 0;
+		var trigger_width = 0;
+
+		if (
+			!is_instance_active(instance) ||
+			!instance.dropdown_element ||
+			!instance.trigger_element ||
+			!is_dropdown_open(instance)
+		) {
+			return;
+		}
+
+		trigger_rect = instance.trigger_element.getBoundingClientRect();
+		trigger_width = Math.round(trigger_rect.width || 0);
+
+		if (trigger_width <= 0) {
+			return;
+		}
+
+		viewport_width =
+			window.innerWidth ||
+			document.documentElement.clientWidth ||
+			document.body.clientWidth ||
+			0;
+		viewport_height =
+			window.innerHeight ||
+			document.documentElement.clientHeight ||
+			document.body.clientHeight ||
+			0;
+
+		instance.dropdown_element.style.width = trigger_width + "px";
+		instance.dropdown_element.style.minWidth = trigger_width + "px";
+
+		next_left = trigger_rect.left;
+
+		if (viewport_width > 0) {
+			if (next_left + trigger_width > viewport_width - viewport_padding) {
+				next_left = viewport_width - viewport_padding - trigger_width;
+			}
+
+			if (next_left < viewport_padding) {
+				next_left = viewport_padding;
+			}
+		}
+
+		dropdown_height = Math.round(instance.dropdown_element.offsetHeight || 0);
+		available_below =
+			viewport_height - trigger_rect.bottom - dropdown_gap - viewport_padding;
+		available_above = trigger_rect.top - dropdown_gap - viewport_padding;
+
+		if (dropdown_height > available_below && available_above > available_below) {
+			next_top = trigger_rect.top - dropdown_height - dropdown_gap;
+			instance.dropdown_element.classList.add("is-positioned-above");
+		} else {
+			next_top = trigger_rect.bottom + dropdown_gap;
+			instance.dropdown_element.classList.remove("is-positioned-above");
+		}
+
+		if (viewport_height > 0) {
+			if (next_top < viewport_padding) {
+				next_top = viewport_padding;
+			}
+
+			if (
+				dropdown_height > 0 &&
+				next_top + dropdown_height > viewport_height - viewport_padding
+			) {
+				next_top = Math.max(
+					viewport_padding,
+					viewport_height - viewport_padding - dropdown_height
+				);
+			}
+		}
+
+		instance.dropdown_element.style.left = Math.round(next_left) + "px";
+		instance.dropdown_element.style.top = Math.round(next_top) + "px";
+	}
+
+	function schedule_dropdown_position_update(instance) {
+		if (!is_instance_active(instance) || !is_dropdown_open(instance)) {
+			return;
+		}
+
+		if (instance.dropdown_position_timer) {
+			return;
+		}
+
+		instance.dropdown_position_timer = window.setTimeout(function () {
+			instance.dropdown_position_timer = null;
+			update_dropdown_position(instance);
+		}, 0);
+	}
+
+	function update_open_dropdown_positions() {
+		var wrapper_elements = document.querySelectorAll(".mangoselect.is-open");
+		var wrapper_index = 0;
+		var current_instance = null;
+
+		for (
+			wrapper_index = 0;
+			wrapper_index < wrapper_elements.length;
+			wrapper_index += 1
+		) {
+			current_instance = wrapper_elements[wrapper_index][instance_key];
+
+			if (current_instance) {
+				schedule_dropdown_position_update(current_instance);
+			}
+		}
+	}
+
 	function close_dropdown(instance, close_reason) {
 		var was_open = instance.wrapper_element.classList.contains("is-open");
 
@@ -197,7 +330,15 @@
 		}
 
 		instance.wrapper_element.classList.remove("is-open");
+		instance.dropdown_element.classList.remove("is-open");
+		instance.dropdown_element.classList.remove("is-positioned-above");
 		instance.trigger_element.setAttribute("aria-expanded", "false");
+
+		if (instance.dropdown_position_timer) {
+			window.clearTimeout(instance.dropdown_position_timer);
+			instance.dropdown_position_timer = null;
+		}
+
 		clear_search(instance);
 		set_active_option(instance, null, false);
 		dispatch_close_change(instance, close_reason || "close");
@@ -236,6 +377,7 @@
 
 		close_all_dropdowns(instance, "switch");
 		instance.wrapper_element.classList.add("is-open");
+		instance.dropdown_element.classList.add("is-open");
 		instance.trigger_element.setAttribute("aria-expanded", "true");
 		instance.opened_selected_values = get_selected_values(
 			instance.select_element
@@ -246,6 +388,8 @@
 		start_draft_selection(instance);
 		sync_option_elements_state(instance);
 		sync_active_option(instance);
+		update_dropdown_position(instance);
+		schedule_dropdown_position_update(instance);
 		dispatch_open_callback(instance, open_reason || "open");
 
 		if (instance.search_input_element && !instance.search_input_element.disabled) {
@@ -496,10 +640,12 @@
 		if (search_term !== "" && visible_option_count === 0) {
 			set_status_message(instance, translate(instance, "no_search_result"), false);
 			sync_active_option(instance);
+			schedule_dropdown_position_update(instance);
 			return;
 		}
 
 		set_status_message(instance, "", false);
 		sync_active_option(instance);
+		schedule_dropdown_position_update(instance);
 	}
 

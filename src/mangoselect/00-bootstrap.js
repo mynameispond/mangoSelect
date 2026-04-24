@@ -1,11 +1,13 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "0.3.0";
+	var version = "0.3.1";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
 	var global_keydown_handler = null;
+	var global_scroll_handler = null;
+	var global_resize_handler = null;
 	var active_instance_count = 0;
 	var instance_counter = 0;
 	var language_registry = {};

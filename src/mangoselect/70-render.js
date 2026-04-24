@@ -781,12 +781,14 @@
 		if (instance.remote.enabled) {
 			render_remote_options(instance);
 			sync_option_elements_state(instance);
+			schedule_dropdown_position_update(instance);
 			return;
 		}
 
 		render_local_options(instance);
 		sync_option_elements_state(instance);
 		apply_search_filter(instance);
+		schedule_dropdown_position_update(instance);
 	}
 
 	function refresh_instance(instance) {
