@@ -15,6 +15,7 @@
 	function sync_option_input_to_select(instance, input_element) {
 		var option_value = input_element.getAttribute("data-option-value");
 		var option_element = get_option_by_value(instance.select_element, option_value);
+		var was_selected = false;
 		var draft_lookup = {};
 		var draft_values = [];
 		var value_index = 0;
@@ -23,19 +24,21 @@
 			return;
 		}
 
-		if (input_element.checked && !option_element.selected && !can_add_more_selection(instance)) {
+		was_selected = is_working_option_selected(instance, option_element);
+
+		if (input_element.checked && !was_selected && !can_add_more_selection(instance)) {
 			input_element.checked = false;
 			sync_option_elements_state(instance);
 			return;
 		}
 
-		if (!input_element.checked && option_element.selected && !can_remove_more_selection(instance)) {
+		if (!input_element.checked && was_selected && !can_remove_more_selection(instance)) {
 			input_element.checked = true;
 			sync_option_elements_state(instance);
 			return;
 		}
 
-		if (option_element.selected === input_element.checked) {
+		if (was_selected === input_element.checked) {
 			if (!is_draft_selection_active(instance)) {
 				return;
 			}

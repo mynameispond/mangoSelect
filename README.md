@@ -172,6 +172,7 @@ var ajaxSingle = window.mangoSelect.init({
 	selector: "#example-ajax-single",
 	language: "th",
 	ajax: true,
+	search: true,
 	search_length: 2,
 	on_open: function (detail) {
 		console.log("open:", detail.open_reason);
@@ -847,6 +848,7 @@ window.mangoSelect.register_language("custom", {
 - โครงสร้างไฟล์
 - ตัวอย่าง local single
 - ตัวอย่าง local multiple
+- ตัวอย่าง select ใน Bootstrap modal
 - ตัวอย่าง ajax single
 - ตัวอย่าง ajax multiple
 - ตัวอย่าง tags

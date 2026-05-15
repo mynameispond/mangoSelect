@@ -409,13 +409,17 @@
 
 	function get_remote_url(instance, request_params) {
 		var ajax_options = get_ajax_options(instance);
+		var resolved_url = "";
 
 		if (!ajax_options) {
 			return "";
 		}
 
 		if (typeof ajax_options.url === "function") {
-			return ajax_options.url(request_params || {});
+			resolved_url = ajax_options.url(request_params || {});
+			return resolved_url === undefined || resolved_url === null
+				? ""
+				: String(resolved_url);
 		}
 
 		return String(ajax_options.url || "");
@@ -509,14 +513,14 @@
 			return;
 		}
 
+		if (!request_url) {
+			return;
+		}
+
 		if (request_method === "GET") {
 			request_url = append_query_string(request_url, build_query_string(request_params));
 		} else {
 			request_body = build_query_string(request_params);
-		}
-
-		if (!request_url) {
-			return;
 		}
 
 		instance.remote.loading = true;
