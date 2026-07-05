@@ -19,6 +19,16 @@
 	var option_html_attribute = data_attribute_prefix + "option-html";
 	var group_html_attribute = data_attribute_prefix + "group-html";
 	var group_key_attribute = data_attribute_prefix + "group-key";
+	var request_animation_frame =
+		window.requestAnimationFrame ||
+		function (callback) {
+			return window.setTimeout(callback, 1000 / 60);
+		};
+	var cancel_animation_frame =
+		window.cancelAnimationFrame ||
+		function (id) {
+			window.clearTimeout(id);
+		};
 	var default_options = {
 		selector: "",
 		placeholder: "",

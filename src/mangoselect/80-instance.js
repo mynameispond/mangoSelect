@@ -17,7 +17,7 @@
 		}
 
 		if (instance.dropdown_position_timer) {
-			window.clearTimeout(instance.dropdown_position_timer);
+			cancel_animation_frame(instance.dropdown_position_timer);
 			instance.dropdown_position_timer = null;
 		}
 

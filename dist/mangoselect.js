@@ -25,6 +25,16 @@
 	var option_html_attribute = data_attribute_prefix + "option-html";
 	var group_html_attribute = data_attribute_prefix + "group-html";
 	var group_key_attribute = data_attribute_prefix + "group-key";
+	var request_animation_frame =
+		window.requestAnimationFrame ||
+		function (callback) {
+			return window.setTimeout(callback, 1000 / 60);
+		};
+	var cancel_animation_frame =
+		window.cancelAnimationFrame ||
+		function (id) {
+			window.clearTimeout(id);
+		};
 	var default_options = {
 		selector: "",
 		placeholder: "",
@@ -1604,12 +1614,29 @@
 			}
 		}
 
+		var search_height = instance.search_element ? Math.round(instance.search_element.offsetHeight || 0) : 0;
+		var actions_height = instance.actions_element ? Math.round(instance.actions_element.offsetHeight || 0) : 0;
+		var chrome_height = search_height + actions_height;
+
 		dropdown_height = Math.round(instance.dropdown_element.offsetHeight || 0);
 		available_below =
 			viewport_height - trigger_rect.bottom - dropdown_gap - viewport_padding;
 		available_above = trigger_rect.top - dropdown_gap - viewport_padding;
 
+		var position_above = false;
+		var target_available_space = available_below;
+
 		if (dropdown_height > available_below && available_above > available_below) {
+			position_above = true;
+			target_available_space = available_above;
+		}
+
+		var max_options_height = Math.max(80, target_available_space - chrome_height);
+		instance.options_element.style.maxHeight = Math.min(260, max_options_height) + "px";
+
+		dropdown_height = Math.round(instance.dropdown_element.offsetHeight || 0);
+
+		if (position_above) {
 			next_top = trigger_rect.top - dropdown_height - dropdown_gap;
 			instance.dropdown_element.classList.add("is-positioned-above");
 		} else {
@@ -1646,10 +1673,10 @@
 			return;
 		}
 
-		instance.dropdown_position_timer = window.setTimeout(function () {
+		instance.dropdown_position_timer = request_animation_frame(function () {
 			instance.dropdown_position_timer = null;
 			update_dropdown_position(instance);
-		}, 0);
+		});
 	}
 
 	function update_open_dropdown_positions() {
@@ -1688,7 +1715,7 @@
 		instance.trigger_element.setAttribute("aria-expanded", "false");
 
 		if (instance.dropdown_position_timer) {
-			window.clearTimeout(instance.dropdown_position_timer);
+			cancel_animation_frame(instance.dropdown_position_timer);
 			instance.dropdown_position_timer = null;
 		}
 
@@ -2974,6 +3001,27 @@
 			selected_lookup[normalized_values[option_index]] = true;
 		}
 
+		if (!should_append) {
+			for (option_index = 0; option_index < option_list.length; option_index += 1) {
+				if (is_placeholder_option(option_list[option_index])) {
+					continue;
+				}
+
+				if (
+					option_list[option_index].selected &&
+					!selected_lookup[String(option_list[option_index].value)]
+				) {
+					option_list[option_index].selected = false;
+					changed_values.push(option_list[option_index].value);
+					changed_texts.push(option_list[option_index].text);
+					last_changed_value = option_list[option_index].value;
+					last_changed_text = option_list[option_index].text;
+				}
+			}
+
+			selected_count = get_selected_count(instance);
+		}
+
 		if (instance.is_multiple && available_slots !== null) {
 			available_slots -= selected_count;
 		}
@@ -3294,7 +3342,7 @@
 	}
 
 	function merge_remote_results(current_results, incoming_results, should_reset) {
-		var merged_results = should_reset ? [] : [];
+		var merged_results = [];
 		var result_lookup = {};
 		var result_index = 0;
 		var incoming_index = 0;
@@ -4363,7 +4411,9 @@
 		option_item.id =
 			instance.listbox_id +
 			"-option-" +
-			create_dom_id_fragment(option_element.value);
+			create_dom_id_fragment(option_element.value) +
+			"-" +
+			String(option_element.index);
 		option_item.setAttribute(
 			"data-search-text",
 			normalize_search_text(option_element.text + " " + option_element.value)
@@ -4696,7 +4746,7 @@
 		}
 
 		if (instance.dropdown_position_timer) {
-			window.clearTimeout(instance.dropdown_position_timer);
+			cancel_animation_frame(instance.dropdown_position_timer);
 			instance.dropdown_position_timer = null;
 		}
 

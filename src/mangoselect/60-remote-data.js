@@ -215,7 +215,7 @@
 	}
 
 	function merge_remote_results(current_results, incoming_results, should_reset) {
-		var merged_results = should_reset ? [] : [];
+		var merged_results = [];
 		var result_lookup = {};
 		var result_index = 0;
 		var incoming_index = 0;

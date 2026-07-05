@@ -676,6 +676,27 @@
 			selected_lookup[normalized_values[option_index]] = true;
 		}
 
+		if (!should_append) {
+			for (option_index = 0; option_index < option_list.length; option_index += 1) {
+				if (is_placeholder_option(option_list[option_index])) {
+					continue;
+				}
+
+				if (
+					option_list[option_index].selected &&
+					!selected_lookup[String(option_list[option_index].value)]
+				) {
+					option_list[option_index].selected = false;
+					changed_values.push(option_list[option_index].value);
+					changed_texts.push(option_list[option_index].text);
+					last_changed_value = option_list[option_index].value;
+					last_changed_text = option_list[option_index].text;
+				}
+			}
+
+			selected_count = get_selected_count(instance);
+		}
+
 		if (instance.is_multiple && available_slots !== null) {
 			available_slots -= selected_count;
 		}

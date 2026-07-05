@@ -520,7 +520,9 @@
 		option_item.id =
 			instance.listbox_id +
 			"-option-" +
-			create_dom_id_fragment(option_element.value);
+			create_dom_id_fragment(option_element.value) +
+			"-" +
+			String(option_element.index);
 		option_item.setAttribute(
 			"data-search-text",
 			normalize_search_text(option_element.text + " " + option_element.value)

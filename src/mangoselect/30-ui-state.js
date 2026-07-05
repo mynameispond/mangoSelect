@@ -251,12 +251,29 @@
 			}
 		}
 
+		var search_height = instance.search_element ? Math.round(instance.search_element.offsetHeight || 0) : 0;
+		var actions_height = instance.actions_element ? Math.round(instance.actions_element.offsetHeight || 0) : 0;
+		var chrome_height = search_height + actions_height;
+
 		dropdown_height = Math.round(instance.dropdown_element.offsetHeight || 0);
 		available_below =
 			viewport_height - trigger_rect.bottom - dropdown_gap - viewport_padding;
 		available_above = trigger_rect.top - dropdown_gap - viewport_padding;
 
+		var position_above = false;
+		var target_available_space = available_below;
+
 		if (dropdown_height > available_below && available_above > available_below) {
+			position_above = true;
+			target_available_space = available_above;
+		}
+
+		var max_options_height = Math.max(80, target_available_space - chrome_height);
+		instance.options_element.style.maxHeight = Math.min(260, max_options_height) + "px";
+
+		dropdown_height = Math.round(instance.dropdown_element.offsetHeight || 0);
+
+		if (position_above) {
 			next_top = trigger_rect.top - dropdown_height - dropdown_gap;
 			instance.dropdown_element.classList.add("is-positioned-above");
 		} else {
@@ -293,10 +310,10 @@
 			return;
 		}
 
-		instance.dropdown_position_timer = window.setTimeout(function () {
+		instance.dropdown_position_timer = request_animation_frame(function () {
 			instance.dropdown_position_timer = null;
 			update_dropdown_position(instance);
-		}, 0);
+		});
 	}
 
 	function update_open_dropdown_positions() {
@@ -335,7 +352,7 @@
 		instance.trigger_element.setAttribute("aria-expanded", "false");
 
 		if (instance.dropdown_position_timer) {
-			window.clearTimeout(instance.dropdown_position_timer);
+			cancel_animation_frame(instance.dropdown_position_timer);
 			instance.dropdown_position_timer = null;
 		}
 
