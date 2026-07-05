@@ -64,6 +64,7 @@
 			html: option_element.getAttribute(option_html_attribute),
 			image: option_element.getAttribute(option_image_attribute),
 			icon: option_element.getAttribute(option_icon_attribute),
+			description: option_element.getAttribute(option_description_attribute),
 			disabled: !!option_element.disabled,
 			selected: !!option_element.selected,
 			is_selected:
@@ -115,7 +116,8 @@
 			render_output === null &&
 			(
 				(option_data.image !== null && option_data.image !== undefined && option_data.image !== "") ||
-				(option_data.icon !== null && option_data.icon !== undefined && option_data.icon !== "")
+				(option_data.icon !== null && option_data.icon !== undefined && option_data.icon !== "") ||
+				(option_data.description !== null && option_data.description !== undefined && option_data.description !== "")
 			)
 		) {
 			target_element.textContent = "";
@@ -131,10 +133,22 @@
 				target_element.appendChild(icon_element);
 			}
 
+			var text_container = document.createElement("div");
+			text_container.className = "mangoselect-option-text-group";
+
 			text_span = document.createElement("span");
 			text_span.className = "mangoselect-option-label";
 			text_span.textContent = option_data.text || "";
-			target_element.appendChild(text_span);
+			text_container.appendChild(text_span);
+
+			if (option_data.description !== null && option_data.description !== undefined && option_data.description !== "") {
+				var desc_span = document.createElement("span");
+				desc_span.className = "mangoselect-option-description";
+				desc_span.textContent = option_data.description;
+				text_container.appendChild(desc_span);
+			}
+
+			target_element.appendChild(text_container);
 			return;
 		}
 

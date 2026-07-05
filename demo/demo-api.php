@@ -127,6 +127,7 @@ for ($index = 1; $index <= 120; $index += 1) {
             '</span>' .
             '</span>',
         'image' => 'https://i.pravatar.cc/100?img=' . $imageIdx,
+        'description' => 'ฝ่ายงาน: ' . $roleName . ' / ID: ' . $id,
         'group' => $roleName
     ];
 
@@ -165,6 +166,10 @@ $normalizeItem = static function (array $item): array {
 
     if (isset($item['icon']) && $item['icon'] !== '') {
         $normalized['icon'] = $item['icon'];
+    }
+
+    if (isset($item['description']) && $item['description'] !== '') {
+        $normalized['description'] = $item['description'];
     }
 
     if (!empty($item['disabled'])) {

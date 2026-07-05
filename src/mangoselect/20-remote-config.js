@@ -238,6 +238,10 @@
 			option_element.setAttribute(option_icon_attribute, option_data.icon);
 		}
 
+		if (option_data.description !== null && option_data.description !== undefined) {
+			option_element.setAttribute(option_description_attribute, option_data.description);
+		}
+
 		if (option_data.selected) {
 			option_element.selected = true;
 		}
@@ -336,6 +340,12 @@
 			option_element.setAttribute(option_icon_attribute, option_data.icon);
 		} else {
 			option_element.removeAttribute(option_icon_attribute);
+		}
+
+		if (option_data.description !== null && option_data.description !== undefined) {
+			option_element.setAttribute(option_description_attribute, option_data.description);
+		} else {
+			option_element.removeAttribute(option_description_attribute);
 		}
 
 		if (option_data.selected) {

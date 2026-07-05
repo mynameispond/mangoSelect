@@ -547,6 +547,7 @@
 				<a class="quick-link" href="#tags">Tags</a>
 				<a class="quick-link" href="#built-in-images-icons">Image & Icon</a>
 				<a class="quick-link" href="#built-in-inline">Inline Mode</a>
+				<a class="quick-link" href="#built-in-descriptions">Descriptions</a>
 				<a class="quick-link" href="#data-attributes">data attrs</a>
 				<a class="quick-link" href="#js-options">JS Options</a>
 				<a class="quick-link" href="#callbacks">Callbacks</a>
@@ -1751,6 +1752,42 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</section>
 
+		<section id="built-in-descriptions" class="section-block">
+			<div class="section-kicker">Example 11</div>
+			<h2 class="section-title">การใช้งานคำอธิบายย่อยใต้ตัวเลือก (Option Descriptions)</h2>
+			<p class="section-text">
+				กำหนด <code>data-mangoselect-description</code> บนแท็ก <code>&lt;option&gt;</code> เพื่อแสดงคำอธิบายย่อยประกอบตัวเลือกโดยจัดกลุ่มจัดตำแหน่งอัตโนมัติ
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<label class="form-label" style="font-weight: 700; margin-top: 10px;">เลือกแพลนใช้งาน:</label>
+					<select id="guide-descriptions" class="form-select" name="package_id"
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกแพลนของคุณ">
+						<option value="basic" data-mangoselect-description="ฟังก์ชันจำกัด เหมาะสำหรับใช้งานทั่วไป 1 คน">Basic Plan (500 บาท/เดือน)</option>
+						<option value="pro" data-mangoselect-description="ฟังก์ชันครบถ้วน พร้อมพื้นที่เก็บข้อมูล 100GB และ Support 24/7" selected>Professional Plan (1,200 บาท/เดือน)</option>
+						<option value="enterprise" data-mangoselect-description="ปรับแต่งได้ตามความต้องการของบริษัทขนาดใหญ่ ไม่จำกัดพื้นที่">Enterprise Plan (ติดต่อเจ้าหน้าที่)</option>
+					</select>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด HTML</h3>
+					<pre class="code-block">&lt;select id="guide-descriptions" name="package_id"&gt;
+	&lt;option value="basic" data-mangoselect-description="ฟังก์ชันจำกัด เหมาะสำหรับใช้งานทั่วไป 1 คน"&gt;Basic Plan&lt;/option&gt;
+	&lt;option value="pro" data-mangoselect-description="ฟังก์ชันครบถ้วน พร้อมพื้นที่เก็บข้อมูล 100GB"&gt;Professional Plan&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	window.mangoSelect.init({ selector: "#guide-descriptions" });
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
 		<section id="data-attributes" class="section-block">
 			<div class="section-kicker">Reference</div>
 			<h2 class="section-title">attr data-mangoselect-* ที่ใช้ได้จริง</h2>
@@ -2868,6 +2905,8 @@ var newInstance = window.mangoSelect.init({
 					inlineResultBox.textContent = "ค่าที่เลือก: " + (detail.selected_values[0] || "-");
 				}
 			});
+
+			window.mangoSelect.init({ selector: "#guide-descriptions" });
 		});
 	</script>
 </body>

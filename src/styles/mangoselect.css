@@ -366,3 +366,17 @@
 .mangoselect-dropdown-inline.is-open {
 	display: block;
 }
+
+/* Option Description Subtitles */
+.mangoselect-option-text-group {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.mangoselect-option-description {
+	font-size: 11px;
+	color: #858796;
+	margin-top: 2px;
+	line-height: 1.25;
+}

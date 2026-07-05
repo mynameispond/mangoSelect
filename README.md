@@ -508,10 +508,25 @@ window.mangoSelect.init({ selector: "#example-inline" });
 </script>
 ```
 
+### 9. การใช้งานคำอธิบายย่อยใต้ตัวเลือก (Option Descriptions / Helper Text)
+
+คุณสามารถระบุคำอธิบายย่อยเพื่ออธิบายตัวเลือกใน Dropdown แต่ละตัวได้ โดยระบบจะจัดโครงสร้างตัวอักษรและรายละเอียดเรียงตัวซ้อนกันเป็นกลุ่มข้อความสวยงาม เพียงระบุแอตทริบิวต์ `data-mangoselect-description` บน `<option>`:
+
+```html
+<select id="example-descriptions" name="package">
+	<option value="basic" data-mangoselect-description="ฟังก์ชันจำกัด เหมาะสำหรับบุคคลทั่วไป">Basic Pack</option>
+	<option value="pro" data-mangoselect-description="ฟังก์ชันครบครัน พร้อมบริการช่วยเหลือ 24 ชั่วโมง">Professional Pack</option>
+</select>
+
+<script>
+window.mangoSelect.init({ selector: "#example-descriptions" });
+</script>
+```
+
 หมายเหตุ:
 
 - ถ้ากำหนด option เดียวกันทั้งใน JavaScript และ attribute ค่าใน JavaScript จะถูกใช้ก่อนตามลำดับ `option -> attr -> default`
-- `render_option(option)` รับข้อมูลประมาณ `{ id, value, text, html, image, icon, disabled, selected, is_selected }`
+- `render_option(option)` รับข้อมูลประมาณ `{ id, value, text, html, image, icon, description, disabled, selected, is_selected }`
 - `render_group(group)` รับข้อมูลประมาณ `{ text, label, html, disabled, group_key, children }`
 - `render_checkbox(option)` รับข้อมูลชุดเดียวกับ `render_option()` และใช้ได้กับ multiple select เท่านั้น
 - ถ้า renderer คืน `Node` ไลบรารีจะ append เข้า DOM โดยตรง
@@ -544,6 +559,7 @@ window.mangoSelect.init({ selector: "#example-inline" });
 | `data-mangoselect-image` | Option | กำหนด URL รูปภาพเพื่อใช้แสดงด้านหน้าหัวข้อตัวเลือก (และส่วนแสดงผลการเลือกของ Single Select) | `data-mangoselect-image="avatar.png"` |
 | `data-mangoselect-icon` | Option | กำหนด CSS Class ของไอคอน (เช่น FontAwesome) เพื่อแสดงด้านหน้าหัวข้อตัวเลือก | `data-mangoselect-icon="fa fa-star"` |
 | `data-mangoselect-inline` | Local / Ajax | เปิดใช้งาน Inline Mode แสดงผลตัวเลือกฝังบนหน้าเว็บทันที | `data-mangoselect-inline="true"` |
+| `data-mangoselect-description` | Option | กำหนดข้อความคำอธิบายย่อย (Helper subtitle text) เพื่อแสดงใต้หัวข้อตัวเลือก | `data-mangoselect-description="คำอธิบายเพิ่มเติม"` |
 
 หมายเหตุ:
 
