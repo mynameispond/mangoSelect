@@ -327,6 +327,10 @@
 		dropdown_element = document.createElement("div");
 		dropdown_element.className = "mangoselect-dropdown";
 
+		if (instance_options.animation) {
+			dropdown_element.classList.add("mangoselect-animation-" + instance_options.animation);
+		}
+
 		if (instance_options.search) {
 			search_element = document.createElement("div");
 			search_element.className = "mangoselect-search";

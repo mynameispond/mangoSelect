@@ -548,6 +548,7 @@
 				<a class="quick-link" href="#built-in-images-icons">Image & Icon</a>
 				<a class="quick-link" href="#built-in-inline">Inline Mode</a>
 				<a class="quick-link" href="#built-in-descriptions">Descriptions</a>
+				<a class="quick-link" href="#built-in-animations">Animations</a>
 				<a class="quick-link" href="#data-attributes">data attrs</a>
 				<a class="quick-link" href="#js-options">JS Options</a>
 				<a class="quick-link" href="#callbacks">Callbacks</a>
@@ -1788,6 +1789,58 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</section>
 
+		<section id="built-in-animations" class="section-block">
+			<div class="section-kicker">Example 12</div>
+			<h2 class="section-title">เอฟเฟกต์อนิเมชันเปิด-ปิดพรีเมียม (Dropdown Animations)</h2>
+			<p class="section-text">
+				กำหนด <code>data-mangoselect-animation</code> เป็น <code>"slide"</code>, <code>"fade"</code>, <code>"scale"</code> หรือ <code>"none"</code> เพื่อเปลี่ยนเอฟเฟกต์การเคลื่อนไหวของ dropdown
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+
+					<label class="form-label" style="font-weight: 700; margin-top: 10px;">แบบที่ 1: Slide (ค่าเริ่มต้น)</label>
+					<select id="guide-anim-slide" class="form-select" data-mangoselect-animation="slide">
+						<option value="1">รายการตัวเลือกที่ 1</option>
+						<option value="2">รายการตัวเลือกที่ 2</option>
+					</select>
+
+					<label class="form-label" style="font-weight: 700; margin-top: 20px;">แบบที่ 2: Scale (ยืดขยาย)</label>
+					<select id="guide-anim-scale" class="form-select" data-mangoselect-animation="scale">
+						<option value="1">รายการตัวเลือกที่ 1</option>
+						<option value="2">รายการตัวเลือกที่ 2</option>
+					</select>
+
+					<label class="form-label" style="font-weight: 700; margin-top: 20px;">แบบที่ 3: Fade (เลือนจาง)</label>
+					<select id="guide-anim-fade" class="form-select" data-mangoselect-animation="fade">
+						<option value="1">รายการตัวเลือกที่ 1</option>
+						<option value="2">รายการตัวเลือกที่ 2</option>
+					</select>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด HTML</h3>
+					<pre class="code-block">&lt;!-- Slide Animation (Default) --&gt;
+&lt;select id="guide-anim-slide" data-mangoselect-animation="slide"&gt;...&lt;/select>
+
+&lt;!-- Scale Animation --&gt;
+&lt;select id="guide-anim-scale" data-mangoselect-animation="scale"&gt;...&lt;/select>
+
+&lt;!-- Fade Animation --&gt;
+&lt;select id="guide-anim-fade" data-mangoselect-animation="fade"&gt;...&lt;/select>
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	window.mangoSelect.init({ selector: "#guide-anim-slide" });
+	window.mangoSelect.init({ selector: "#guide-anim-scale" });
+	window.mangoSelect.init({ selector: "#guide-anim-fade" });
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
 		<section id="data-attributes" class="section-block">
 			<div class="section-kicker">Reference</div>
 			<h2 class="section-title">attr data-mangoselect-* ที่ใช้ได้จริง</h2>
@@ -2907,6 +2960,9 @@ var newInstance = window.mangoSelect.init({
 			});
 
 			window.mangoSelect.init({ selector: "#guide-descriptions" });
+			window.mangoSelect.init({ selector: "#guide-anim-slide" });
+			window.mangoSelect.init({ selector: "#guide-anim-scale" });
+			window.mangoSelect.init({ selector: "#guide-anim-fade" });
 		});
 	</script>
 </body>

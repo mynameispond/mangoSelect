@@ -53,6 +53,7 @@
 		ok_cancel_in_multi: false,
 		tags: false,
 		inline: false,
+		animation: "slide",
 		allow_html: false,
 		min_selected: 0,
 		max_selected: null,
@@ -5205,6 +5206,10 @@
 
 		dropdown_element = document.createElement("div");
 		dropdown_element.className = "mangoselect-dropdown";
+
+		if (instance_options.animation) {
+			dropdown_element.classList.add("mangoselect-animation-" + instance_options.animation);
+		}
 
 		if (instance_options.search) {
 			search_element = document.createElement("div");

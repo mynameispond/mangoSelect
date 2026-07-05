@@ -523,6 +523,24 @@ window.mangoSelect.init({ selector: "#example-descriptions" });
 </script>
 ```
 
+### 10. อนิเมชันการเปิด-ปิดพรีเมียม (Premium Dropdown Transitions)
+
+คุณสามารถเปิดใช้งานหรือปรับแต่งเอฟเฟกต์อนิเมชันเปิด/ปิด Dropdown เพื่อมอบประสบการณ์ใช้งานที่ลื่นไหลระดับพรีเมียมได้ โดยผ่านออปชัน `animation` ใน JavaScript หรือกำหนดแอตทริบิวต์ `data-mangoselect-animation` บน `<select>`:
+
+```html
+<select id="example-animation" name="theme" data-mangoselect-animation="scale">
+	<option value="light">Light Theme</option>
+	<option value="dark">Dark Theme</option>
+</select>
+
+<script>
+window.mangoSelect.init({
+	selector: "#example-animation",
+	animation: "scale" // เอฟเฟกต์ที่รองรับ: "slide" (สไลด์), "fade" (เลือน), "scale" (ขยายตัว), "none" (ปิดอนิเมชัน)
+});
+</script>
+```
+
 หมายเหตุ:
 
 - ถ้ากำหนด option เดียวกันทั้งใน JavaScript และ attribute ค่าใน JavaScript จะถูกใช้ก่อนตามลำดับ `option -> attr -> default`
@@ -548,6 +566,7 @@ window.mangoSelect.init({ selector: "#example-descriptions" });
 | `data-mangoselect-allow_html` | Local / Ajax | อนุญาตให้ render `html` และ string HTML ที่คืนจาก renderer ด้วย `innerHTML` | `data-mangoselect-allow_html="true"` |
 | `data-mangoselect-min_selected` | Multiple | จำนวนขั้นต่ำที่ต้องคงไว้ | `data-mangoselect-min_selected="1"` |
 | `data-mangoselect-max_selected` | Multiple | จำนวนสูงสุดที่เลือกได้ | `data-mangoselect-max_selected="3"` |
+| `data-mangoselect-animation` | Local / Ajax | เอฟเฟกต์อนิเมชันเปิด/ปิด Dropdown (`"slide"`, `"fade"`, `"scale"`, `"none"`) | `data-mangoselect-animation="scale"` |
 | `data-mangoselect-url` | Ajax | URL สำหรับดึงข้อมูล remote | `data-mangoselect-url="./demo/demo-api.php?fixvar=2"` |
 | `data-mangoselect-per_page` | Ajax | จำนวนรายการต่อ request | `data-mangoselect-per_page="20"` |
 | `data-mangoselect-delay` | Ajax | เวลาหน่วงก่อนยิง request ตอนค้นหา หน่วยเป็นมิลลิวินาที | `data-mangoselect-delay="300"` |
@@ -695,6 +714,7 @@ window.mangoSelect.init({ selector: "#example-descriptions" });
 | `ok_cancel_in_multi` | `false` | boolean | ใช้กับ multiple select เพื่อเก็บค่าไว้ชั่วคราว และเขียนลง `<select>` จริงเมื่อกด `OK` เท่านั้น | `ok_cancel_in_multi: true` |
 | `tags` | `false` | boolean | เพิ่มปุ่ม `+` ใน search box เพื่อสร้าง option ใหม่จากข้อความที่พิมพ์ ถ้าค่านั้นมีอยู่แล้วจะเลือก option เดิมแทน รองรับทั้ง local, ajax, single select และ multiple select | `tags: true` |
 | `inline` | `false` | boolean | เปิดใช้งาน Inline Mode โดยฝังตัวเลือกไว้บนหน้าเว็บโดยตรง ไม่ต้องกดคลิกเปิดหรือปิด dropdown | `inline: true` |
+| `animation` | `"slide"` | string | เอฟเฟกต์อนิเมชันตอนเปิดและปิด Dropdown (รองรับ `"slide"`, `"fade"`, `"scale"`, หรือ `"none"`) | `animation: "scale"` |
 | `allow_html` | `false` | boolean | อนุญาตให้ render field `html` และ string HTML ที่คืนจาก renderer ด้วย `innerHTML` ถ้า `false` จะ render string จาก renderer เป็น plain text | `allow_html: true` |
 | `min_selected` | `0` | number | กำหนดจำนวนขั้นต่ำที่ต้องคงไว้ใน multiple select ถ้าถึงขั้นต่ำแล้วจะยกเลิกเลือกต่อไม่ได้ | `min_selected: 1` |
 | `max_selected` | `null` | number หรือ `null` | กำหนดจำนวนสูงสุดที่เลือกได้ ถ้าเลือกครบแล้ว option อื่นจะถูกปิดไม่ให้เลือกเพิ่ม | `max_selected: 3` |

@@ -47,6 +47,7 @@
 		ok_cancel_in_multi: false,
 		tags: false,
 		inline: false,
+		animation: "slide",
 		allow_html: false,
 		min_selected: 0,
 		max_selected: null,
