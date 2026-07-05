@@ -51,6 +51,7 @@
 		close_after_clear_all: false,
 		ok_cancel_in_multi: false,
 		tags: false,
+		inline: false,
 		allow_html: false,
 		min_selected: 0,
 		max_selected: null,
@@ -1646,7 +1647,8 @@
 			!is_instance_active(instance) ||
 			!instance.dropdown_element ||
 			!instance.trigger_element ||
-			!is_dropdown_open(instance)
+			!is_dropdown_open(instance) ||
+			instance.options.inline
 		) {
 			return;
 		}
@@ -1770,6 +1772,10 @@
 	function close_dropdown(instance, close_reason) {
 		var was_open = instance.wrapper_element.classList.contains("is-open");
 
+		if (instance.options.inline) {
+			return;
+		}
+
 		if (!was_open) {
 			return;
 		}
@@ -1813,6 +1819,10 @@
 	}
 
 	function open_dropdown(instance, open_reason) {
+		if (instance.options.inline) {
+			return;
+		}
+
 		if (
 			instance.destroyed ||
 			instance.destroying ||
@@ -5262,12 +5272,25 @@
 		dropdown_element.appendChild(options_element);
 		dropdown_element.appendChild(search_empty_element);
 		dropdown_element.appendChild(actions_element);
-		wrapper_element.appendChild(trigger_element);
+		if (instance_options.inline) {
+			wrapper_element.classList.add("mangoselect-inline");
+			dropdown_element.classList.add("mangoselect-dropdown-inline");
+			wrapper_element.classList.add("is-open");
+			dropdown_element.classList.add("is-open");
+			trigger_element.setAttribute("aria-expanded", "true");
+
+			wrapper_element.appendChild(dropdown_element);
+		} else {
+			wrapper_element.appendChild(trigger_element);
+		}
 
 		select_element.classList.add("mangoselect-native");
 		select_element.setAttribute(ready_attribute, "1");
 		select_element.parentNode.insertBefore(wrapper_element, select_element.nextSibling);
-		(document.body || document.documentElement).appendChild(dropdown_element);
+
+		if (!instance_options.inline) {
+			(document.body || document.documentElement).appendChild(dropdown_element);
+		}
 
 		instance = {
 			select_element: select_element,

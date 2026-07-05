@@ -419,12 +419,25 @@
 		dropdown_element.appendChild(options_element);
 		dropdown_element.appendChild(search_empty_element);
 		dropdown_element.appendChild(actions_element);
-		wrapper_element.appendChild(trigger_element);
+		if (instance_options.inline) {
+			wrapper_element.classList.add("mangoselect-inline");
+			dropdown_element.classList.add("mangoselect-dropdown-inline");
+			wrapper_element.classList.add("is-open");
+			dropdown_element.classList.add("is-open");
+			trigger_element.setAttribute("aria-expanded", "true");
+
+			wrapper_element.appendChild(dropdown_element);
+		} else {
+			wrapper_element.appendChild(trigger_element);
+		}
 
 		select_element.classList.add("mangoselect-native");
 		select_element.setAttribute(ready_attribute, "1");
 		select_element.parentNode.insertBefore(wrapper_element, select_element.nextSibling);
-		(document.body || document.documentElement).appendChild(dropdown_element);
+
+		if (!instance_options.inline) {
+			(document.body || document.documentElement).appendChild(dropdown_element);
+		}
 
 		instance = {
 			select_element: select_element,

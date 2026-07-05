@@ -492,6 +492,22 @@ window.mangoSelect.init({ selector: "#example-icons" });
 </script>
 ```
 
+### 8. โหมดการแสดงผลตลอดเวลา (Inline / Embed Mode)
+
+คุณสามารถฝังตัวเลือกของ mangoSelect แช่ไว้บนหน้าเว็บโดยตรงโดยไม่ต้องกดคลิกเปิดหรือปิด dropdown (คล้ายกับ listbox หรือแบบสอบถามกล่องตัวเลือกขนาดใหญ่) เพียงเปิดออปชัน `inline: true` หรือใส่ `data-mangoselect-inline="true"`:
+
+```html
+<select id="example-inline" name="role" data-mangoselect-inline="true">
+	<option value="admin">Administrator</option>
+	<option value="editor">Editor</option>
+	<option value="author">Author</option>
+</select>
+
+<script>
+window.mangoSelect.init({ selector: "#example-inline" });
+</script>
+```
+
 หมายเหตุ:
 
 - ถ้ากำหนด option เดียวกันทั้งใน JavaScript และ attribute ค่าใน JavaScript จะถูกใช้ก่อนตามลำดับ `option -> attr -> default`
@@ -527,6 +543,7 @@ window.mangoSelect.init({ selector: "#example-icons" });
 | `data-mangoselect-param-*` | Ajax | ทุก attribute ที่ขึ้นต้นด้วย `data-mangoselect-param-` จะถูกส่งเป็น request params อัตโนมัติ | `data-mangoselect-param-branch="bkk"` |
 | `data-mangoselect-image` | Option | กำหนด URL รูปภาพเพื่อใช้แสดงด้านหน้าหัวข้อตัวเลือก (และส่วนแสดงผลการเลือกของ Single Select) | `data-mangoselect-image="avatar.png"` |
 | `data-mangoselect-icon` | Option | กำหนด CSS Class ของไอคอน (เช่น FontAwesome) เพื่อแสดงด้านหน้าหัวข้อตัวเลือก | `data-mangoselect-icon="fa fa-star"` |
+| `data-mangoselect-inline` | Local / Ajax | เปิดใช้งาน Inline Mode แสดงผลตัวเลือกฝังบนหน้าเว็บทันที | `data-mangoselect-inline="true"` |
 
 หมายเหตุ:
 
@@ -661,6 +678,7 @@ window.mangoSelect.init({ selector: "#example-icons" });
 | `close_after_clear_all` | `false` | boolean | หลังจากกด Clear all แล้วค่าถูกล้างสำเร็จ จะสั่งปิด dropdown ให้อัตโนมัติ ถ้าอยู่ใน draft mode จะรอการยืนยันก่อน | `close_after_clear_all: true` |
 | `ok_cancel_in_multi` | `false` | boolean | ใช้กับ multiple select เพื่อเก็บค่าไว้ชั่วคราว และเขียนลง `<select>` จริงเมื่อกด `OK` เท่านั้น | `ok_cancel_in_multi: true` |
 | `tags` | `false` | boolean | เพิ่มปุ่ม `+` ใน search box เพื่อสร้าง option ใหม่จากข้อความที่พิมพ์ ถ้าค่านั้นมีอยู่แล้วจะเลือก option เดิมแทน รองรับทั้ง local, ajax, single select และ multiple select | `tags: true` |
+| `inline` | `false` | boolean | เปิดใช้งาน Inline Mode โดยฝังตัวเลือกไว้บนหน้าเว็บโดยตรง ไม่ต้องกดคลิกเปิดหรือปิด dropdown | `inline: true` |
 | `allow_html` | `false` | boolean | อนุญาตให้ render field `html` และ string HTML ที่คืนจาก renderer ด้วย `innerHTML` ถ้า `false` จะ render string จาก renderer เป็น plain text | `allow_html: true` |
 | `min_selected` | `0` | number | กำหนดจำนวนขั้นต่ำที่ต้องคงไว้ใน multiple select ถ้าถึงขั้นต่ำแล้วจะยกเลิกเลือกต่อไม่ได้ | `min_selected: 1` |
 | `max_selected` | `null` | number หรือ `null` | กำหนดจำนวนสูงสุดที่เลือกได้ ถ้าเลือกครบแล้ว option อื่นจะถูกปิดไม่ให้เลือกเพิ่ม | `max_selected: 3` |

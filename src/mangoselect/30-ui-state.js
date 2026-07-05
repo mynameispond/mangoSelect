@@ -261,7 +261,8 @@
 			!is_instance_active(instance) ||
 			!instance.dropdown_element ||
 			!instance.trigger_element ||
-			!is_dropdown_open(instance)
+			!is_dropdown_open(instance) ||
+			instance.options.inline
 		) {
 			return;
 		}
@@ -385,6 +386,10 @@
 	function close_dropdown(instance, close_reason) {
 		var was_open = instance.wrapper_element.classList.contains("is-open");
 
+		if (instance.options.inline) {
+			return;
+		}
+
 		if (!was_open) {
 			return;
 		}
@@ -428,6 +433,10 @@
 	}
 
 	function open_dropdown(instance, open_reason) {
+		if (instance.options.inline) {
+			return;
+		}
+
 		if (
 			instance.destroyed ||
 			instance.destroying ||

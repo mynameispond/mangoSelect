@@ -45,6 +45,7 @@
 		close_after_clear_all: false,
 		ok_cancel_in_multi: false,
 		tags: false,
+		inline: false,
 		allow_html: false,
 		min_selected: 0,
 		max_selected: null,

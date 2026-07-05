@@ -546,6 +546,7 @@
 				<a class="quick-link" href="#custom-renderers">Renderers</a>
 				<a class="quick-link" href="#tags">Tags</a>
 				<a class="quick-link" href="#built-in-images-icons">Image & Icon</a>
+				<a class="quick-link" href="#built-in-inline">Inline Mode</a>
 				<a class="quick-link" href="#data-attributes">data attrs</a>
 				<a class="quick-link" href="#js-options">JS Options</a>
 				<a class="quick-link" href="#callbacks">Callbacks</a>
@@ -1698,6 +1699,58 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</section>
 
+		<section id="built-in-inline" class="section-block">
+			<div class="section-kicker">Example 10</div>
+			<h2 class="section-title">การใช้งานโหมดแสดงผลตลอดเวลา (Inline Mode)</h2>
+			<p class="section-text">
+				กำหนด <code>data-mangoselect-inline="true"</code> หรือผ่านออปชัน <code>inline: true</code> เพื่อฝังกล่องตัวเลือกค้างไว้บนหน้าเว็บโดยตรง ไม่ต้องกดคลิกเปิดหรือปิด dropdown
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>ตัวอย่างการฝังตัวเลือกเดี่ยวแบบมีกล่องค้นหาในหน้าเว็บ:</p>
+					<select id="guide-inline-select" class="form-select" name="role_id"
+						data-mangoselect-language="th"
+						data-mangoselect-inline="true"
+						data-mangoselect-placeholder="เลือกตำแหน่งงาน">
+						<option value="admin">Administrator (ผู้ดูแลระบบ)</option>
+						<option value="editor" selected>Editor (ผู้แก้ไข)</option>
+						<option value="author">Author (ผู้เขียน)</option>
+						<option value="contributor">Contributor (ผู้สนับสนุน)</option>
+					</select>
+
+					<div class="result-box" id="guide-inline-result" style="margin-top: 15px;">
+						ค่าที่เลือกเริ่มต้น: editor
+					</div>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด HTML & JS</h3>
+					<pre class="code-block">&lt;select id="guide-inline-select" name="role_id" data-mangoselect-inline="true"&gt;
+	&lt;option value="admin"&gt;Administrator (ผู้ดูแลระบบ)&lt;/option&gt;
+	&lt;option value="editor" selected&gt;Editor (ผู้แก้ไข)&lt;/option&gt;
+	&lt;option value="author"&gt;Author (ผู้เขียน)&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;div id="guide-inline-result"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	var resultBox = document.getElementById("guide-inline-result");
+	window.mangoSelect.init({
+		selector: "#guide-inline-select",
+		search: true,
+		on_change: function (detail) {
+			resultBox.textContent = "ค่าที่เลือก: " + (detail.selected_values[0] || "-");
+		}
+	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
 		<section id="data-attributes" class="section-block">
 			<div class="section-kicker">Reference</div>
 			<h2 class="section-title">attr data-mangoselect-* ที่ใช้ได้จริง</h2>
@@ -2806,6 +2859,15 @@ var newInstance = window.mangoSelect.init({
 		document.addEventListener("DOMContentLoaded", function () {
 			window.mangoSelect.init({ selector: "#guide-images", search: true });
 			window.mangoSelect.init({ selector: "#guide-icons" });
+
+			var inlineResultBox = document.getElementById("guide-inline-result");
+			window.mangoSelect.init({
+				selector: "#guide-inline-select",
+				search: true,
+				on_change: function (detail) {
+					inlineResultBox.textContent = "ค่าที่เลือก: " + (detail.selected_values[0] || "-");
+				}
+			});
 		});
 	</script>
 </body>
