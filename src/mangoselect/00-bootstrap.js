@@ -19,6 +19,8 @@
 	var option_html_attribute = data_attribute_prefix + "option-html";
 	var group_html_attribute = data_attribute_prefix + "group-html";
 	var group_key_attribute = data_attribute_prefix + "group-key";
+	var option_image_attribute = data_attribute_prefix + "image";
+	var option_icon_attribute = data_attribute_prefix + "icon";
 	var request_animation_frame =
 		window.requestAnimationFrame ||
 		function (callback) {

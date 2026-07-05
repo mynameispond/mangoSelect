@@ -505,6 +505,22 @@
 				font-size: 1.55rem;
 			}
 		}
+
+		.demo-icon {
+			display: inline-block;
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+		}
+		.demo-icon-success {
+			background-color: #2ec872;
+		}
+		.demo-icon-warning {
+			background-color: #f39c12;
+		}
+		.demo-icon-danger {
+			background-color: #e74c3c;
+		}
 	</style>
 </head>
 
@@ -529,6 +545,7 @@
 				<a class="quick-link" href="#ajax-multiple">Ajax Multiple Checkbox</a>
 				<a class="quick-link" href="#custom-renderers">Renderers</a>
 				<a class="quick-link" href="#tags">Tags</a>
+				<a class="quick-link" href="#built-in-images-icons">Image & Icon</a>
 				<a class="quick-link" href="#data-attributes">data attrs</a>
 				<a class="quick-link" href="#js-options">JS Options</a>
 				<a class="quick-link" href="#callbacks">Callbacks</a>
@@ -1621,6 +1638,60 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById("guide-tags-clear").addEventListener("click", function () {
 		tagSelect.clear_all();
 	});
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
+		<section id="built-in-images-icons" class="section-block">
+			<div class="section-kicker">Example 9</div>
+			<h2 class="section-title">การใช้งานรูปภาพ (Image) และไอคอน (Icon) อัตโนมัติ</h2>
+			<p class="section-text">
+				กำหนด <code>data-mangoselect-image</code> หรือ <code>data-mangoselect-icon</code> บนแท็ก <code>&lt;option&gt;</code> เพื่อให้แสดงรูปภาพหรือไอคอนใน dropdown และแสดงในผลลัพธ์ของช่องเลือกหลัก (Trigger) แบบตัวเลือกเดี่ยวได้ทันที
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<label class="form-label" style="font-weight: 700; margin-top: 10px;">เลือกผู้รับผิดชอบงาน (ตัวอย่างแบบมีรูปภาพ):</label>
+					<select id="guide-images" class="form-select" name="user_id"
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกผู้ใช้งาน">
+						<option value="1" data-mangoselect-image="https://i.pravatar.cc/100?img=1">Ava Smith</option>
+						<option value="2" data-mangoselect-image="https://i.pravatar.cc/100?img=2">Noah Johnson</option>
+						<option value="3" data-mangoselect-image="https://i.pravatar.cc/100?img=3" selected>Mia Brown</option>
+						<option value="4" data-mangoselect-image="https://i.pravatar.cc/100?img=4">Liam Davis</option>
+					</select>
+
+					<label class="form-label" style="font-weight: 700; margin-top: 20px;">เลือกสถานะ (ตัวอย่างแบบมีไอคอน):</label>
+					<select id="guide-icons" class="form-select" name="status_id"
+						data-mangoselect-language="th"
+						data-mangoselect-placeholder="เลือกสถานะการส่ง">
+						<option value="success" data-mangoselect-icon="demo-icon demo-icon-success" selected>ส่งสำเร็จ (Success)</option>
+						<option value="warning" data-mangoselect-icon="demo-icon demo-icon-warning">กำลังตรวจสอบ (Pending)</option>
+						<option value="danger" data-mangoselect-icon="demo-icon demo-icon-danger">การส่งล้มเหลว (Failed)</option>
+					</select>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด HTML</h3>
+					<pre class="code-block">&lt;!-- รูปภาพ --&gt;
+&lt;select id="guide-images" name="user_id"&gt;
+	&lt;option value="1" data-mangoselect-image="https://i.pravatar.cc/100?img=1"&gt;Ava Smith&lt;/option&gt;
+	&lt;option value="2" data-mangoselect-image="https://i.pravatar.cc/100?img=2"&gt;Noah Johnson&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- ไอคอน --&gt;
+&lt;select id="guide-icons" name="status_id"&gt;
+	&lt;option value="success" data-mangoselect-icon="demo-icon demo-icon-success"&gt;Success&lt;/option&gt;
+	&lt;option value="warning" data-mangoselect-icon="demo-icon demo-icon-warning"&gt;Pending&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+document.addEventListener("DOMContentLoaded", function () {
+	window.mangoSelect.init({ selector: "#guide-images", search: true });
+	window.mangoSelect.init({ selector: "#guide-icons" });
 });
 &lt;/script&gt;</pre>
 				</div>
@@ -2728,6 +2799,13 @@ var newInstance = window.mangoSelect.init({
 			document.getElementById("guide-tags-clear").addEventListener("click", function () {
 				tagSelect.clear_all();
 			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			window.mangoSelect.init({ selector: "#guide-images", search: true });
+			window.mangoSelect.init({ selector: "#guide-icons" });
 		});
 	</script>
 </body>

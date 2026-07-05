@@ -108,6 +108,8 @@
 			id: option_value,
 			text: option_text,
 			html: option_html,
+			image: item.image !== undefined && item.image !== null ? String(item.image) : null,
+			icon: item.icon !== undefined && item.icon !== null ? String(item.icon) : null,
 			disabled: !!item.disabled,
 			selected: !!item.selected
 		};

@@ -320,6 +320,16 @@
 			return;
 		}
 
+		if (is_working_option_selected(instance, tag_option)) {
+			instance.search_input_element.value = "";
+			refresh_instance(instance);
+			return;
+		}
+
+		if (instance.is_multiple && !can_add_more_selection(instance)) {
+			return;
+		}
+
 		if (is_draft_selection_active(instance)) {
 			draft_values = get_draft_selected_values(instance);
 

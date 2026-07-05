@@ -111,6 +111,7 @@ for ($index = 1; $index <= 120; $index += 1) {
         $text .= ' / ' . implode(' / ', $metaParts);
     }
 
+    $imageIdx = (($index - 1) % 10) + 1;
     $item = [
         'id' => $id,
         'text' => $text,
@@ -125,6 +126,7 @@ for ($index = 1; $index <= 120; $index += 1) {
             $badgeCount .
             '</span>' .
             '</span>',
+        'image' => 'https://i.pravatar.cc/100?img=' . $imageIdx,
         'group' => $roleName
     ];
 
@@ -155,6 +157,14 @@ $normalizeItem = static function (array $item): array {
 
     if (isset($item['html']) && $item['html'] !== '') {
         $normalized['html'] = $item['html'];
+    }
+
+    if (isset($item['image']) && $item['image'] !== '') {
+        $normalized['image'] = $item['image'];
+    }
+
+    if (isset($item['icon']) && $item['icon'] !== '') {
+        $normalized['icon'] = $item['icon'];
     }
 
     if (!empty($item['disabled'])) {

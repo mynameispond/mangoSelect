@@ -70,6 +70,43 @@
 	}
 
 	function update_summary(instance) {
+		var selected_options = get_selected_options(instance.select_element);
+		var option_element = selected_options.length === 1 ? selected_options[0] : null;
+		var image_url = "";
+		var icon_class = "";
+		var image_element = null;
+		var icon_element = null;
+		var text_span = null;
+
+		if (!instance.is_multiple && option_element) {
+			image_url = option_element.getAttribute(option_image_attribute);
+			icon_class = option_element.getAttribute(option_icon_attribute);
+
+			if (
+				(image_url !== null && image_url !== undefined && image_url !== "") ||
+				(icon_class !== null && icon_class !== undefined && icon_class !== "")
+			) {
+				instance.label_element.textContent = "";
+
+				if (image_url) {
+					image_element = document.createElement("img");
+					image_element.src = image_url;
+					image_element.className = "mangoselect-selected-image";
+					instance.label_element.appendChild(image_element);
+				} else if (icon_class) {
+					icon_element = document.createElement("i");
+					icon_element.className = icon_class + " mangoselect-selected-icon";
+					instance.label_element.appendChild(icon_element);
+				}
+
+				text_span = document.createElement("span");
+				text_span.className = "mangoselect-selected-label";
+				text_span.textContent = option_element.text || "";
+				instance.label_element.appendChild(text_span);
+				return;
+			}
+		}
+
 		instance.label_element.textContent = get_summary_text(instance);
 	}
 
@@ -176,13 +213,24 @@
 	function update_tag_action_state(instance) {
 		var tag_value = "";
 		var is_disabled = false;
+		var option_element = null;
+		var is_option_selected = false;
+		var can_add = true;
 
 		if (!instance || !instance.tag_button) {
 			return;
 		}
 
 		tag_value = get_tag_value(instance);
-		is_disabled = !!instance.select_element.disabled || tag_value === "";
+		option_element = get_option_by_value(instance.select_element, tag_value);
+		is_option_selected = option_element ? is_working_option_selected(instance, option_element) : false;
+		can_add = !instance.is_multiple || can_add_more_selection(instance);
+
+		is_disabled =
+			!!instance.select_element.disabled ||
+			tag_value === "" ||
+			(!is_option_selected && !can_add);
+
 		instance.tag_button.disabled = is_disabled;
 		instance.tag_button.style.display = tag_value === "" ? "none" : "";
 	}

@@ -230,6 +230,14 @@
 			option_element.setAttribute(option_html_attribute, option_data.html);
 		}
 
+		if (option_data.image !== null && option_data.image !== undefined) {
+			option_element.setAttribute(option_image_attribute, option_data.image);
+		}
+
+		if (option_data.icon !== null && option_data.icon !== undefined) {
+			option_element.setAttribute(option_icon_attribute, option_data.icon);
+		}
+
 		if (option_data.selected) {
 			option_element.selected = true;
 		}
@@ -316,6 +324,18 @@
 			option_element.setAttribute(option_html_attribute, option_data.html);
 		} else {
 			option_element.removeAttribute(option_html_attribute);
+		}
+
+		if (option_data.image !== null && option_data.image !== undefined) {
+			option_element.setAttribute(option_image_attribute, option_data.image);
+		} else {
+			option_element.removeAttribute(option_image_attribute);
+		}
+
+		if (option_data.icon !== null && option_data.icon !== undefined) {
+			option_element.setAttribute(option_icon_attribute, option_data.icon);
+		} else {
+			option_element.removeAttribute(option_icon_attribute);
 		}
 
 		if (option_data.selected) {

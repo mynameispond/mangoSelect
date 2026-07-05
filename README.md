@@ -469,10 +469,33 @@ var rendererCheckboxNodeSelect = window.mangoSelect.init({
 </script>
 ```
 
+### 7. Built-in Image และ Icon
+
+ไลบรารีรองรับการใส่รูปภาพ (Image) และไอคอน (Icon) สำหรับตัวเลือกใน Dropdown และแสดงในส่วนผลลัพธ์ที่ถูกเลือก (ในโหมดเลือกค่าเดียว Single Select) โดยอัตโนมัติ เพียงกำหนดแอตทริบิวต์ `data-mangoselect-image` หรือ `data-mangoselect-icon` บน `<option>`:
+
+```html
+<!-- แบบใช้รูปภาพ (Image) -->
+<select id="example-images" name="user">
+	<option value="1" data-mangoselect-image="https://i.pravatar.cc/100?img=1">User 1</option>
+	<option value="2" data-mangoselect-image="https://i.pravatar.cc/100?img=2">User 2</option>
+</select>
+
+<!-- แบบใช้คลาสไอคอน (Icon เช่น FontAwesome) -->
+<select id="example-icons" name="status">
+	<option value="active" data-mangoselect-icon="fa fa-check-circle">Active</option>
+	<option value="inactive" data-mangoselect-icon="fa fa-times-circle">Inactive</option>
+</select>
+
+<script>
+window.mangoSelect.init({ selector: "#example-images" });
+window.mangoSelect.init({ selector: "#example-icons" });
+</script>
+```
+
 หมายเหตุ:
 
 - ถ้ากำหนด option เดียวกันทั้งใน JavaScript และ attribute ค่าใน JavaScript จะถูกใช้ก่อนตามลำดับ `option -> attr -> default`
-- `render_option(option)` รับข้อมูลประมาณ `{ id, value, text, html, disabled, selected, is_selected }`
+- `render_option(option)` รับข้อมูลประมาณ `{ id, value, text, html, image, icon, disabled, selected, is_selected }`
 - `render_group(group)` รับข้อมูลประมาณ `{ text, label, html, disabled, group_key, children }`
 - `render_checkbox(option)` รับข้อมูลชุดเดียวกับ `render_option()` และใช้ได้กับ multiple select เท่านั้น
 - ถ้า renderer คืน `Node` ไลบรารีจะ append เข้า DOM โดยตรง
@@ -502,6 +525,8 @@ var rendererCheckboxNodeSelect = window.mangoSelect.init({
 | `data-mangoselect-render_group` | Local / Ajax Group | ชื่อ global function สำหรับ custom render group title | `data-mangoselect-render_group="demoRenderGroupHtml"` |
 | `data-mangoselect-render_checkbox` | Multiple | ชื่อ global function สำหรับ custom render checkbox ต่อหนึ่ง option ถ้าไม่ตั้งค่าจะใช้ checkbox ธรรมดา | `data-mangoselect-render_checkbox="demoRenderCheckboxHtml"` |
 | `data-mangoselect-param-*` | Ajax | ทุก attribute ที่ขึ้นต้นด้วย `data-mangoselect-param-` จะถูกส่งเป็น request params อัตโนมัติ | `data-mangoselect-param-branch="bkk"` |
+| `data-mangoselect-image` | Option | กำหนด URL รูปภาพเพื่อใช้แสดงด้านหน้าหัวข้อตัวเลือก (และส่วนแสดงผลการเลือกของ Single Select) | `data-mangoselect-image="avatar.png"` |
+| `data-mangoselect-icon` | Option | กำหนด CSS Class ของไอคอน (เช่น FontAwesome) เพื่อแสดงด้านหน้าหัวข้อตัวเลือก | `data-mangoselect-icon="fa fa-star"` |
 
 หมายเหตุ:
 

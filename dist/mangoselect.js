@@ -25,6 +25,8 @@
 	var option_html_attribute = data_attribute_prefix + "option-html";
 	var group_html_attribute = data_attribute_prefix + "group-html";
 	var group_key_attribute = data_attribute_prefix + "group-key";
+	var option_image_attribute = data_attribute_prefix + "image";
+	var option_icon_attribute = data_attribute_prefix + "icon";
 	var request_animation_frame =
 		window.requestAnimationFrame ||
 		function (callback) {
@@ -1238,6 +1240,14 @@
 			option_element.setAttribute(option_html_attribute, option_data.html);
 		}
 
+		if (option_data.image !== null && option_data.image !== undefined) {
+			option_element.setAttribute(option_image_attribute, option_data.image);
+		}
+
+		if (option_data.icon !== null && option_data.icon !== undefined) {
+			option_element.setAttribute(option_icon_attribute, option_data.icon);
+		}
+
 		if (option_data.selected) {
 			option_element.selected = true;
 		}
@@ -1324,6 +1334,18 @@
 			option_element.setAttribute(option_html_attribute, option_data.html);
 		} else {
 			option_element.removeAttribute(option_html_attribute);
+		}
+
+		if (option_data.image !== null && option_data.image !== undefined) {
+			option_element.setAttribute(option_image_attribute, option_data.image);
+		} else {
+			option_element.removeAttribute(option_image_attribute);
+		}
+
+		if (option_data.icon !== null && option_data.icon !== undefined) {
+			option_element.setAttribute(option_icon_attribute, option_data.icon);
+		} else {
+			option_element.removeAttribute(option_icon_attribute);
 		}
 
 		if (option_data.selected) {
@@ -1433,6 +1455,43 @@
 	}
 
 	function update_summary(instance) {
+		var selected_options = get_selected_options(instance.select_element);
+		var option_element = selected_options.length === 1 ? selected_options[0] : null;
+		var image_url = "";
+		var icon_class = "";
+		var image_element = null;
+		var icon_element = null;
+		var text_span = null;
+
+		if (!instance.is_multiple && option_element) {
+			image_url = option_element.getAttribute(option_image_attribute);
+			icon_class = option_element.getAttribute(option_icon_attribute);
+
+			if (
+				(image_url !== null && image_url !== undefined && image_url !== "") ||
+				(icon_class !== null && icon_class !== undefined && icon_class !== "")
+			) {
+				instance.label_element.textContent = "";
+
+				if (image_url) {
+					image_element = document.createElement("img");
+					image_element.src = image_url;
+					image_element.className = "mangoselect-selected-image";
+					instance.label_element.appendChild(image_element);
+				} else if (icon_class) {
+					icon_element = document.createElement("i");
+					icon_element.className = icon_class + " mangoselect-selected-icon";
+					instance.label_element.appendChild(icon_element);
+				}
+
+				text_span = document.createElement("span");
+				text_span.className = "mangoselect-selected-label";
+				text_span.textContent = option_element.text || "";
+				instance.label_element.appendChild(text_span);
+				return;
+			}
+		}
+
 		instance.label_element.textContent = get_summary_text(instance);
 	}
 
@@ -1539,13 +1598,24 @@
 	function update_tag_action_state(instance) {
 		var tag_value = "";
 		var is_disabled = false;
+		var option_element = null;
+		var is_option_selected = false;
+		var can_add = true;
 
 		if (!instance || !instance.tag_button) {
 			return;
 		}
 
 		tag_value = get_tag_value(instance);
-		is_disabled = !!instance.select_element.disabled || tag_value === "";
+		option_element = get_option_by_value(instance.select_element, tag_value);
+		is_option_selected = option_element ? is_working_option_selected(instance, option_element) : false;
+		can_add = !instance.is_multiple || can_add_more_selection(instance);
+
+		is_disabled =
+			!!instance.select_element.disabled ||
+			tag_value === "" ||
+			(!is_option_selected && !can_add);
+
 		instance.tag_button.disabled = is_disabled;
 		instance.tag_button.style.display = tag_value === "" ? "none" : "";
 	}
@@ -2645,6 +2715,16 @@
 			return;
 		}
 
+		if (is_working_option_selected(instance, tag_option)) {
+			instance.search_input_element.value = "";
+			refresh_instance(instance);
+			return;
+		}
+
+		if (instance.is_multiple && !can_add_more_selection(instance)) {
+			return;
+		}
+
 		if (is_draft_selection_active(instance)) {
 			draft_values = get_draft_selected_values(instance);
 
@@ -3235,6 +3315,8 @@
 			id: option_value,
 			text: option_text,
 			html: option_html,
+			image: item.image !== undefined && item.image !== null ? String(item.image) : null,
+			icon: item.icon !== undefined && item.icon !== null ? String(item.icon) : null,
 			disabled: !!item.disabled,
 			selected: !!item.selected
 		};
@@ -3953,6 +4035,8 @@
 			value: String(option_element.value),
 			text: option_element.text || "",
 			html: option_element.getAttribute(option_html_attribute),
+			image: option_element.getAttribute(option_image_attribute),
+			icon: option_element.getAttribute(option_icon_attribute),
 			disabled: !!option_element.disabled,
 			selected: !!option_element.selected,
 			is_selected:
@@ -3992,9 +4076,39 @@
 
 	function render_option_content(target_element, option_data, instance) {
 		var render_output = null;
+		var image_element = null;
+		var icon_element = null;
+		var text_span = null;
 
 		if (typeof instance.options.render_option === "function") {
 			render_output = instance.options.render_option(option_data);
+		}
+
+		if (
+			render_output === null &&
+			(
+				(option_data.image !== null && option_data.image !== undefined && option_data.image !== "") ||
+				(option_data.icon !== null && option_data.icon !== undefined && option_data.icon !== "")
+			)
+		) {
+			target_element.textContent = "";
+
+			if (option_data.image) {
+				image_element = document.createElement("img");
+				image_element.src = option_data.image;
+				image_element.className = "mangoselect-option-image";
+				target_element.appendChild(image_element);
+			} else if (option_data.icon) {
+				icon_element = document.createElement("i");
+				icon_element.className = option_data.icon + " mangoselect-option-icon";
+				target_element.appendChild(icon_element);
+			}
+
+			text_span = document.createElement("span");
+			text_span.className = "mangoselect-option-label";
+			text_span.textContent = option_data.text || "";
+			target_element.appendChild(text_span);
+			return;
 		}
 
 		set_rendered_content(
