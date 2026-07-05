@@ -374,3 +374,33 @@
   line-height: 1.25;
   white-space: pre-line;
 }
+.mangoselect-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eaecf4;
+  background-color: #f8f9fc;
+}
+.mangoselect-status-text {
+  font-size: 11px;
+  color: #858796;
+  font-weight: 600;
+  user-select: none;
+}
+.mangoselect-progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #e3e6f0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.mangoselect-progress-bar-fill {
+  height: 100%;
+  background-color: #4e73df;
+  width: 0%;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+.mangoselect-progress-bar-fill.is-full {
+  background-color: #1cc88a;
+}

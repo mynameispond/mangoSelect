@@ -486,16 +486,30 @@
 		var search_length = 0;
 		var request_context = null;
 		var error_detail = null;
+		var canonical_params = null;
 
 		if (!instance.remote.enabled || !ajax_options) {
 			return;
 		}
 
-		request_params = build_remote_params(instance, page_num);
+		canonical_params = build_remote_params(instance, page_num);
+		request_params = merge_object({}, canonical_params);
+		instance.remote.current_term = String(canonical_params.search || "");
+
+		if (ajax_options && typeof ajax_options.transform_request === "function") {
+			var transformed = ajax_options.transform_request(request_params);
+			if (transformed !== undefined && transformed !== null) {
+				if (typeof transformed === "string") {
+					request_body = transformed;
+				} else {
+					request_params = transformed;
+				}
+			}
+		}
+
 		request_url = get_remote_url(instance, request_params);
 		request_method = String(ajax_options.method || "GET").toUpperCase();
 		search_length = get_ajax_search_length(ajax_options);
-		instance.remote.current_term = String(request_params.search || "");
 
 		if (instance.remote.xhr && instance.remote.loading) {
 			abort_remote_request(instance);
@@ -503,7 +517,7 @@
 
 		if (
 			search_length > 0 &&
-			String(request_params.search || "").length < search_length
+			String(canonical_params.search || "").length < search_length
 		) {
 			instance.remote.page_num = 0;
 			instance.remote.has_more = false;
@@ -522,7 +536,7 @@
 
 		if (request_method === "GET") {
 			request_url = append_query_string(request_url, build_query_string(request_params));
-		} else {
+		} else if (request_body === "") {
 			request_body = build_query_string(request_params);
 		}
 
@@ -645,8 +659,8 @@
 
 			normalized_payload = normalize_remote_payload(instance, response_json, {
 				page_num: page_num,
-				search: request_params.search || "",
-				per_page: request_params.per_page
+				search: canonical_params.search || "",
+				per_page: canonical_params.per_page
 			});
 
 			for (

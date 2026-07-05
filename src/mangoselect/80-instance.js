@@ -264,6 +264,9 @@
 		var cancel_button = null;
 		var options_element = null;
 		var search_empty_element = null;
+		var status_element = null;
+		var status_text_element = null;
+		var progress_bar_fill_element = null;
 		var form_element = select_element.form;
 		var existing_instance = select_element[instance_key];
 		var base_options = normalize_explicit_options(options);
@@ -403,6 +406,25 @@
 
 		if (select_element.multiple) {
 			options_element.setAttribute("aria-multiselectable", "true");
+
+			status_element = document.createElement("div");
+			status_element.className = "mangoselect-status";
+
+			status_text_element = document.createElement("span");
+			status_text_element.className = "mangoselect-status-text";
+			status_element.appendChild(status_text_element);
+
+			var max_selected = get_max_selected({ select_element: select_element, options: instance_options });
+			if (max_selected !== null && max_selected > 0) {
+				var progress_bar_element = document.createElement("div");
+				progress_bar_element.className = "mangoselect-progress-bar";
+
+				progress_bar_fill_element = document.createElement("div");
+				progress_bar_fill_element.className = "mangoselect-progress-bar-fill";
+				progress_bar_element.appendChild(progress_bar_fill_element);
+
+				status_element.appendChild(progress_bar_element);
+			}
 		}
 
 		search_empty_element = document.createElement("div");
@@ -418,6 +440,10 @@
 
 		if (search_element) {
 			dropdown_element.appendChild(search_element);
+		}
+
+		if (status_element) {
+			dropdown_element.appendChild(status_element);
 		}
 
 		dropdown_element.appendChild(options_element);
@@ -461,6 +487,9 @@
 			cancel_button: cancel_button,
 			options_element: options_element,
 			search_empty_element: search_empty_element,
+			status_element: status_element,
+			status_text_element: status_text_element,
+			progress_bar_fill_element: progress_bar_fill_element,
 			instance_id: instance_id,
 			listbox_id: options_element.id,
 			base_options: base_options,

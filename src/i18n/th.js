@@ -32,6 +32,15 @@
 				args.count +
 				" \u0e23\u0e32\u0e22\u0e01\u0e32\u0e23"
 			);
+		},
+		selected_count_limit: function (args) {
+			return (
+				"\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e41\u0e25\u0e49\u0e27 " +
+				args.count +
+				"/" +
+				args.max +
+				" \u0e23\u0e32\u0e22\u0e01\u0e32\u0e23"
+			);
 		}
 	});
 })(window);

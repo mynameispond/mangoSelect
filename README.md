@@ -541,6 +541,23 @@ window.mangoSelect.init({
 </script>
 ```
 
+### 11. แถบแสดงความคืบหน้าโควตาเลือกตัวเลือก (Selection Limit Progress Bar)
+
+สำหรับกรณีใช้งานโหมดเลือกได้หลายค่า (Multiple Select) ไลบรารีจะแสดงผล **แถบระบุความคืบหน้าและจำนวนการเลือก (Status & Progress Bar)** ด้านบนของรายการตัวเลือกโดยอัตโนมัติ โดยหากมีการกำหนดจำนวนสูงสุดไว้ (`max_selected`) ระบบจะแสดงข้อความในลักษณะเศษส่วนและแถบพลังสีฟ้าที่จะยาวขึ้นตามสัดส่วนการเลือก และเปลี่ยนเป็นสีเขียวทันทีเมื่อเลือกครบโควตา:
+
+```html
+<select id="example-progress" name="interests[]" multiple
+	data-mangoselect-max_selected="3">
+	<option value="coding">Coding</option>
+	<option value="music">Music</option>
+	<option value="sports">Sports</option>
+</select>
+
+<script>
+window.mangoSelect.init({ selector: "#example-progress" });
+</script>
+```
+
 หมายเหตุ:
 
 - ถ้ากำหนด option เดียวกันทั้งใน JavaScript และ attribute ค่าใน JavaScript จะถูกใช้ก่อนตามลำดับ `option -> attr -> default`
@@ -605,8 +622,10 @@ window.mangoSelect.init({
 | `render_checkbox(option)` | options หลักของ `mangoSelect.init()` หรือ `data-mangoselect-render_checkbox` | custom render checkbox ใน multiple select โดยคืน `Node` หรือ string ถ้าเปิด `allow_html: true` string จะ render เป็น HTML ถ้าไม่ตั้งค่าจะใช้ checkbox ธรรมดา | `render_checkbox: function (option) { return option.is_selected ? '<span>on</span>' : '<span>off</span>'; }` |
 | `ajax.url(params)` | `ajax.url` | คำนวณ URL แบบ dynamic ก่อนยิง request | `url: function (params) { return "/api/users?branch=" + params.branch; }` |
 | `ajax.data(params)` | `ajax.data` | ปรับหรือเพิ่ม params ก่อนส่ง request | `data: function (params) { params.status = "active"; return params; }` |
+| `ajax.transform_request(params)` | `ajax.transform_request` | แปลงโครงสร้างพารามิเตอร์ขาเข้า หรือคืนค่า JSON string สำหรับส่ง POST JSON Body | `transform_request: function (params) { return JSON.stringify({ q: params.search }); }` |
 | `ajax.process_results(payload, params)` | `ajax.process_results` | แปลง response จาก API ให้เป็นรูปแบบที่ mangoSelect ใช้ | `process_results: function (payload) { return { results: payload.items, totals: payload.total }; }` |
 | `language.selected_count(args)` | custom language object | ใช้สร้างข้อความตอนเลือกหลายค่ามากกว่า `summary_limit` | `selected_count: function (args) { return "เลือกแล้ว " + args.count + " รายการ"; }` |
+| `language.selected_count_limit(args)` | custom language object | ใช้สร้างข้อความแสดงจำนวนตัวเลือกที่เลือกอยู่คู่กับโควตาสูงสุด | `selected_count_limit: function (args) { return "เลือกแล้ว " + args.count + "/" + args.max + " รายการ"; }` |
 
 ### รายละเอียดของ `detail` ใน `on_change`
 
@@ -718,7 +737,7 @@ window.mangoSelect.init({
 | `allow_html` | `false` | boolean | อนุญาตให้ render field `html` และ string HTML ที่คืนจาก renderer ด้วย `innerHTML` ถ้า `false` จะ render string จาก renderer เป็น plain text | `allow_html: true` |
 | `min_selected` | `0` | number | กำหนดจำนวนขั้นต่ำที่ต้องคงไว้ใน multiple select ถ้าถึงขั้นต่ำแล้วจะยกเลิกเลือกต่อไม่ได้ | `min_selected: 1` |
 | `max_selected` | `null` | number หรือ `null` | กำหนดจำนวนสูงสุดที่เลือกได้ ถ้าเลือกครบแล้ว option อื่นจะถูกปิดไม่ให้เลือกเพิ่ม | `max_selected: 3` |
-| `ajax` | `null` | `true`, string URL หรือ object | เปิด remote mode โดยใช้ URL จาก attr หรือส่ง config เพิ่ม เช่น `method`, `headers`, `data`, `process_results`, `search_length` รายละเอียดดูหัวข้อ Ajax Request และ Response | `ajax: true` |
+| `ajax` | `null` | `true`, string URL หรือ object | เปิด remote mode โดยใช้ URL จาก attr หรือส่ง config เพิ่ม เช่น `method`, `headers`, `data`, `transform_request`, `process_results`, `search_length` รายละเอียดดูหัวข้อ Ajax Request และ Response | `ajax: true` |
 
 ## Ajax Request และ Response
 
@@ -769,6 +788,7 @@ window.mangoSelect.init({
 - `data` ใช้ได้ทั้ง object และ function โดยค่าที่ส่งกลับจะถูกรวมกับพารามิเตอร์หลักของไลบรารี
 - `search`, `page_num` และ `per_page` เป็น canonical params ของไลบรารีและจะถูกส่งเสมอ แม้จะกำหนด `data` เพิ่มเอง
 - `process_results` ใช้แปลง response จาก backend ให้กลายเป็นรูปแบบที่ mangoSelect อ่านได้ เช่น `{ results, totals }`
+- `transform_request` ใช้ปรับแต่งโครงสร้างพารามิเตอร์ขาเข้าทั้งหมดก่อนส่งออก หรือคืนค่าเป็น JSON string สำหรับยิงแบบ JSON body ได้โดยตรง ร่วมกับการกำหนด `Content-Type: application/json` ใน `headers`
 - ไลบรารีจะใส่ header `X-Requested-With: XMLHttpRequest` ให้อัตโนมัติทุก request
 
 ตัวอย่าง request:

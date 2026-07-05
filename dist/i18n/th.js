@@ -25,6 +25,9 @@
       error_loading: "ไม่สามารถโหลดข้อมูลได้",
       selected_count: function(args) {
         return "เลือกแล้ว " + args.count + " รายการ";
+      },
+      selected_count_limit: function(args) {
+        return "เลือกแล้ว " + args.count + "/" + args.max + " รายการ";
       }
     });
   })(window);

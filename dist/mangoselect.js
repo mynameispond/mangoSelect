@@ -97,6 +97,9 @@
 		error_loading: "Unable to load options",
 		selected_count: function (args) {
 			return args.count + " selected";
+		},
+		selected_count_limit: function (args) {
+			return args.count + " of " + args.max + " selected";
 		}
 	});
 
@@ -1054,6 +1057,7 @@
 			method: true,
 			headers: true,
 			data: true,
+			transform_request: true,
 			process_results: true,
 			delay: true,
 			per_page: true,
@@ -2577,10 +2581,46 @@
 		}
 
 		update_summary(instance);
+		update_status_bar(instance);
 		update_action_state(instance);
 		update_disabled_state(instance);
 		update_remote_status(instance);
 		sync_active_option(instance);
+	}
+
+	function update_status_bar(instance) {
+		if (!instance.status_element || !instance.status_text_element) {
+			return;
+		}
+
+		var selected_count = get_working_selected_count(instance);
+		var max_selected = get_max_selected(instance);
+		var status_text = "";
+		var percent = 0;
+
+		if (max_selected !== null && max_selected > 0) {
+			status_text = translate(instance, "selected_count_limit", {
+				count: selected_count,
+				max: max_selected
+			});
+
+			if (instance.progress_bar_fill_element) {
+				percent = Math.min(100, Math.round((selected_count / max_selected) * 100));
+				instance.progress_bar_fill_element.style.width = percent + "%";
+
+				if (selected_count >= max_selected) {
+					instance.progress_bar_fill_element.classList.add("is-full");
+				} else {
+					instance.progress_bar_fill_element.classList.remove("is-full");
+				}
+			}
+		} else {
+			status_text = translate(instance, "selected_count", {
+				count: selected_count
+			});
+		}
+
+		instance.status_text_element.textContent = status_text;
 	}
 
 	function handle_select_change(instance) {
@@ -3715,16 +3755,30 @@
 		var search_length = 0;
 		var request_context = null;
 		var error_detail = null;
+		var canonical_params = null;
 
 		if (!instance.remote.enabled || !ajax_options) {
 			return;
 		}
 
-		request_params = build_remote_params(instance, page_num);
+		canonical_params = build_remote_params(instance, page_num);
+		request_params = merge_object({}, canonical_params);
+		instance.remote.current_term = String(canonical_params.search || "");
+
+		if (ajax_options && typeof ajax_options.transform_request === "function") {
+			var transformed = ajax_options.transform_request(request_params);
+			if (transformed !== undefined && transformed !== null) {
+				if (typeof transformed === "string") {
+					request_body = transformed;
+				} else {
+					request_params = transformed;
+				}
+			}
+		}
+
 		request_url = get_remote_url(instance, request_params);
 		request_method = String(ajax_options.method || "GET").toUpperCase();
 		search_length = get_ajax_search_length(ajax_options);
-		instance.remote.current_term = String(request_params.search || "");
 
 		if (instance.remote.xhr && instance.remote.loading) {
 			abort_remote_request(instance);
@@ -3732,7 +3786,7 @@
 
 		if (
 			search_length > 0 &&
-			String(request_params.search || "").length < search_length
+			String(canonical_params.search || "").length < search_length
 		) {
 			instance.remote.page_num = 0;
 			instance.remote.has_more = false;
@@ -3751,7 +3805,7 @@
 
 		if (request_method === "GET") {
 			request_url = append_query_string(request_url, build_query_string(request_params));
-		} else {
+		} else if (request_body === "") {
 			request_body = build_query_string(request_params);
 		}
 
@@ -3874,8 +3928,8 @@
 
 			normalized_payload = normalize_remote_payload(instance, response_json, {
 				page_num: page_num,
-				search: request_params.search || "",
-				per_page: request_params.per_page
+				search: canonical_params.search || "",
+				per_page: canonical_params.per_page
 			});
 
 			for (
@@ -5144,6 +5198,9 @@
 		var cancel_button = null;
 		var options_element = null;
 		var search_empty_element = null;
+		var status_element = null;
+		var status_text_element = null;
+		var progress_bar_fill_element = null;
 		var form_element = select_element.form;
 		var existing_instance = select_element[instance_key];
 		var base_options = normalize_explicit_options(options);
@@ -5283,6 +5340,25 @@
 
 		if (select_element.multiple) {
 			options_element.setAttribute("aria-multiselectable", "true");
+
+			status_element = document.createElement("div");
+			status_element.className = "mangoselect-status";
+
+			status_text_element = document.createElement("span");
+			status_text_element.className = "mangoselect-status-text";
+			status_element.appendChild(status_text_element);
+
+			var max_selected = get_max_selected({ select_element: select_element, options: instance_options });
+			if (max_selected !== null && max_selected > 0) {
+				var progress_bar_element = document.createElement("div");
+				progress_bar_element.className = "mangoselect-progress-bar";
+
+				progress_bar_fill_element = document.createElement("div");
+				progress_bar_fill_element.className = "mangoselect-progress-bar-fill";
+				progress_bar_element.appendChild(progress_bar_fill_element);
+
+				status_element.appendChild(progress_bar_element);
+			}
 		}
 
 		search_empty_element = document.createElement("div");
@@ -5298,6 +5374,10 @@
 
 		if (search_element) {
 			dropdown_element.appendChild(search_element);
+		}
+
+		if (status_element) {
+			dropdown_element.appendChild(status_element);
 		}
 
 		dropdown_element.appendChild(options_element);
@@ -5341,6 +5421,9 @@
 			cancel_button: cancel_button,
 			options_element: options_element,
 			search_empty_element: search_empty_element,
+			status_element: status_element,
+			status_text_element: status_text_element,
+			progress_bar_fill_element: progress_bar_fill_element,
 			instance_id: instance_id,
 			listbox_id: options_element.id,
 			base_options: base_options,

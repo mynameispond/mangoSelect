@@ -160,10 +160,46 @@
 		}
 
 		update_summary(instance);
+		update_status_bar(instance);
 		update_action_state(instance);
 		update_disabled_state(instance);
 		update_remote_status(instance);
 		sync_active_option(instance);
+	}
+
+	function update_status_bar(instance) {
+		if (!instance.status_element || !instance.status_text_element) {
+			return;
+		}
+
+		var selected_count = get_working_selected_count(instance);
+		var max_selected = get_max_selected(instance);
+		var status_text = "";
+		var percent = 0;
+
+		if (max_selected !== null && max_selected > 0) {
+			status_text = translate(instance, "selected_count_limit", {
+				count: selected_count,
+				max: max_selected
+			});
+
+			if (instance.progress_bar_fill_element) {
+				percent = Math.min(100, Math.round((selected_count / max_selected) * 100));
+				instance.progress_bar_fill_element.style.width = percent + "%";
+
+				if (selected_count >= max_selected) {
+					instance.progress_bar_fill_element.classList.add("is-full");
+				} else {
+					instance.progress_bar_fill_element.classList.remove("is-full");
+				}
+			}
+		} else {
+			status_text = translate(instance, "selected_count", {
+				count: selected_count
+			});
+		}
+
+		instance.status_text_element.textContent = status_text;
 	}
 
 	function handle_select_change(instance) {

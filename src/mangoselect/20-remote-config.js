@@ -41,6 +41,7 @@
 			method: true,
 			headers: true,
 			data: true,
+			transform_request: true,
 			process_results: true,
 			delay: true,
 			per_page: true,

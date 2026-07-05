@@ -701,6 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				กรณีนี้ใช้ <code>multiple</code> และ mangoSelect จะแสดงตัวเลือกภายใน dropdown เป็น checkbox
 				พร้อมกำหนดขั้นต่ำหรือขั้นสูงสุดได้ด้วย
 				<code>data-mangoselect-min_selected</code> และ <code>data-mangoselect-max_selected</code>
+				และจะแสดงแถบพลังความคืบหน้า (Selection Limit Progress Bar) ร่วมกับข้อความแจ้งสถานะจำนวนที่เลือกได้ที่ส่วนหัวของรายการตัวเลือกโดยอัตโนมัติ
 				พร้อมแสดงตัวอย่าง <code>on_change_all</code> ที่ทำงานตอนปิด dropdown
 			</p>
 
@@ -913,6 +914,75 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div class="callout mt-3">
 					ค่าเริ่มต้นของ <code>allow_html</code> คือ <code>false</code> ดังนั้น field <code>html</code> และ string HTML ที่คืนจาก renderer จะไม่ถูก inject เข้า DOM จนกว่าจะเปิดเอง
 				</div>
+			</div>
+
+			<div class="docs-card mt-4">
+				<h3>การปรับแต่งขาเข้าและขาออกสำหรับ API อื่นๆ (Transformer Hooks)</h3>
+				<p class="section-text text-sm" style="margin-bottom: 15px;">
+					หากหลังบ้าน (Backend API) ของคุณมีโครงสร้างข้อมูลที่ไม่ตรงกับความต้องการเริ่มต้นของไลบรารี คุณสามารถใช้ฟังก์ชันแปลงข้อมูลขาเข้า (Request) และขาออก (Response) เพื่อจับคู่อย่างอิสระโดยไม่ต้องเปลี่ยนโค้ดฝั่ง Server:
+				</p>
+
+				<h4 class="mt-3 font-semibold" style="font-size: 1rem; color: #4e73df; margin-bottom: 5px;">1. ฟังก์ชันแปลงข้อมูลฝั่งขาเข้า: <code>transform_request(params)</code></h4>
+				<p class="text-sm" style="margin-bottom: 8px;">แปลงพารามิเตอร์ของไลบรารี (ค่าเริ่มต้นส่ง <code>search</code>, <code>page_num</code>, <code>per_page</code>) ไปเป็นตัวแปรที่ระบบหลังบ้านรองรับ หรือเขียนสคริปต์ส่ง Body เป็น JSON String สำหรับ POST Request:</p>
+				<pre class="code-block" style="margin-bottom: 12px;">window.mangoSelect.init({
+	selector: "#guide-ajax-single",
+	ajax: {
+		url: "https://api.example.com/users",
+		method: "GET",
+		// ตัวอย่าง: เปลี่ยนชื่อตัวแปร Query String
+		transform_request: function (params) {
+			return {
+				q: params.search,       // เปลี่ยน search -> q
+				page: params.page_num,  // เปลี่ยน page_num -> page
+				limit: params.per_page  // เปลี่ยน per_page -> limit
+			};
+		}
+	}
+});</pre>
+
+				<pre class="code-block" style="margin-bottom: 20px;">// ตัวอย่าง: สำหรับ POST Request ที่ต้องส่งข้อมูลเป็น JSON Body
+window.mangoSelect.init({
+	selector: "#guide-ajax-single",
+	ajax: {
+		url: "https://api.example.com/users",
+		method: "POST",
+		transform_request: function (params) {
+			return JSON.stringify({
+				searchTerm: params.search,
+				pageIndex: params.page_num - 1, // ปรับฐาน 1-indexed เป็น 0-indexed
+				pageSize: params.per_page
+			});
+		},
+		headers: {
+			"Content-Type": "application/json" // ระบุ Content-Type เป็น JSON
+		}
+	}
+});</pre>
+
+				<h4 class="mt-4 font-semibold" style="font-size: 1rem; color: #4e73df; margin-bottom: 5px;">2. ฟังก์ชันแปลงข้อมูลฝั่งขาออก: <code>process_results(payload, params)</code></h4>
+				<p class="text-sm" style="margin-bottom: 8px;">แปลงรูปแบบข้อมูลที่ฝั่ง Server ตอบกลับมา (Response Payload) ให้อยู่ในโครงสร้างอาเรย์หรือรูปแบบที่ไลบรารีเข้าใจ:</p>
+				<pre class="code-block">window.mangoSelect.init({
+	selector: "#guide-ajax-single",
+	ajax: {
+		url: "https://api.example.com/users",
+		// ตัวอย่าง: โครงสร้าง API เดิมส่ง { status: "success", data: { list: [...] } }
+		process_results: function (payload, params) {
+			return {
+				results: payload.data.list.map(function (item) {
+					return {
+						id: item.user_id,
+						text: item.full_name,
+						description: item.department_name
+					};
+				}),
+				// ช่วยคำนวณว่ามีหน้าถัดไปสำหรับ Infinite Scroll หรือไม่
+				pagination: {
+					more: payload.data.list.length >= params.per_page
+				}
+			};
+		}
+	}
+});</pre>
 			</div>
 
 			<div class="example-grid">

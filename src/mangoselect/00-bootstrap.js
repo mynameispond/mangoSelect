@@ -91,6 +91,9 @@
 		error_loading: "Unable to load options",
 		selected_count: function (args) {
 			return args.count + " selected";
+		},
+		selected_count_limit: function (args) {
+			return args.count + " of " + args.max + " selected";
 		}
 	});
 
