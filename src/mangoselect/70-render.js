@@ -569,9 +569,10 @@
 			create_dom_id_fragment(option_element.value) +
 			"-" +
 			String(option_element.index);
+		var keywords = option_element.getAttribute(option_keywords_attribute) || "";
 		option_item.setAttribute(
 			"data-search-text",
-			normalize_search_text(option_element.text + " " + option_element.value)
+			normalize_search_text(option_element.text + " " + option_element.value + " " + keywords)
 		);
 		option_item.setAttribute("data-option-value", String(option_element.value));
 		option_item.setAttribute("role", "option");

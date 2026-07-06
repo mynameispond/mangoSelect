@@ -991,6 +991,7 @@ window.mangoSelect.init({
 					<p>เปิด dropdown ด้านล่าง แล้วพิมพ์คำค้นหา เช่น <code>av</code> หรือ <code>ow</code></p>
 					<select id="guide-ajax-single" class="form-select" name="remote_owner_demo"
 						data-mangoselect-language="th" data-mangoselect-placeholder="เลือก owner 1 คน"
+						data-mangoselect-search="true"
 						data-mangoselect-delay="300"
 						data-mangoselect-url="./demo-api.php?fixvar=2"
 						data-mangoselect-param-option="owner"
@@ -1013,6 +1014,7 @@ window.mangoSelect.init({
 					<pre class="code-block">&lt;select id="guide-ajax-single" name="remote_owner_demo"
 	data-mangoselect-language="th"
 	data-mangoselect-placeholder="เลือก owner 1 คน"
+	data-mangoselect-search="true"
 	data-mangoselect-delay="300"
 	data-mangoselect-url="./demo-api.php?fixvar=2"
 	data-mangoselect-param-option="owner"
@@ -1029,6 +1031,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var ownerSelect = window.mangoSelect.init({
 		selector: "#guide-ajax-single",
 		language: "th",
+		search: true,
 		ajax: true,
 		on_open: function (detail) {
 			resultBox.textContent =
@@ -1099,6 +1102,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<select id="guide-ajax-multiple" class="form-select" name="remote_team_demo[]" multiple
 						data-mangoselect-language="th"
 						data-mangoselect-placeholder="ค้นหาพนักงาน"
+						data-mangoselect-search="true"
 						data-mangoselect-delay="250"
 						data-mangoselect-url="./demo-api.php?fixvar=2"
 						data-mangoselect-per_page="10"
@@ -1126,6 +1130,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<pre class="code-block">&lt;select id="guide-ajax-multiple" name="remote_team_demo[]" multiple
 	data-mangoselect-language="th"
 	data-mangoselect-placeholder="ค้นหาพนักงาน"
+	data-mangoselect-search="true"
 	data-mangoselect-delay="250"
 	data-mangoselect-url="./demo-api.php?fixvar=2"
 	data-mangoselect-per_page="10"
@@ -1146,6 +1151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var employeeSelect = window.mangoSelect.init({
 		selector: "#guide-ajax-multiple",
 		language: "th",
+		search: true,
 		ajax: true,
 		select_all: true,
 		close_after_select_all: true,
@@ -1905,6 +1911,43 @@ document.addEventListener("DOMContentLoaded", function () {
 	window.mangoSelect.init({ selector: "#guide-anim-slide" });
 	window.mangoSelect.init({ selector: "#guide-anim-scale" });
 	window.mangoSelect.init({ selector: "#guide-anim-fade" });
+});
+&lt;/script&gt;</pre>
+				</div>
+			</div>
+		</section>
+
+		<section id="search-keywords" class="section-block">
+			<div class="section-kicker">Example 13</div>
+			<h2 class="section-title">คำค้นหาทางเลือกซ่อน (Search Keywords / Aliases)</h2>
+			<p class="section-text">
+				กำหนดคีย์เวิร์ดทางเลือกผ่านแอตทริบิวต์ <code>data-mangoselect-keywords</code> บนแท็ก <code>&lt;option&gt;</code> เพื่อช่วยให้ผู้ใช้พิมพ์ค้นหาด้วยคำอื่น ๆ นอกเหนือจากข้อความที่แสดงผลบนหน้าจอได้ (ตัวอย่างเช่น พิมพ์ <code>thailand</code> หรือ <code>สยาม</code> เพื่อหาคำว่า <code>ประเทศไทย</code>)
+			</p>
+
+			<div class="example-grid">
+				<div class="example-box">
+					<h3>ตัวอย่างการทำงาน</h3>
+					<p>เปิด dropdown ด้านล่างแล้วทดลองพิมพ์ค้นหาด้วยคำว่า <code>thailand</code>, <code>สยาม</code>, <code>โตเกียว</code> หรือ <code>nippon</code></p>
+					<select id="guide-keywords" class="form-select" data-mangoselect-language="th" data-mangoselect-placeholder="เลือกประเทศ" data-mangoselect-search="true">
+						<option value="th" data-mangoselect-keywords="thailand,สยาม,bangkok">ประเทศไทย</option>
+						<option value="jp" data-mangoselect-keywords="japan,โตเกียว,nippon">ญี่ปุ่น</option>
+						<option value="kr" data-mangoselect-keywords="korea,โซล,hanguk">เกาหลีใต้</option>
+						<option value="us" data-mangoselect-keywords="america,usa,นิวยอร์ก">สหรัฐอเมริกา</option>
+					</select>
+				</div>
+
+				<div class="example-box">
+					<h3>ตัวอย่างโค้ด HTML</h3>
+					<pre class="code-block">&lt;select id="guide-keywords" data-mangoselect-placeholder="เลือกประเทศ" data-mangoselect-search="true"&gt;
+	&lt;option value="th" data-mangoselect-keywords="thailand,สยาม,bangkok"&gt;ประเทศไทย&lt;/option&gt;
+	&lt;option value="jp" data-mangoselect-keywords="japan,โตเกียว,nippon"&gt;ญี่ปุ่น&lt;/option&gt;
+	&lt;option value="kr" data-mangoselect-keywords="korea,โซล,hanguk"&gt;เกาหลีใต้&lt;/option&gt;
+	&lt;option value="us" data-mangoselect-keywords="america,usa,นิวยอร์ก"&gt;สหรัฐอเมริกา&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+window.mangoSelect.init({
+	selector: "#guide-keywords"
 });
 &lt;/script&gt;</pre>
 				</div>
@@ -2717,6 +2760,7 @@ var newInstance = window.mangoSelect.init({
 			var ownerSelect = window.mangoSelect.init({
 				selector: "#guide-ajax-single",
 				language: "th",
+				search: true,
 				ajax: true,
 				on_open: function (detail) {
 					resultBox.textContent =
@@ -2774,6 +2818,7 @@ var newInstance = window.mangoSelect.init({
 			var employeeSelect = window.mangoSelect.init({
 				selector: "#guide-ajax-multiple",
 				language: "th",
+				search: true,
 				ajax: true,
 				select_all: true,
 				close_after_select_all: true,
@@ -3033,6 +3078,7 @@ var newInstance = window.mangoSelect.init({
 			window.mangoSelect.init({ selector: "#guide-anim-slide" });
 			window.mangoSelect.init({ selector: "#guide-anim-scale" });
 			window.mangoSelect.init({ selector: "#guide-anim-fade" });
+			window.mangoSelect.init({ selector: "#guide-keywords" });
 		});
 	</script>
 </body>

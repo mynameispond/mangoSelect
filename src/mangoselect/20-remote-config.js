@@ -243,6 +243,10 @@
 			option_element.setAttribute(option_description_attribute, option_data.description);
 		}
 
+		if (option_data.keywords !== null && option_data.keywords !== undefined) {
+			option_element.setAttribute(option_keywords_attribute, option_data.keywords);
+		}
+
 		if (option_data.selected) {
 			option_element.selected = true;
 		}
@@ -347,6 +351,12 @@
 			option_element.setAttribute(option_description_attribute, option_data.description);
 		} else {
 			option_element.removeAttribute(option_description_attribute);
+		}
+
+		if (option_data.keywords !== null && option_data.keywords !== undefined) {
+			option_element.setAttribute(option_keywords_attribute, option_data.keywords);
+		} else {
+			option_element.removeAttribute(option_keywords_attribute);
 		}
 
 		if (option_data.selected) {

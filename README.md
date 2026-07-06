@@ -558,6 +558,21 @@ window.mangoSelect.init({ selector: "#example-progress" });
 </script>
 ```
 
+### 12. คำค้นหาทางเลือกซ่อน (Search Keywords / Aliases)
+
+คุณสามารถกำหนดคำค้นหาทางเลือกซ่อน (Keywords/Aliases) บนแต่ละตัวเลือกได้ผ่านแอตทริบิวต์ `data-mangoselect-keywords` บนแท็ก `<option>` เพื่อช่วยในการค้นหาของฝั่ง Local Search:
+
+```html
+<select id="example-keywords" name="country">
+	<option value="th" data-mangoselect-keywords="thailand,สยาม,bangkok">ประเทศไทย</option>
+	<option value="jp" data-mangoselect-keywords="japan,โตเกียว,nippon">ญี่ปุ่น</option>
+</select>
+```
+
+> [!WARNING]
+> **ข้อควรระวังสำหรับโหมด AJAX**:
+> ในโหมดดึงข้อมูลระยะไกล (AJAX Mode) การพิมพ์ค้นหาจะถูกส่งไปยังเซิร์ฟเวอร์โดยตรงเพื่อฟิลเตอร์ (เช่น ส่งตัวแปร Query String `search=thailand`) ดังนั้น ฐานข้อมูลหรือ API ฝั่งหลังบ้านของคุณจะต้องเป็นผู้ค้นหาคีย์เวิร์ดนั้นและส่งรายการข้อมูลกลับมา ไลบรารีจะทำการผูกคีย์เวิร์ดของแต่ละไอเท็มที่ได้รับกลับมาจาก JSON (ผ่านฟิลด์ `item.keywords`) เข้าไปใน DOM ของตัวเลือกเพื่อรองรับการค้นหาซ้ำในฝั่งเบราว์เซอร์เท่านั้น
+
 หมายเหตุ:
 
 - ถ้ากำหนด option เดียวกันทั้งใน JavaScript และ attribute ค่าใน JavaScript จะถูกใช้ก่อนตามลำดับ `option -> attr -> default`

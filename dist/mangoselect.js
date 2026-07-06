@@ -28,6 +28,7 @@
 	var option_image_attribute = data_attribute_prefix + "image";
 	var option_icon_attribute = data_attribute_prefix + "icon";
 	var option_description_attribute = data_attribute_prefix + "description";
+	var option_keywords_attribute = data_attribute_prefix + "keywords";
 	var request_animation_frame =
 		window.requestAnimationFrame ||
 		function (callback) {
@@ -1259,6 +1260,10 @@
 			option_element.setAttribute(option_description_attribute, option_data.description);
 		}
 
+		if (option_data.keywords !== null && option_data.keywords !== undefined) {
+			option_element.setAttribute(option_keywords_attribute, option_data.keywords);
+		}
+
 		if (option_data.selected) {
 			option_element.selected = true;
 		}
@@ -1363,6 +1368,12 @@
 			option_element.setAttribute(option_description_attribute, option_data.description);
 		} else {
 			option_element.removeAttribute(option_description_attribute);
+		}
+
+		if (option_data.keywords !== null && option_data.keywords !== undefined) {
+			option_element.setAttribute(option_keywords_attribute, option_data.keywords);
+		} else {
+			option_element.removeAttribute(option_keywords_attribute);
 		}
 
 		if (option_data.selected) {
@@ -3380,6 +3391,7 @@
 			image: item.image !== undefined && item.image !== null ? String(item.image) : null,
 			icon: item.icon !== undefined && item.icon !== null ? String(item.icon) : null,
 			description: item.description !== undefined && item.description !== null ? String(item.description) : null,
+			keywords: item.keywords !== undefined && item.keywords !== null ? String(item.keywords) : null,
 			disabled: !!item.disabled,
 			selected: !!item.selected
 		};
@@ -4619,9 +4631,10 @@
 			create_dom_id_fragment(option_element.value) +
 			"-" +
 			String(option_element.index);
+		var keywords = option_element.getAttribute(option_keywords_attribute) || "";
 		option_item.setAttribute(
 			"data-search-text",
-			normalize_search_text(option_element.text + " " + option_element.value)
+			normalize_search_text(option_element.text + " " + option_element.value + " " + keywords)
 		);
 		option_item.setAttribute("data-option-value", String(option_element.value));
 		option_item.setAttribute("role", "option");

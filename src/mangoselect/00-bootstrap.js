@@ -22,6 +22,7 @@
 	var option_image_attribute = data_attribute_prefix + "image";
 	var option_icon_attribute = data_attribute_prefix + "icon";
 	var option_description_attribute = data_attribute_prefix + "description";
+	var option_keywords_attribute = data_attribute_prefix + "keywords";
 	var request_animation_frame =
 		window.requestAnimationFrame ||
 		function (callback) {

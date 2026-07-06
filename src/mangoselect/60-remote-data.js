@@ -111,6 +111,7 @@
 			image: item.image !== undefined && item.image !== null ? String(item.image) : null,
 			icon: item.icon !== undefined && item.icon !== null ? String(item.icon) : null,
 			description: item.description !== undefined && item.description !== null ? String(item.description) : null,
+			keywords: item.keywords !== undefined && item.keywords !== null ? String(item.keywords) : null,
 			disabled: !!item.disabled,
 			selected: !!item.selected
 		};
