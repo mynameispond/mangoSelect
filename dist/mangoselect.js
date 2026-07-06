@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "0.3.3";
+	var version = "1.0.0";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
