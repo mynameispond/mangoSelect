@@ -23,7 +23,7 @@
 - [x] 2 — 1.0.2: ส่ง Content-Type เพียงค่าเดียว โดยเคารพ custom header แบบไม่สนตัวพิมพ์ (`60-remote-data`); จับ request จริงทั้ง JSON และ form
 - [x] 3 — 1.0.3: เคารพ disabled ของ optgroup ใน UI, API, bulk และ draft (`10-core`, `50-selection`, `70-render`); ทดสอบกลุ่มปิด/เปิดและค่าเดิมที่เลือกไว้
 - [x] 4 — 1.0.4: ป้องกันการเลือกผ่าน UI เมื่อ select ปิดใช้งาน โดยเฉพาะ inline (`50-selection`, `70-render`); ทดสอบเมาส์และคีย์บอร์ด รวมเปิดกลับมาใช้งาน
-- [ ] 5 — 1.0.5: เริ่ม draft ใน inline และเริ่มรอบใหม่หลัง OK/Cancel (`10-core`, `50-selection`, `80-instance`); ทดสอบหลายรอบ, bulk, reset และ native change
+- [x] 5 — 1.0.5: เริ่ม draft ใน inline และเริ่มรอบใหม่หลัง OK/Cancel (`10-core`, `50-selection`, `80-instance`); ทดสอบหลายรอบ, bulk, reset และ native change
 - [ ] 6 — 1.0.6: โหลด Ajax เริ่มต้นใน inline (`80-instance`); ทดสอบ request จริง, search_length และ disabled โดยไม่โหลดซ้ำจาก refresh
 - [ ] 7 — 1.0.7: ใช้ lookup ที่ไม่มี prototype สำหรับ option values (`10-core`, `50-selection`); ทดสอบ toString, constructor, __proto__ ทั้ง API และ draft
 - [ ] 8 — 1.0.8: รักษา min_selected เมื่อแทนค่าผ่าน API (`50-selection`); ทดสอบล้างทั้งหมด, เปลี่ยนค่าเมื่อ min=max และค่า disabled

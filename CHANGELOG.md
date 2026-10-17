@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 — 2026-10-17
+
+- Keep inline multiple selection in draft mode until OK; restart the draft after OK, Cancel and form reset, and synchronize external value changes.
+
 ## 1.0.4 — 2026-10-17
 
 - Reject user selection in disabled single selects, including visible inline options; re-enabling restores interaction.

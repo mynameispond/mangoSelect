@@ -465,8 +465,13 @@
 			return;
 		}
 
-		instance.draft_selection.active = false;
-		instance.draft_selection.values = get_selected_values(instance.select_element);
+		instance.draft_selection.active = !!(
+			is_ok_cancel_mode(instance) &&
+			instance.options.inline &&
+			!instance.destroyed &&
+			!instance.destroying
+		);
+		sync_draft_selection_with_select(instance);
 	}
 
 	function sync_draft_selection_with_select(instance) {
@@ -475,6 +480,11 @@
 		}
 
 		instance.draft_selection.values = get_selected_values(instance.select_element);
+
+		if (instance.options.inline) {
+			instance.opened_selected_values = instance.draft_selection.values.slice(0);
+			instance.opened_selected_texts = get_selected_texts(instance.select_element);
+		}
 	}
 
 	function has_draft_selection_changes(instance) {

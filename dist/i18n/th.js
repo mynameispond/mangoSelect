@@ -1,4 +1,4 @@
-/*! mangoSelect v1.0.4 | https://github.com/mynameispond/mangoSelect | MIT License */
+/*! mangoSelect v1.0.5 | https://github.com/mynameispond/mangoSelect | MIT License */
 (() => {
   // src/i18n/th.js
   (function(window2) {

@@ -516,6 +516,8 @@ window.mangoSelect.init({ selector: "#example-icons" });
 
 คุณสามารถฝังตัวเลือกของ mangoSelect แช่ไว้บนหน้าเว็บโดยตรงโดยไม่ต้องกดคลิกเปิดหรือปิด dropdown (คล้ายกับ listbox หรือแบบสอบถามกล่องตัวเลือกขนาดใหญ่) เพียงเปิดออปชัน `inline: true` หรือใส่ `data-mangoselect-inline="true"`:
 
+เมื่อใช้ Inline ร่วมกับ `multiple` และ `ok_cancel_in_multi: true` การเลือกจะเก็บเป็น draft จนกด OK ส่วน Cancel จะย้อนกลับไปยังค่าที่บันทึกล่าสุด หลัง OK หรือ Cancel สามารถเริ่มเลือกรอบใหม่ได้ทันทีโดยไม่ต้องเปิด dropdown อีกครั้ง
+
 ```html
 <select id="example-inline" name="role" data-mangoselect-inline="true">
 	<option value="admin">Administrator</option>

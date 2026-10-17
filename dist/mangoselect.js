@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.4";
+	var version = "1.0.5";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -855,8 +855,13 @@
 			return;
 		}
 
-		instance.draft_selection.active = false;
-		instance.draft_selection.values = get_selected_values(instance.select_element);
+		instance.draft_selection.active = !!(
+			is_ok_cancel_mode(instance) &&
+			instance.options.inline &&
+			!instance.destroyed &&
+			!instance.destroying
+		);
+		sync_draft_selection_with_select(instance);
 	}
 
 	function sync_draft_selection_with_select(instance) {
@@ -865,6 +870,11 @@
 		}
 
 		instance.draft_selection.values = get_selected_values(instance.select_element);
+
+		if (instance.options.inline) {
+			instance.opened_selected_values = instance.draft_selection.values.slice(0);
+			instance.opened_selected_texts = get_selected_texts(instance.select_element);
+		}
 	}
 
 	function has_draft_selection_changes(instance) {
@@ -5526,6 +5536,10 @@
 		dropdown_element[instance_key] = instance;
 		active_instance_count += 1;
 		create_instance_api(instance);
+
+		if (instance.options.inline) {
+			reset_draft_selection(instance);
+		}
 
 		trigger_element.addEventListener("click", function () {
 			toggle_dropdown(instance);

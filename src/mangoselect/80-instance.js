@@ -555,6 +555,10 @@
 		active_instance_count += 1;
 		create_instance_api(instance);
 
+		if (instance.options.inline) {
+			reset_draft_selection(instance);
+		}
+
 		trigger_element.addEventListener("click", function () {
 			toggle_dropdown(instance);
 		});
