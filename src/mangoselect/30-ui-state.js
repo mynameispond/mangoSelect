@@ -434,6 +434,15 @@
 
 	function open_dropdown(instance, open_reason) {
 		if (instance.options.inline) {
+			if (
+				is_instance_active(instance) &&
+				!instance.select_element.disabled &&
+				instance.remote.enabled &&
+				!instance.remote.loaded &&
+				!instance.remote.loading
+			) {
+				load_remote_options(instance, 1, true);
+			}
 			return;
 		}
 

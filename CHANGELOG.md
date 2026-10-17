@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6 — 2026-10-17
+
+- Load the first Ajax page for inline selects on initialization or re-enabling, respecting search thresholds and avoiding repeated loads on refresh/open.
+
 ## 1.0.5 — 2026-10-17
 
 - Keep inline multiple selection in draft mode until OK; restart the draft after OK, Cancel and form reset, and synchronize external value changes.

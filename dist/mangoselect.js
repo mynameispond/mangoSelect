@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.5";
+	var version = "1.0.6";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -1866,6 +1866,15 @@
 
 	function open_dropdown(instance, open_reason) {
 		if (instance.options.inline) {
+			if (
+				is_instance_active(instance) &&
+				!instance.select_element.disabled &&
+				instance.remote.enabled &&
+				!instance.remote.loaded &&
+				!instance.remote.loading
+			) {
+				load_remote_options(instance, 1, true);
+			}
 			return;
 		}
 
@@ -3109,6 +3118,10 @@
 	function set_disabled(instance, should_disable) {
 		instance.select_element.disabled = !!should_disable;
 		sync_option_elements_state(instance);
+
+		if (!should_disable && instance.options.inline) {
+			open_dropdown(instance, "api");
+		}
 	}
 
 	function set_option_disabled(instance, values, should_disable) {
@@ -5684,6 +5697,10 @@
 		}
 
 		refresh_instance(instance);
+
+		if (instance.options.inline) {
+			open_dropdown(instance, "init");
+		}
 		return instance.api;
 	}
 

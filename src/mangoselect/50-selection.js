@@ -658,6 +658,10 @@
 	function set_disabled(instance, should_disable) {
 		instance.select_element.disabled = !!should_disable;
 		sync_option_elements_state(instance);
+
+		if (!should_disable && instance.options.inline) {
+			open_dropdown(instance, "api");
+		}
 	}
 
 	function set_option_disabled(instance, values, should_disable) {

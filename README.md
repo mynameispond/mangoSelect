@@ -518,6 +518,8 @@ window.mangoSelect.init({ selector: "#example-icons" });
 
 เมื่อใช้ Inline ร่วมกับ `multiple` และ `ok_cancel_in_multi: true` การเลือกจะเก็บเป็น draft จนกด OK ส่วน Cancel จะย้อนกลับไปยังค่าที่บันทึกล่าสุด หลัง OK หรือ Cancel สามารถเริ่มเลือกรอบใหม่ได้ทันทีโดยไม่ต้องเปิด dropdown อีกครั้ง
 
+Inline ที่ใช้ Ajax จะโหลดหน้าแรกเมื่อ init หาก select ไม่ได้ disabled และคำค้นถึง `search_length` แล้ว หากเริ่มจาก disabled จะโหลดเมื่อเรียก `set_disabled(false)` โดย `refresh()` ไม่ยิง request ใหม่ และใช้ `reload()` เมื่อต้องการโหลดซ้ำ
+
 ```html
 <select id="example-inline" name="role" data-mangoselect-inline="true">
 	<option value="admin">Administrator</option>

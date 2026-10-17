@@ -702,6 +702,10 @@
 		}
 
 		refresh_instance(instance);
+
+		if (instance.options.inline) {
+			open_dropdown(instance, "init");
+		}
 		return instance.api;
 	}
 
