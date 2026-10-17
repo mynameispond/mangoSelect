@@ -914,6 +914,8 @@ Class hooks สำหรับปุ่มที่ไลบรารีสร�
 
 ## Public Instance Methods
 
+`set_selected_values()` เคารพ `min_selected` ใน multiple select หากค่าที่ขอมีจำนวนน้อยกว่าขั้นต่ำ จะคงค่าที่เลือกอยู่เดิมตามลำดับ option เท่าที่จำเป็น โดยไม่เลือก option อื่นเพิ่มเอง และยังเปลี่ยนชุดค่าได้เมื่อ min และ max เท่ากัน
+
 หลังจาก `init()` แล้ว instance จะมี methods หลักดังนี้:
 
 | Method | ใช้ทำอะไร |

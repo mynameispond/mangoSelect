@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8 — 2026-10-17
+
+- Preserve the minimum selection count when replacing values through the API, while allowing replacements at equal min/max limits and retaining disabled selections.
+
 ## 1.0.7 — 2026-10-17
 
 - Treat prototype-named values such as toString, constructor and __proto__ as ordinary option values across selection, disabling and drafts.

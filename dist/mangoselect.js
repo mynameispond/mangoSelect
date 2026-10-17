@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.7";
+	var version = "1.0.8";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -3166,6 +3166,7 @@
 		var min_selected = get_min_selected(instance);
 		var max_selected = get_max_selected(instance);
 		var available_slots = max_selected;
+		var requested_count = 0;
 
 		if (!instance.is_multiple) {
 			should_append = false;
@@ -3192,6 +3193,40 @@
 		}
 
 		if (!should_append) {
+			if (instance.is_multiple && min_selected > 0) {
+				for (option_index = 0; option_index < option_list.length; option_index += 1) {
+					if (is_placeholder_option(option_list[option_index])) {
+						continue;
+					}
+
+					if (
+						is_option_disabled(option_list[option_index])
+							? option_list[option_index].selected
+							: selected_lookup[String(option_list[option_index].value)]
+					) {
+						requested_count += 1;
+					}
+				}
+
+				for (
+					option_index = 0;
+					option_index < option_list.length && requested_count < min_selected;
+					option_index += 1
+				) {
+					if (
+						!option_list[option_index].selected ||
+						is_placeholder_option(option_list[option_index]) ||
+						is_option_disabled(option_list[option_index]) ||
+						selected_lookup[String(option_list[option_index].value)]
+					) {
+						continue;
+					}
+
+					selected_lookup[String(option_list[option_index].value)] = true;
+					requested_count += 1;
+				}
+			}
+
 			for (option_index = 0; option_index < option_list.length; option_index += 1) {
 				if (
 					is_placeholder_option(option_list[option_index]) ||
