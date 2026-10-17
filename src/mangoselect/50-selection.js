@@ -16,7 +16,7 @@
 		var option_value = input_element.getAttribute("data-option-value");
 		var option_element = get_option_by_value(instance.select_element, option_value);
 		var was_selected = false;
-		var draft_lookup = {};
+		var draft_lookup = Object.create(null);
 		var draft_values = [];
 		var value_index = 0;
 
@@ -226,7 +226,7 @@
 
 	function commit_draft_selection(instance) {
 		var option_list = get_all_options(instance.select_element);
-		var selected_lookup = {};
+		var selected_lookup = Object.create(null);
 		var draft_values = get_draft_selected_values(instance);
 		var changed_values = [];
 		var changed_texts = [];
@@ -338,7 +338,7 @@
 	function add_tag_from_search(instance) {
 		var tag_value = get_tag_value(instance);
 		var tag_option = null;
-		var draft_lookup = {};
+		var draft_lookup = Object.create(null);
 		var draft_values = [];
 		var value_index = 0;
 
@@ -470,7 +470,7 @@
 		var available_slots = null;
 		var min_selected = get_min_selected(instance);
 		var selected_count = get_selected_count(instance);
-		var draft_lookup = {};
+		var draft_lookup = Object.create(null);
 		var draft_values = [];
 		var value_index = 0;
 		var option_value = "";
@@ -667,7 +667,7 @@
 	function set_option_disabled(instance, values, should_disable) {
 		var normalized_values = normalize_value_list(values);
 		var option_list = get_all_options(instance.select_element);
-		var disabled_lookup = {};
+		var disabled_lookup = Object.create(null);
 		var option_index = 0;
 
 		if (normalized_values.length === 0) {
@@ -693,7 +693,7 @@
 	function apply_selected_values(instance, values, should_append, action_name) {
 		var normalized_values = normalize_value_list(values);
 		var option_list = get_all_options(instance.select_element);
-		var selected_lookup = {};
+		var selected_lookup = Object.create(null);
 		var option_index = 0;
 		var changed_values = [];
 		var changed_texts = [];

@@ -374,7 +374,7 @@
 
 	function get_working_selected_texts(instance) {
 		var option_list = get_all_options(instance.select_element);
-		var selected_lookup = {};
+		var selected_lookup = Object.create(null);
 		var selected_values = get_working_selected_values(instance);
 		var texts = [];
 		var value_index = 0;
@@ -408,7 +408,7 @@
 
 	function get_working_selectable_selected_count(instance) {
 		var selectable_options = get_selectable_options(instance.select_element);
-		var selected_lookup = {};
+		var selected_lookup = Object.create(null);
 		var selected_values = get_working_selected_values(instance);
 		var selected_count = 0;
 		var value_index = 0;
@@ -434,7 +434,7 @@
 	}
 
 	function is_working_option_selected(instance, option_element) {
-		var selected_lookup = {};
+		var selected_lookup = Object.create(null);
 		var selected_values = [];
 		var value_index = 0;
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7 — 2026-10-17
+
+- Treat prototype-named values such as toString, constructor and __proto__ as ordinary option values across selection, disabling and drafts.
+
 ## 1.0.6 — 2026-10-17
 
 - Load the first Ajax page for inline selects on initialization or re-enabling, respecting search thresholds and avoiding repeated loads on refresh/open.

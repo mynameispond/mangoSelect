@@ -25,7 +25,7 @@
 - [x] 4 — 1.0.4: ป้องกันการเลือกผ่าน UI เมื่อ select ปิดใช้งาน โดยเฉพาะ inline (`50-selection`, `70-render`); ทดสอบเมาส์และคีย์บอร์ด รวมเปิดกลับมาใช้งาน
 - [x] 5 — 1.0.5: เริ่ม draft ใน inline และเริ่มรอบใหม่หลัง OK/Cancel (`10-core`, `50-selection`, `80-instance`); ทดสอบหลายรอบ, bulk, reset และ native change
 - [x] 6 — 1.0.6: โหลด Ajax เริ่มต้นใน inline (`80-instance`); ทดสอบ request จริง, search_length และ disabled โดยไม่โหลดซ้ำจาก refresh
-- [ ] 7 — 1.0.7: ใช้ lookup ที่ไม่มี prototype สำหรับ option values (`10-core`, `50-selection`); ทดสอบ toString, constructor, __proto__ ทั้ง API และ draft
+- [x] 7 — 1.0.7: ใช้ lookup ที่ไม่มี prototype สำหรับ option values (`10-core`, `50-selection`); ทดสอบ toString, constructor, __proto__ ทั้ง API และ draft
 - [ ] 8 — 1.0.8: รักษา min_selected เมื่อแทนค่าผ่าน API (`50-selection`); ทดสอบล้างทั้งหมด, เปลี่ยนค่าเมื่อ min=max และค่า disabled
 - [ ] 9 — 1.0.9: แปลง inline attribute เป็น boolean (`00-bootstrap`); ทดสอบ false, 0, true, empty และ JS override
 - [ ] 10 — 1.0.10: ส่งสถานะ multiple ให้การสร้าง progress bar (`80-instance`); ทดสอบจำนวน, เปอร์เซ็นต์, เต็มโควตา และกรณีไม่กำหนด max
