@@ -1,7 +1,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.8";
+	var version = "1.0.9";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -294,6 +294,7 @@
 			case "close_after_clear_all":
 			case "ok_cancel_in_multi":
 			case "tags":
+			case "inline":
 			case "allow_html":
 				return parse_boolean_option_value(raw_value);
 			case "summary_limit":

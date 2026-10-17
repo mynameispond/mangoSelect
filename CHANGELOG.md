@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.9 — 2026-10-17
+
+- Parse inline data attributes as booleans, including false/0/off and empty attributes, while preserving JavaScript option precedence.
+
 ## 1.0.8 — 2026-10-17
 
 - Preserve the minimum selection count when replacing values through the API, while allowing replacements at equal min/max limits and retaining disabled selections.
