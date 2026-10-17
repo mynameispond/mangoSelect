@@ -205,6 +205,11 @@
 	function handle_select_change(instance) {
 		var change_detail = null;
 
+		if (!instance.is_multiple) {
+			instance.single_selection_committed =
+				get_selected_values(instance.select_element).length > 0;
+		}
+
 		if (is_draft_selection_active(instance)) {
 			sync_draft_selection_with_select(instance);
 		}

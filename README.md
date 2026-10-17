@@ -1,5 +1,25 @@
 # mangoSelect
 
+## การทดสอบสำหรับผู้พัฒนา
+
+รัน `npm test` เพื่อทดสอบ regression บนเบราว์เซอร์ Chromium ด้วย Playwright ที่มีอยู่ในเครื่อง ชุดทดสอบไม่ติดตั้งแพ็กเกจหรือเบราว์เซอร์ให้อัตโนมัติ หาก Playwright อยู่นอกโปรเจกต์ ให้ตั้ง `PLAYWRIGHT_MODULE` เป็น path ของแพ็กเกจ และตั้ง `BROWSER_CHANNEL=msedge` หรือ `chrome` เพื่อใช้เบราว์เซอร์ที่ติดตั้งอยู่แล้ว
+
+ตัวอย่าง PowerShell:
+
+```powershell
+$env:PLAYWRIGHT_MODULE = "C:\path\to\node_modules\playwright"
+$env:BROWSER_CHANNEL = "msedge"
+npm test
+npm run build
+$env:TEST_TARGET = "mangoselect.js"
+npm test
+$env:TEST_TARGET = "mangoselect.min.js"
+npm test
+Remove-Item Env:TEST_TARGET
+```
+
+ค่าเริ่มต้นทดสอบ source โดยตรง ใช้ `TEST_CASE=01` ถึง `10` เพื่อเลือกข้อเดียว ดูประวัติการแก้ไขใน [CHANGELOG.md](./CHANGELOG.md)
+
 mangoSelect คือ JavaScript select component แบบไม่ต้องพึ่ง build step เพิ่ม ใช้กับ `<select>` เดิมในหน้าได้ทันที รองรับทั้ง:
 
 - Local options จาก `<option>` ใน HTML

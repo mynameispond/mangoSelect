@@ -247,7 +247,7 @@
 		return instance.api;
 	}
 
-	function create_instance(select_element, options) {
+	function create_instance(select_element, options, single_selection_committed) {
 		var wrapper_element = null;
 		var trigger_element = null;
 		var label_element = null;
@@ -294,15 +294,20 @@
 					!!select_element.multiple
 				)
 			) {
+				single_selection_committed = get_selected_values(select_element).length > 0;
 				destroy_instance(existing_instance);
-				return create_instance(select_element, existing_instance.base_options);
+				return create_instance(
+					select_element,
+					existing_instance.base_options,
+					single_selection_committed
+				);
 			}
 
 			existing_instance.options = next_instance_options;
 			existing_instance.is_multiple = !!select_element.multiple;
 			existing_instance.single_selection_committed = select_element.multiple
 				? true
-				: has_default_selected_option(select_element);
+				: get_selected_values(select_element).length > 0;
 			existing_instance.remote.enabled = is_remote_enabled(existing_instance);
 			sync_draft_selection_with_select(existing_instance);
 			ensure_single_placeholder_option(existing_instance);
@@ -497,6 +502,8 @@
 			is_multiple: !!select_element.multiple,
 			single_selection_committed: select_element.multiple
 				? true
+				: single_selection_committed !== undefined
+				? single_selection_committed
 				: has_default_selected_option(select_element),
 			last_changed_value: null,
 			last_changed_values: [],

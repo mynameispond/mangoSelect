@@ -1,6 +1,6 @@
 {
   "name": "mangoselect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vanilla JS select component with local, multiple, tags, and Ajax data support.",
   "main": "dist/mangoselect.js",
   "files": [
@@ -9,7 +9,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "node ./scripts/build.mjs"
+    "build": "node ./scripts/build.mjs",
+    "test": "node ./tests/run.cjs"
   },
   "keywords": [
     "select",
