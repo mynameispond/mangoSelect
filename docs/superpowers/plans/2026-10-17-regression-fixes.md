@@ -20,7 +20,7 @@
 ## งานตามลำดับ
 
 - [x] 1 — 1.0.1: รักษาค่า single select เมื่อ init ซ้ำ, rebuild และรับ native change (`10-core`, `50-selection`, `80-instance`); ทดสอบค่าเริ่มต้น, ค่าเปลี่ยนแล้ว, ค่าว่าง และ form reset
-- [ ] 2 — 1.0.2: ส่ง Content-Type เพียงค่าเดียว โดยเคารพ custom header แบบไม่สนตัวพิมพ์ (`60-remote-data`); จับ request จริงทั้ง JSON และ form
+- [x] 2 — 1.0.2: ส่ง Content-Type เพียงค่าเดียว โดยเคารพ custom header แบบไม่สนตัวพิมพ์ (`60-remote-data`); จับ request จริงทั้ง JSON และ form
 - [ ] 3 — 1.0.3: เคารพ disabled ของ optgroup ใน UI, API, bulk และ draft (`10-core`, `50-selection`, `70-render`); ทดสอบกลุ่มปิด/เปิดและค่าเดิมที่เลือกไว้
 - [ ] 4 — 1.0.4: ป้องกันการเลือกผ่าน UI เมื่อ select ปิดใช้งาน โดยเฉพาะ inline (`50-selection`, `70-render`); ทดสอบเมาส์และคีย์บอร์ด รวมเปิดกลับมาใช้งาน
 - [ ] 5 — 1.0.5: เริ่ม draft ใน inline และเริ่มรอบใหม่หลัง OK/Cancel (`10-core`, `50-selection`, `80-instance`); ทดสอบหลายรอบ, bulk, reset และ native change

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 — 2026-10-17
+
+- Respect custom Content-Type headers case-insensitively without appending the default form encoding to JSON requests.
+
 ## 1.0.1 — 2026-10-17
 
 - Preserve single-select values across repeated initialization and UI rebuilds, and accept native change events without restoring the placeholder.

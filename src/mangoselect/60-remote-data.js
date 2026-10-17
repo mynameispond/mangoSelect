@@ -484,6 +484,7 @@
 		var request_url = "";
 		var xhr = null;
 		var header_name = "";
+		var has_content_type = false;
 		var search_length = 0;
 		var request_context = null;
 		var error_detail = null;
@@ -575,13 +576,6 @@
 		xhr.open(request_method, request_url, true);
 		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
-		if (request_method !== "GET") {
-			xhr.setRequestHeader(
-				"Content-Type",
-				"application/x-www-form-urlencoded; charset=UTF-8"
-			);
-		}
-
 		if (
 			ajax_options.headers &&
 			Object.prototype.toString.call(ajax_options.headers) === "[object Object]"
@@ -590,9 +584,19 @@
 
 			for (header_name in request_headers) {
 				if (Object.prototype.hasOwnProperty.call(request_headers, header_name)) {
+					if (header_name.toLowerCase() === "content-type") {
+						has_content_type = true;
+					}
 					xhr.setRequestHeader(header_name, request_headers[header_name]);
 				}
 			}
+		}
+
+		if (request_method !== "GET" && !has_content_type) {
+			xhr.setRequestHeader(
+				"Content-Type",
+				"application/x-www-form-urlencoded; charset=UTF-8"
+			);
 		}
 
 		xhr.onreadystatechange = function () {
