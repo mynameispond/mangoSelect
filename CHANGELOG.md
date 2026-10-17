@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4 — 2026-10-17
+
+- Reject user selection in disabled single selects, including visible inline options; re-enabling restores interaction.
+
 ## 1.0.3 — 2026-10-17
 
 - Honor disabled optgroups in rendering, selection APIs, bulk actions and draft confirmation, while retaining existing disabled selections.

@@ -832,7 +832,11 @@
 	function select_single_value(instance, value) {
 		var option_element = get_option_by_value(instance.select_element, value);
 
-		if (!option_element || is_option_disabled(option_element)) {
+		if (
+			instance.select_element.disabled ||
+			!option_element ||
+			is_option_disabled(option_element)
+		) {
 			return;
 		}
 
