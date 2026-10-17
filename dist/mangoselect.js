@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.2";
+	var version = "1.0.3";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -655,6 +655,18 @@
 		return texts;
 	}
 
+	function is_option_disabled(option_element) {
+		var parent_element = option_element.parentNode;
+
+		return !!(
+			option_element.disabled ||
+			(parent_element &&
+				parent_element.tagName &&
+				parent_element.tagName.toLowerCase() === "optgroup" &&
+				parent_element.disabled)
+		);
+	}
+
 	function get_selectable_options(select_element) {
 		var option_list = get_all_options(select_element);
 		var selectable_options = [];
@@ -662,7 +674,7 @@
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
 			if (
-				!option_list[option_index].disabled &&
+				!is_option_disabled(option_list[option_index]) &&
 				!is_placeholder_option(option_list[option_index])
 			) {
 				selectable_options.push(option_list[option_index]);
@@ -726,10 +738,7 @@
 		var option_value = "";
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
-			if (
-				option_list[option_index].disabled ||
-				is_placeholder_option(option_list[option_index])
-			) {
+			if (is_placeholder_option(option_list[option_index])) {
 				continue;
 			}
 
@@ -2452,7 +2461,7 @@
 		var draft_values = [];
 		var value_index = 0;
 
-		if (!option_element || option_element.disabled) {
+		if (!option_element || is_option_disabled(option_element)) {
 			return;
 		}
 
@@ -2558,7 +2567,7 @@
 				option_item.classList.remove("is-selected");
 			}
 
-			if (is_select_disabled || option_element.disabled) {
+			if (is_select_disabled || is_option_disabled(option_element)) {
 				option_item.classList.add("is-disabled");
 				option_item.setAttribute("aria-disabled", "true");
 			} else {
@@ -2574,7 +2583,7 @@
 
 				checkbox_element.disabled =
 					is_select_disabled ||
-					!!option_element.disabled ||
+					is_option_disabled(option_element) ||
 					should_disable_for_limit;
 
 				if (checkbox_element.disabled) {
@@ -2679,7 +2688,7 @@
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
 			if (
-				option_list[option_index].disabled ||
+				is_option_disabled(option_list[option_index]) ||
 				is_placeholder_option(option_list[option_index])
 			) {
 				continue;
@@ -2751,7 +2760,7 @@
 				id: String(option_element.value),
 				text: option_element.text,
 				html: option_element.getAttribute(option_html_attribute),
-				disabled: !!option_element.disabled,
+				disabled: is_option_disabled(option_element),
 				selected: !!option_element.selected
 			};
 		}
@@ -2789,7 +2798,7 @@
 
 		tag_option = create_tag_option(instance, tag_value);
 
-		if (!tag_option || tag_option.disabled) {
+		if (!tag_option || is_option_disabled(tag_option)) {
 			return;
 		}
 
@@ -2850,7 +2859,7 @@
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
 			if (
-				option_list[option_index].disabled ||
+				is_option_disabled(option_list[option_index]) ||
 				!option_list[option_index].selected ||
 				is_placeholder_option(option_list[option_index])
 			) {
@@ -3161,7 +3170,10 @@
 
 		if (!should_append) {
 			for (option_index = 0; option_index < option_list.length; option_index += 1) {
-				if (is_placeholder_option(option_list[option_index])) {
+				if (
+					is_placeholder_option(option_list[option_index]) ||
+					is_option_disabled(option_list[option_index])
+				) {
 					continue;
 				}
 
@@ -3186,7 +3198,7 @@
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
 			if (
-				option_list[option_index].disabled ||
+				is_option_disabled(option_list[option_index]) ||
 				is_placeholder_option(option_list[option_index])
 			) {
 				continue;
@@ -3261,7 +3273,7 @@
 	function select_single_value(instance, value) {
 		var option_element = get_option_by_value(instance.select_element, value);
 
-		if (!option_element || option_element.disabled) {
+		if (!option_element || is_option_disabled(option_element)) {
 			return;
 		}
 
@@ -4136,7 +4148,7 @@
 			image: option_element.getAttribute(option_image_attribute),
 			icon: option_element.getAttribute(option_icon_attribute),
 			description: option_element.getAttribute(option_description_attribute),
-			disabled: !!option_element.disabled,
+			disabled: is_option_disabled(option_element),
 			selected: !!option_element.selected,
 			is_selected:
 				is_selected !== undefined
@@ -4649,7 +4661,7 @@
 		option_item.setAttribute("role", "option");
 		option_item.setAttribute("aria-label", option_data.text);
 
-		if (option_element.disabled) {
+		if (is_option_disabled(option_element)) {
 			option_item.classList.add("is-disabled");
 		}
 
@@ -4667,7 +4679,7 @@
 			);
 			checkbox_element.tabIndex = -1;
 			checkbox_element.checked = !!is_selected;
-			checkbox_element.disabled = !!option_element.disabled;
+			checkbox_element.disabled = is_option_disabled(option_element);
 
 			checkbox_element.addEventListener("change", function () {
 				sync_option_input_to_select(instance, checkbox_element);

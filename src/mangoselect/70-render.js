@@ -65,7 +65,7 @@
 			image: option_element.getAttribute(option_image_attribute),
 			icon: option_element.getAttribute(option_icon_attribute),
 			description: option_element.getAttribute(option_description_attribute),
-			disabled: !!option_element.disabled,
+			disabled: is_option_disabled(option_element),
 			selected: !!option_element.selected,
 			is_selected:
 				is_selected !== undefined
@@ -578,7 +578,7 @@
 		option_item.setAttribute("role", "option");
 		option_item.setAttribute("aria-label", option_data.text);
 
-		if (option_element.disabled) {
+		if (is_option_disabled(option_element)) {
 			option_item.classList.add("is-disabled");
 		}
 
@@ -596,7 +596,7 @@
 			);
 			checkbox_element.tabIndex = -1;
 			checkbox_element.checked = !!is_selected;
-			checkbox_element.disabled = !!option_element.disabled;
+			checkbox_element.disabled = is_option_disabled(option_element);
 
 			checkbox_element.addEventListener("change", function () {
 				sync_option_input_to_select(instance, checkbox_element);

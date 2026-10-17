@@ -265,6 +265,18 @@
 		return texts;
 	}
 
+	function is_option_disabled(option_element) {
+		var parent_element = option_element.parentNode;
+
+		return !!(
+			option_element.disabled ||
+			(parent_element &&
+				parent_element.tagName &&
+				parent_element.tagName.toLowerCase() === "optgroup" &&
+				parent_element.disabled)
+		);
+	}
+
 	function get_selectable_options(select_element) {
 		var option_list = get_all_options(select_element);
 		var selectable_options = [];
@@ -272,7 +284,7 @@
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
 			if (
-				!option_list[option_index].disabled &&
+				!is_option_disabled(option_list[option_index]) &&
 				!is_placeholder_option(option_list[option_index])
 			) {
 				selectable_options.push(option_list[option_index]);
@@ -336,10 +348,7 @@
 		var option_value = "";
 
 		for (option_index = 0; option_index < option_list.length; option_index += 1) {
-			if (
-				option_list[option_index].disabled ||
-				is_placeholder_option(option_list[option_index])
-			) {
+			if (is_placeholder_option(option_list[option_index])) {
 				continue;
 			}
 
