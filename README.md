@@ -18,7 +18,7 @@ npm test
 Remove-Item Env:TEST_TARGET
 ```
 
-ค่าเริ่มต้นทดสอบ source โดยตรง ใช้ `TEST_CASE=01` ถึง `10` เพื่อเลือกข้อเดียว ดูประวัติการแก้ไขใน [CHANGELOG.md](./CHANGELOG.md)
+ค่าเริ่มต้นทดสอบ source โดยตรง ใช้ `TEST_CASE` ตามเลขนำหน้าชื่อไฟล์ใน `tests/cases/` เช่น `TEST_CASE=01` เพื่อเลือกชุดเดียว ดูประวัติการแก้ไขใน [CHANGELOG.md](./CHANGELOG.md)
 
 mangoSelect คือ JavaScript select component แบบไม่ต้องพึ่ง build step เพิ่ม ใช้กับ `<select>` เดิมในหน้าได้ทันที รองรับทั้ง:
 

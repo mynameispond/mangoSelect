@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.11 — 2026-10-18
+
+- Follow-up to 1.0.3: include locked selections when checking bulk-action minimum/maximum limits, so Clear all and Select all reflect the allowed action in ordinary and draft mode.
+
 ## 1.0.10 — 2026-10-18
 
 - Create the selection progress bar for bounded multiple selects and rebuild it when reinitialization adds or removes the limit; track draft and committed counts.

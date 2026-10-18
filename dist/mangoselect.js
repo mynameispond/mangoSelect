@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.10";
+	var version = "1.0.11";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -2020,6 +2020,7 @@
 	function update_action_state(instance) {
 		var selectable_count = 0;
 		var selectable_selected_count = 0;
+		var selected_count = get_working_selected_count(instance);
 		var min_selected = get_min_selected(instance);
 		var max_selected = get_max_selected(instance);
 
@@ -2053,14 +2054,14 @@
 				!!instance.select_element.disabled ||
 				selectable_count === 0 ||
 				selectable_selected_count === selectable_count ||
-				(max_selected !== null && selectable_selected_count >= max_selected);
+				(max_selected !== null && selected_count >= max_selected);
 		}
 
 		if (instance.clear_all_button) {
 			instance.clear_all_button.disabled =
 				!!instance.select_element.disabled ||
 				selectable_selected_count === 0 ||
-				selectable_selected_count <= min_selected;
+				selected_count <= min_selected;
 		}
 
 		if (instance.close_button) {
