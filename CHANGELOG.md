@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.10 — 2026-10-18
+
+- Create the selection progress bar for bounded multiple selects and rebuild it when reinitialization adds or removes the limit; track draft and committed counts.
+
 ## 1.0.9 — 2026-10-17
 
 - Parse inline data attributes as booleans, including false/0/off and empty attributes, while preserving JavaScript option precedence.

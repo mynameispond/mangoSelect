@@ -28,7 +28,7 @@
 - [x] 7 — 1.0.7: ใช้ lookup ที่ไม่มี prototype สำหรับ option values (`10-core`, `50-selection`); ทดสอบ toString, constructor, __proto__ ทั้ง API และ draft
 - [x] 8 — 1.0.8: รักษา min_selected เมื่อแทนค่าผ่าน API (`50-selection`); ทดสอบล้างทั้งหมด, เปลี่ยนค่าเมื่อ min=max และค่า disabled
 - [x] 9 — 1.0.9: แปลง inline attribute เป็น boolean (`00-bootstrap`); ทดสอบ false, 0, true, empty และ JS override
-- [ ] 10 — 1.0.10: ส่งสถานะ multiple ให้การสร้าง progress bar (`80-instance`); ทดสอบจำนวน, เปอร์เซ็นต์, เต็มโควตา และกรณีไม่กำหนด max
+- [x] 10 — 1.0.10: ส่งสถานะ multiple ให้การสร้าง progress bar (`80-instance`); ทดสอบจำนวน, เปอร์เซ็นต์, เต็มโควตา และกรณีไม่กำหนด max
 
 ## จุดทบทวนร่วม
 

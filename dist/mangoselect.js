@@ -7,7 +7,7 @@
 (function (window, document) {
 	"use strict";
 
-	var version = "1.0.9";
+	var version = "1.0.10";
 	var instance_key = "__mangoselect_instance__";
 	var listeners_bound = false;
 	var global_click_handler = null;
@@ -5025,7 +5025,9 @@
 			!!instance.clear_all_button !== !!next_options.clear_all ||
 			!!instance.close_button !== !!next_options.close ||
 			!!instance.ok_button !== !!(next_options.ok_cancel_in_multi && is_multiple) ||
-			!!instance.cancel_button !== !!(next_options.ok_cancel_in_multi && is_multiple)
+			!!instance.cancel_button !== !!(next_options.ok_cancel_in_multi && is_multiple) ||
+			!!instance.progress_bar_fill_element !==
+				(get_max_selected({ is_multiple: is_multiple, options: next_options }) !== null)
 		);
 	}
 
@@ -5450,7 +5452,10 @@
 			status_text_element.className = "mangoselect-status-text";
 			status_element.appendChild(status_text_element);
 
-			var max_selected = get_max_selected({ select_element: select_element, options: instance_options });
+			var max_selected = get_max_selected({
+				is_multiple: !!select_element.multiple,
+				options: instance_options
+			});
 			if (max_selected !== null && max_selected > 0) {
 				var progress_bar_element = document.createElement("div");
 				progress_bar_element.className = "mangoselect-progress-bar";

@@ -879,7 +879,9 @@
 			!!instance.clear_all_button !== !!next_options.clear_all ||
 			!!instance.close_button !== !!next_options.close ||
 			!!instance.ok_button !== !!(next_options.ok_cancel_in_multi && is_multiple) ||
-			!!instance.cancel_button !== !!(next_options.ok_cancel_in_multi && is_multiple)
+			!!instance.cancel_button !== !!(next_options.ok_cancel_in_multi && is_multiple) ||
+			!!instance.progress_bar_fill_element !==
+				(get_max_selected({ is_multiple: is_multiple, options: next_options }) !== null)
 		);
 	}
 

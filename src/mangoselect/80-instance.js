@@ -419,7 +419,10 @@
 			status_text_element.className = "mangoselect-status-text";
 			status_element.appendChild(status_text_element);
 
-			var max_selected = get_max_selected({ select_element: select_element, options: instance_options });
+			var max_selected = get_max_selected({
+				is_multiple: !!select_element.multiple,
+				options: instance_options
+			});
 			if (max_selected !== null && max_selected > 0) {
 				var progress_bar_element = document.createElement("div");
 				progress_bar_element.className = "mangoselect-progress-bar";
